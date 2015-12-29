@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.TextView;
 
 import pl.mareklangiewicz.myactivities.MyActivity;
 import pl.mareklangiewicz.mydrawables.MyLivingDrawable;
@@ -19,9 +18,6 @@ import pl.mareklangiewicz.mygithub.R;
 public class MainActivity extends MyActivity {
 
     private @Nullable MyLivingDrawable mMyMagicLinesDrawable;
-    private @Nullable View mMagicLinesView;
-    private @Nullable TextView mLogoTextView;
-    private @Nullable TextView mHomePageTextView;
     private @Nullable ObjectAnimator mLogoTextViewAnimator;
     private @Nullable ObjectAnimator mHomePageTextViewAnimator;
     private @Nullable ObjectAnimator mMagicLinesDrawableAnimator;
@@ -50,18 +46,19 @@ public class MainActivity extends MyActivity {
         mMyMagicLinesDrawable = new MyMagicLinesDrawable();
         mMyMagicLinesDrawable.setColor(0x30ffffff).setStrokeWidth(dp2px(4));
         //noinspection ConstantConditions
-        mMagicLinesView = getGlobalNavigation().getHeader().findViewById(R.id.magic_underline_view);
-        mMagicLinesView.setBackground(mMyMagicLinesDrawable);
-        mLogoTextView = (TextView) getGlobalNavigation().getHeader().findViewById(R.id.text_logo);
-        mHomePageTextView = (TextView) getGlobalNavigation().getHeader().findViewById(R.id.text_home_page);
+        getGlobalNavigation().getHeader().findViewById(R.id.magic_underline_view).setBackground(mMyMagicLinesDrawable);
 
-        PropertyValuesHolder pvha1 = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0.2f, 1f);
-        PropertyValuesHolder pvhy1 = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -130f, -30f, 0f);
-        PropertyValuesHolder pvha2 = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0f, 0.7f);
-        PropertyValuesHolder pvhy2 = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -50f, -50f, 0f);
+        mLogoTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                getGlobalNavigation().getHeader().findViewById(R.id.text_logo),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0.2f, 1f),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -130f, -30f, 0f)
+        );
+        mHomePageTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                getGlobalNavigation().getHeader().findViewById(R.id.text_home_page),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0f, 0.7f),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -50f, -50f, 0f)
+        );
 
-        mLogoTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(mLogoTextView, pvha1, pvhy1);
-        mHomePageTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(mHomePageTextView, pvha2, pvhy2);
         mLogoTextViewAnimator.setInterpolator(new LinearInterpolator());
         mHomePageTextViewAnimator.setInterpolator(new LinearInterpolator());
 
