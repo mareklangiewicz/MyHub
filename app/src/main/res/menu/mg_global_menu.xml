@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/grp_sections"
+        android:checkableBehavior="single"
+        >
+    <item
+        android:id="@+id/mg_fragment_my_account"
+        android:icon="@drawable/mr_ic_whatshot_black_24dp"
+        android:title="@string/mg_my_account"
+        android:titleCondensed="cmd:fragment .ui.MyAccountFragment"
+        />
+        <item
+            android:id="@+id/mg_fragment_my_repositories"
+            android:icon="@drawable/mr_ic_whatshot_black_24dp"
+            android:title="@string/mg_my_repositories"
+            android:titleCondensed="cmd:fragment .ui.MyRepositoriesFragment"
+            />
+    </group>
+
+    <item
+        android:id="@+id/item_global_actions"
+        android:title="@string/mg_actions"
+        >
+        <menu>
+            <item
+                android:id="@+id/reset_all"
+                android:icon="@drawable/mr_ic_whatshot_black_24dp"
+                android:title="@string/mg_reset_all"
+                />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/mr_ic_whatshot_black_24dp"
+                android:title="@string/mg_logout"
+                />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/item_debug_stuff"
+        android:title="@string/mg_debug_stuff"
+        android:visible="@bool/mg_debug_mode"
+        >
+        <menu>
+            <item
+                android:id="@+id/start_my_test_activity"
+                android:icon="@drawable/mr_ic_whatshot_black_24dp"
+                android:title="@string/mg_start_my_test_activity"
+                android:titleCondensed="cmd:activity pl.mareklangiewicz.myactivities.MyTestActivity"
+                />
+            <item
+                android:id="@+id/ds_mode"
+                android:title=""
+                />
+            <item
+                android:id="@+id/ds_flavor"
+                android:title=""
+                />
+            <item
+                android:id="@+id/ds_version_code"
+                android:title=""
+                />
+            <item
+                android:id="@+id/ds_version_name"
+                android:title=""
+                />
+            <item
+                android:id="@+id/ds_time_stamp"
+                android:title=""
+                />
+        </menu>
+    </item>
+
+</menu>

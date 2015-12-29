@@ -1,0 +1,33 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="pl.mareklangiewicz.mygithub"
+    >
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/mg_ic_launcher"
+        android:label="@string/mg_app_name"
+        android:supportsRtl="true"
+        android:theme="@style/mg_AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        >
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/mg_app_name"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!--This activity is only for debugging -->
+        <activity
+            android:name="pl.mareklangiewicz.myactivities.MyTestActivity"
+            android:label="@string/mg_my_test_activity"
+            android:enabled="@bool/mg_debug_mode"
+            />
+
+    </application>
+
+</manifest>

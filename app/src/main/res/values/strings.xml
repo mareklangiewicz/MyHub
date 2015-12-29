@@ -1,0 +1,12 @@
+<resources>
+    <string name="mg_app_name">MyGitHub</string>
+    <string name="mg_my_account">My account</string>
+    <string name="mg_actions">Actions</string>
+    <string name="mg_reset_all">Factory reset</string>
+    <string name="mg_debug_stuff">Debug stuff</string>
+    <string name="mg_start_my_test_activity">Start MyTestActivity</string>
+    <string name="mg_logout">Logout</string>
+    <string name="mg_my_repositories">My repositories</string>
+    <string name="mg_my_test_activity">MyTestActivity</string>
+    <string name="mg_octocat">Octocat</string>
+</resources>

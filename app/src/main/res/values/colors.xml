@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mg_primary">#6879d4</color>
+    <color name="mg_primary_dark">#222d73</color>
+    <color name="mg_accent">#ff4640</color>
+</resources>
