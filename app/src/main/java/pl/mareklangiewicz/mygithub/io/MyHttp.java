@@ -8,10 +8,12 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.MoshiConverterFactory;
 import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.Path;
+import rx.Observable;
 
 /**
  * Created by Marek Langiewicz on 30.12.15.
@@ -181,29 +183,55 @@ public final class MyHttp {
 
         public interface Service {
 
+
             @Headers({ACCEPT, AGENT})
             @GET("/users/{user}")
-            Call<User> getUser(@Path("user") String user);
+            Call<User> getUserCall(@Path("user") String user);
 
             @Headers({ACCEPT, AGENT})
             @GET("/user")
-            Call<User> getUserAuth(@Header("Authorization") String auth);
+            Call<User> getUserAuthCall(@Header("Authorization") String auth);
 
             @Headers({ACCEPT, AGENT})
             @GET("/user")
-            Call<User> getUserTFA(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
+            Call<User> getUserTFACall(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
 
             @Headers({ACCEPT, AGENT})
             @GET("/users/{user}/repos")
-            Call<List<Repository>> getUserRepos(@Path("user") String user);
+            Call<List<Repository>> getUserReposCall(@Path("user") String user);
 
             @Headers({ACCEPT, AGENT})
             @GET("/user/repos")
-            Call<List<Repository>> getUserReposAuth(@Header("Authorization") String auth);
+            Call<List<Repository>> getUserReposAuthCall(@Header("Authorization") String auth);
 
             @Headers({ACCEPT, AGENT})
             @GET("/user/repos")
-            Call<List<Repository>> getUserReposTFA(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
+            Call<List<Repository>> getUserReposTFACall(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
+
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/users/{user}")
+            Observable<User> getUserObservable(@Path("user") String user);
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/user")
+            Observable<User> getUserAuthObservable(@Header("Authorization") String auth);
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/user")
+            Observable<User> getUserTFAObservable(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/users/{user}/repos")
+            Observable<List<Repository>> getUserReposObservable(@Path("user") String user);
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/user/repos")
+            Observable<List<Repository>> getUserReposAuthObservable(@Header("Authorization") String auth);
+
+            @Headers({ACCEPT, AGENT})
+            @GET("/user/repos")
+            Observable<List<Repository>> getUserReposTFAObservable(@Header("Authorization") String auth, @Header("X-GitHub-OTP") String code);
         }
 
         private static final Retrofit retrofit = new Retrofit.Builder()
@@ -222,6 +250,7 @@ public final class MyHttp {
                         .baseUrl(URL)
                         .client(client)
                         .addConverterFactory(MoshiConverterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
 
                 return loggingretrofit.create(Service.class);

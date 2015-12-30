@@ -15,6 +15,9 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.Response;
+import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 import static pl.mareklangiewicz.myutils.MyTextUtils.str;
 
@@ -37,23 +40,19 @@ public class MyHttpTest {
 
     }
 
-
-
-
-    // Manual tests for user to launch by hand (one by one) and to inspect results on console
-    // or to set breakpoints and analyse step by step.
-
+    // Tests below are manual tests for user to launch by hand (one by one)
+    // and to inspect results on console or to set breakpoints and analyse step by step.
 
 
     @Ignore
     @Test
-    public void testGitHubGetUser() throws Exception {
+    public void testGitHubGetUserCall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUser("langara");
+        Call<MyHttp.GitHub.User> call = service.getUserCall("langara");
         Response<MyHttp.GitHub.User> response = call.execute();
         MyHttp.GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
-        call = service.getUser("JakeWharton");
+        call = service.getUserCall("JakeWharton");
         response = call.execute();
         body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
@@ -61,14 +60,14 @@ public class MyHttpTest {
 
 
     // WARNING: You need base64 encoded user name and password to run this test.
-    // you can calculate it fast in python:
+    // you can calculate it easily in python:
     // import base64
     // base64.b64encode("someuser:somepassword")
     @Ignore
     @Test
-    public void testGitHubGetUserAuth() throws Exception {
+    public void testGitHubGetUserAuthCall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUserAuth("Basic some_bad_base64_pass");
+        Call<MyHttp.GitHub.User> call = service.getUserAuthCall("Basic some_bad_base64_pass");
         Response<MyHttp.GitHub.User> response = call.execute();
         MyHttp.GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
@@ -77,9 +76,9 @@ public class MyHttpTest {
     // WARNING: see test above, and use correct OTP code as a second parameter
     @Ignore
     @Test
-    public void testGitHubGetUserTFA() throws Exception {
+    public void testGitHubGetUserTFACall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUserTFA("Basic some_bad_base64_pass", "421164");
+        Call<MyHttp.GitHub.User> call = service.getUserTFACall("Basic some_bad_base64_pass", "421164");
         Response<MyHttp.GitHub.User> response = call.execute();
         MyHttp.GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
@@ -87,38 +86,133 @@ public class MyHttpTest {
 
     @Ignore
     @Test
-    public void testGitHubGetUserRepos() throws Exception {
+    public void testGitHubGetUserReposCall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserRepos("langara");
+        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposCall("langara");
         Response<List<MyHttp.GitHub.Repository>> response = call.execute();
         List<MyHttp.GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
-        call = service.getUserRepos("JakeWharton");
+        call = service.getUserReposCall("JakeWharton");
         response = call.execute();
         body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
 
+    // WARNING: You need base64 encoded user name and password to run this test.
+    // you can calculate it easily in python:
+    // import base64
+    // base64.b64encode("someuser:somepassword")
     @Ignore
     @Test
-    public void testGitHubGetUserReposAuth() throws Exception {
+    public void testGitHubGetUserReposAuthCall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposAuth("Basic some_bad_base64");
+        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposAuthCall("Basic some_bad_base64");
         Response<List<MyHttp.GitHub.Repository>> response = call.execute();
         List<MyHttp.GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
 
+    // WARNING: see test above, and use correct OTP code as a second parameter
     @Ignore
     @Test
-    public void testGitHubGetUserReposTFA() throws Exception {
+    public void testGitHubGetUserReposTFACall() throws Exception {
         MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposTFA("Basic some_bad_base64", "197187");
+        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposTFACall("Basic some_bad_base64", "197187");
         Response<List<MyHttp.GitHub.Repository>> response = call.execute();
         List<MyHttp.GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
+    }
+
+
+
+
+    <T> void subscribeAndLogObservable(Observable<T> observable) {
+        observable.subscribe( // synchronously
+                new Action1<T>() {
+                    @Override public void call(T t) {
+                        log.i(str(t)); // set breakpoint here to see properties
+                    }
+                },
+                new Action1<Throwable>() {
+                    @Override public void call(Throwable throwable) {
+                        log.e(throwable);
+                    }
+                },
+                new Action0() {
+                    @Override public void call() {
+                        log.i("completed.");
+                    }
+                }
+        );
+    }
+
+
+    @Ignore
+    @Test
+    public void testGitHubGetUserObservable() throws Exception {
+
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<MyHttp.GitHub.User> observable = service.getUserObservable("langara");
+        subscribeAndLogObservable(observable);
+
+        observable = service.getUserObservable("JakeWharton");
+        subscribeAndLogObservable(observable);
+    }
+
+    // WARNING: You need base64 encoded user name and password to run this test.
+    // you can calculate it easily in python:
+    // import base64
+    // base64.b64encode("someuser:somepassword")
+    @Ignore
+    @Test
+    public void testGitHubGetUserAuthObservable() throws Exception {
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<MyHttp.GitHub.User> observable = service.getUserAuthObservable("Basic some_bad_base64_pass");
+        subscribeAndLogObservable(observable);
+    }
+
+    // WARNING: see test above, and use correct OTP code as a second parameter
+    @Ignore
+    @Test
+    public void testGitHubGetUserTFAObservable() throws Exception {
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<MyHttp.GitHub.User> observable = service.getUserTFAObservable("Basic some_bad_base64_pass", "421164");
+        subscribeAndLogObservable(observable);
+    }
+
+    @Ignore
+    @Test
+    public void testGitHubGetUserReposObservable() throws Exception {
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposObservable("langara");
+        subscribeAndLogObservable(observable);
+        observable = service.getUserReposObservable("JakeWharton");
+        subscribeAndLogObservable(observable);
+    }
+
+
+    // WARNING: You need base64 encoded user name and password to run this test.
+    // you can calculate it easily in python:
+    // import base64
+    // base64.b64encode("someuser:somepassword")
+    @Ignore
+    @Test
+    public void testGitHubGetUserReposAuthObservable() throws Exception {
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposAuthObservable("Basic some_bad_base64");
+        subscribeAndLogObservable(observable);
+    }
+
+
+    // WARNING: see test above, and use correct OTP code as a second parameter
+    @Ignore
+    @Test
+    public void testGitHubGetUserReposTFAObservable() throws Exception {
+        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
+        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposTFAObservable("Basic some_bad_base64", "197187");
+        subscribeAndLogObservable(observable);
     }
 
 }
