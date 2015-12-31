@@ -3,4 +3,6 @@
     <color name="mg_primary">#6879d4</color>
     <color name="mg_primary_dark">#222d73</color>
     <color name="mg_accent">#ff4640</color>
+    <color name="mg_secondary_text">#727272</color>
+    <color name="mg_divider">#cbcbcb</color>
 </resources>

@@ -9,4 +9,7 @@
     <string name="mg_my_repositories">My repositories</string>
     <string name="mg_my_test_activity">MyTestActivity</string>
     <string name="mg_octocat">Octocat</string>
+    <string name="mg_stars">%d \nStars</string>
+    <string name="mg_watchers">%d \nWatchers</string>
+    <string name="mg_forks">%d \nForks</string>
 </resources>

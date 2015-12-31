@@ -14,7 +14,7 @@
             android:id="@+id/mg_fragment_my_repositories"
             android:icon="@drawable/mr_ic_whatshot_black_24dp"
             android:title="@string/mg_my_repositories"
-            android:titleCondensed="cmd:fragment .ui.MyRepositoriesFragment"
+            android:titleCondensed="cmd:fragment .ui.MyReposFragment"
             />
     </group>
 

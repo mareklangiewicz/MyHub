@@ -5,7 +5,9 @@ import android.content.Context;
 
 import javax.inject.Named;
 
-import dagger.*;
+import dagger.Module;
+import dagger.Provides;
+import pl.mareklangiewicz.mygithub.io.GitHub;
 
 @Module
 public class ApplicationModule {
@@ -16,14 +18,17 @@ public class ApplicationModule {
         mApplication = application;
     }
 
-    @Provides
-    Application provideApplication() {
+    @Provides Application provideApplication() {
         return mApplication;
     }
 
     @Provides
     @Named("Application") Context provideContext() {
         return mApplication;
+    }
+
+    @Provides GitHub.Service provideGitHubService() {
+        return GitHub.create();
     }
 
 }

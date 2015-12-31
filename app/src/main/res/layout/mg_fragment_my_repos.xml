@@ -5,8 +5,15 @@
     android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TODO: My Repositories Fragment"
+        android:layout_height="wrap_content"
+        android:text="TODO: progress indicator"
         />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/repos_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
 
 </LinearLayout>

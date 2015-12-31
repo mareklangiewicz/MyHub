@@ -21,10 +21,7 @@ import rx.functions.Action1;
 
 import static pl.mareklangiewicz.myutils.MyTextUtils.str;
 
-/**
- * Created by Marek Langiewicz on 30.12.15.
- */
-public class MyHttpTest {
+public class GitHubTest {
 
     private static final MyLogger log = new MyLogger("UT");
 
@@ -47,10 +44,10 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserCall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUserCall("langara");
-        Response<MyHttp.GitHub.User> response = call.execute();
-        MyHttp.GitHub.User body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<GitHub.User> call = service.getUserCall("langara");
+        Response<GitHub.User> response = call.execute();
+        GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
         call = service.getUserCall("JakeWharton");
         response = call.execute();
@@ -66,10 +63,10 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserAuthCall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUserAuthCall("Basic some_bad_base64_pass");
-        Response<MyHttp.GitHub.User> response = call.execute();
-        MyHttp.GitHub.User body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<GitHub.User> call = service.getUserAuthCall("Basic some_bad_base64_pass");
+        Response<GitHub.User> response = call.execute();
+        GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
@@ -77,20 +74,20 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserTFACall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<MyHttp.GitHub.User> call = service.getUserTFACall("Basic some_bad_base64_pass", "421164");
-        Response<MyHttp.GitHub.User> response = call.execute();
-        MyHttp.GitHub.User body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<GitHub.User> call = service.getUserTFACall("Basic some_bad_base64_pass", "421164");
+        Response<GitHub.User> response = call.execute();
+        GitHub.User body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
     @Ignore
     @Test
     public void testGitHubGetUserReposCall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposCall("langara");
-        Response<List<MyHttp.GitHub.Repository>> response = call.execute();
-        List<MyHttp.GitHub.Repository> body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<List<GitHub.Repository>> call = service.getUserReposCall("langara");
+        Response<List<GitHub.Repository>> response = call.execute();
+        List<GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
         call = service.getUserReposCall("JakeWharton");
         response = call.execute();
@@ -106,10 +103,10 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserReposAuthCall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposAuthCall("Basic some_bad_base64");
-        Response<List<MyHttp.GitHub.Repository>> response = call.execute();
-        List<MyHttp.GitHub.Repository> body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<List<GitHub.Repository>> call = service.getUserReposAuthCall("Basic some_bad_base64");
+        Response<List<GitHub.Repository>> response = call.execute();
+        List<GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
@@ -118,10 +115,10 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserReposTFACall() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Call<List<MyHttp.GitHub.Repository>> call = service.getUserReposTFACall("Basic some_bad_base64", "197187");
-        Response<List<MyHttp.GitHub.Repository>> response = call.execute();
-        List<MyHttp.GitHub.Repository> body = response.body();
+        GitHub.Service service = GitHub.create();
+        Call<List<GitHub.Repository>> call = service.getUserReposTFACall("Basic some_bad_base64", "197187");
+        Response<List<GitHub.Repository>> response = call.execute();
+        List<GitHub.Repository> body = response.body();
         log.w(str(body)); // set breakpoint here to see properties
     }
 
@@ -153,8 +150,8 @@ public class MyHttpTest {
     @Test
     public void testGitHubGetUserObservable() throws Exception {
 
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<MyHttp.GitHub.User> observable = service.getUserObservable("langara");
+        GitHub.Service service = GitHub.create();
+        Observable<GitHub.User> observable = service.getUserObservable("langara");
         subscribeAndLogObservable(observable);
 
         observable = service.getUserObservable("JakeWharton");
@@ -168,8 +165,8 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserAuthObservable() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<MyHttp.GitHub.User> observable = service.getUserAuthObservable("Basic some_bad_base64_pass");
+        GitHub.Service service = GitHub.create();
+        Observable<GitHub.User> observable = service.getUserAuthObservable("Basic some_bad_base64_pass");
         subscribeAndLogObservable(observable);
     }
 
@@ -177,16 +174,16 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserTFAObservable() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<MyHttp.GitHub.User> observable = service.getUserTFAObservable("Basic some_bad_base64_pass", "421164");
+        GitHub.Service service = GitHub.create();
+        Observable<GitHub.User> observable = service.getUserTFAObservable("Basic some_bad_base64_pass", "421164");
         subscribeAndLogObservable(observable);
     }
 
     @Ignore
     @Test
     public void testGitHubGetUserReposObservable() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposObservable("langara");
+        GitHub.Service service = GitHub.create();
+        Observable<List<GitHub.Repository>> observable = service.getUserReposObservable("langara");
         subscribeAndLogObservable(observable);
         observable = service.getUserReposObservable("JakeWharton");
         subscribeAndLogObservable(observable);
@@ -200,8 +197,8 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserReposAuthObservable() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposAuthObservable("Basic some_bad_base64");
+        GitHub.Service service = GitHub.create();
+        Observable<List<GitHub.Repository>> observable = service.getUserReposAuthObservable("Basic some_bad_base64");
         subscribeAndLogObservable(observable);
     }
 
@@ -210,8 +207,8 @@ public class MyHttpTest {
     @Ignore
     @Test
     public void testGitHubGetUserReposTFAObservable() throws Exception {
-        MyHttp.GitHub.Service service = MyHttp.GitHub.create();
-        Observable<List<MyHttp.GitHub.Repository>> observable = service.getUserReposTFAObservable("Basic some_bad_base64", "197187");
+        GitHub.Service service = GitHub.create();
+        Observable<List<GitHub.Repository>> observable = service.getUserReposTFAObservable("Basic some_bad_base64", "197187");
         subscribeAndLogObservable(observable);
     }
 

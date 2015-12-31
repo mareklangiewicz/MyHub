@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import pl.mareklangiewicz.mygithub.ui.MyReposFragment;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
@@ -16,5 +17,5 @@ public interface ApplicationComponent {
 
     Application application();
 
-
+    void inject(MyReposFragment f);
 }

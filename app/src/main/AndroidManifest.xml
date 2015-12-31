@@ -3,7 +3,10 @@
     package="pl.mareklangiewicz.mygithub"
     >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".MGApplication"
         android:allowBackup="false"
         android:icon="@mipmap/mg_ic_launcher"
         android:label="@string/mg_app_name"
