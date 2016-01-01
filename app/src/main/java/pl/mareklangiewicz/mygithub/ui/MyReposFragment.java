@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import pl.mareklangiewicz.myfragments.MyFragment;
 import pl.mareklangiewicz.mygithub.MGApplication;
 import pl.mareklangiewicz.mygithub.MyReposMvpView;
@@ -24,8 +26,8 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
     private int mProgress = MIN;
 
-    private @Nullable ProgressBar mProgressBar;
-    private @Nullable RecyclerView mRecyclerView;
+    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
+    @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;
 
 
     @Inject ReposAdapter mAdapter;
@@ -44,10 +46,10 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
         View rootView = inflater.inflate(R.layout.mg_fragment_my_repos, container, false);
 
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        ButterKnife.bind(this, rootView);
+
         setProgress(mProgress);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.repos_recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         //noinspection ConstantConditions
         mRecyclerView.setLayoutManager(manager);
@@ -58,11 +60,9 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
     @Override
     public void onDestroyView() {
-        //noinspection ConstantConditions
         mRecyclerView.setAdapter(null);
-        mRecyclerView = null;
-        mProgressBar = null;
         super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override public void onDestroy() {

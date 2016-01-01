@@ -17,9 +17,7 @@ import rx.Observable;
 
 public final class GitHub {
 
-    @SuppressWarnings("unused")
-    private static final boolean V = true;
-    private static final boolean VV = true;
+    private static final boolean VERY_VERBOSE = false;
 
     private GitHub() {
         throw new AssertionError("GitHub class is noninstantiable.");
@@ -232,10 +230,11 @@ public final class GitHub {
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(URL)
             .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .build();
 
     public static Service create() {
-        if(VV) {
+        if(VERY_VERBOSE) {
             OkHttpClient client = new OkHttpClient();
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

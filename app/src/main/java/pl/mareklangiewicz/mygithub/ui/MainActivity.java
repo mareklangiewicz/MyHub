@@ -30,6 +30,7 @@ public class MainActivity extends MyActivity {
         getGlobalNavigation().inflateHeader(R.layout.mg_global_header);
         getGlobalNavigation().inflateMenu(R.menu.mg_global_menu);
 
+        View header = getGlobalNavigation().getHeader();
 
         if(BuildConfig.DEBUG) {
             Menu menu = getGlobalNavigation().getMenu();
@@ -42,19 +43,18 @@ public class MainActivity extends MyActivity {
         }
 
 
-        //noinspection ConstantConditions
         mMyMagicLinesDrawable = new MyMagicLinesDrawable();
         mMyMagicLinesDrawable.setColor(0x30ffffff).setStrokeWidth(dp2px(4));
         //noinspection ConstantConditions
-        getGlobalNavigation().getHeader().findViewById(R.id.magic_underline_view).setBackground(mMyMagicLinesDrawable);
+        header.findViewById(R.id.magic_underline_view).setBackground(mMyMagicLinesDrawable);
 
         mLogoTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
-                getGlobalNavigation().getHeader().findViewById(R.id.text_logo),
+                header.findViewById(R.id.text_logo),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0.2f, 1f),
                 PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -130f, -30f, 0f)
         );
         mHomePageTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
-                getGlobalNavigation().getHeader().findViewById(R.id.text_home_page),
+                header.findViewById(R.id.text_home_page),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0f, 0.7f),
                 PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -50f, -50f, 0f)
         );
