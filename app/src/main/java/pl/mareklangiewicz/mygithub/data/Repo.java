@@ -1,4 +1,4 @@
-package pl.mareklangiewicz.mygithub;
+package pl.mareklangiewicz.mygithub.data;
 
 public class Repo {
 

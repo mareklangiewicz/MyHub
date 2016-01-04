@@ -12,6 +12,14 @@
         android:padding="16dp"
         >
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="10000"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mg_login_refresh"
+            android:layout_margin="16dp"
             />
 
         <include layout="@layout/mg_basic_user_info" />

@@ -20,7 +20,7 @@ import pl.mareklangiewicz.mygithub.MGApplication;
 import pl.mareklangiewicz.mygithub.MyReposMvpView;
 import pl.mareklangiewicz.mygithub.MyReposMvpPresenter;
 import pl.mareklangiewicz.mygithub.R;
-import pl.mareklangiewicz.mygithub.Repo;
+import pl.mareklangiewicz.mygithub.data.Repo;
 
 public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
@@ -28,7 +28,6 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;
-
 
     @Inject ReposAdapter mAdapter;
     @Inject MyReposMvpPresenter mMvpPresenter;

@@ -13,7 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import pl.mareklangiewicz.mygithub.R;
-import pl.mareklangiewicz.mygithub.Repo;
+import pl.mareklangiewicz.mygithub.data.Repo;
 
 
 public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> {

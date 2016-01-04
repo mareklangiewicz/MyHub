@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import pl.mareklangiewicz.mygithub.ui.MyAccountFragment;
 import pl.mareklangiewicz.mygithub.ui.MyReposFragment;
 
 @Singleton
@@ -17,5 +18,6 @@ public interface ApplicationComponent {
 
     Application application();
 
+    void inject(MyAccountFragment f);
     void inject(MyReposFragment f);
 }
