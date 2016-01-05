@@ -1,5 +1,6 @@
 package pl.mareklangiewicz.mygithub;
 
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 
 import com.noveogroup.android.log.MyLogger;
@@ -11,9 +12,8 @@ import javax.inject.Inject;
 import pl.mareklangiewicz.mygithub.data.Repo;
 import rx.Observable;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
+@MainThread
 public class MyReposMvpPresenter extends MvpPresenter<MyReposMvpView> {
 
     private MyLogger log = MyLogger.UIL;
@@ -33,8 +33,6 @@ public class MyReposMvpPresenter extends MvpPresenter<MyReposMvpView> {
         //noinspection ConstantConditions
         getMvpView().setProgress(ProgressMvpView.INDETERMINATE);
         getRepos("JakeWharton")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Repo>>() {
                     @Override public void onCompleted() {
                         if(isViewAttached()) {

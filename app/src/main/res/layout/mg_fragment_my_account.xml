@@ -30,8 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/mg_login"
-                android:imeOptions="actionSend"
-                android:inputType="textPersonName"
+                android:inputType="text"
+                android:typeface="monospace"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -44,9 +44,9 @@
                 android:id="@+id/edit_text_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mg_password"
-                android:imeOptions="actionSend"
+                android:hint="@string/mg_password_optional"
                 android:inputType="textPassword"
+                android:typeface="monospace"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -59,13 +59,14 @@
                 android:id="@+id/edit_text_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mg_otp"
-                android:imeOptions="actionSend"
+                android:hint="@string/mg_otp_optional"
                 android:inputType="numberPassword"
+                android:typeface="monospace"
                 />
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mg_login_refresh"
