@@ -1,4 +1,4 @@
-package pl.mareklangiewicz.mygithub;
+package pl.mareklangiewicz.mygithub.mvp;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.MainThread;
@@ -9,25 +9,25 @@ import android.support.annotation.Nullable;
  * Base class for presenters in MVP pattern.
  */
 @MainThread
-public class MvpPresenter<T extends MvpView> {
+public class Presenter<T extends IView> {
 
-    private @Nullable T mMvpView;
+    private @Nullable T mIView;
 
     @CallSuper
-    public void attachView(@NonNull T mvpView) {
-        mMvpView = mvpView;
+    public void attachIView(@NonNull T iview) {
+        mIView = iview;
     }
 
     @CallSuper
-    public void detachView() {
-        mMvpView = null;
+    public void detachIView() {
+        mIView = null;
     }
 
     /**
      * @return attached view. null if no view is attached
      */
-    public final @Nullable T getMvpView() {
-        return mMvpView;
+    public final @Nullable T getIView() {
+        return mIView;
     }
 
 }

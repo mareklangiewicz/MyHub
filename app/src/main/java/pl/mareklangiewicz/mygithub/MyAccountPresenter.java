@@ -9,24 +9,27 @@ import com.noveogroup.android.log.MyLogger;
 import javax.inject.Inject;
 
 import pl.mareklangiewicz.mygithub.data.Account;
+import pl.mareklangiewicz.mygithub.mvp.IMyAccountView;
+import pl.mareklangiewicz.mygithub.mvp.Presenter;
+import pl.mareklangiewicz.mygithub.mvp.IProgressView;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 
 @MainThread
-public class MyAccountMvpPresenter extends MvpPresenter<MyAccountMvpView> {
+public class MyAccountPresenter extends Presenter<IMyAccountView> {
 
     private MyLogger log = MyLogger.UIL;
 
-    private @NonNull MGMvpModel mModel;
+    private @NonNull MGModel mModel;
     private @Nullable Subscription subscription;
 
-    @Inject MyAccountMvpPresenter(@NonNull MGMvpModel model) {
+    @Inject MyAccountPresenter(@NonNull MGModel model) {
         mModel = model;
     }
 
-    @Override public void attachView(@NonNull MyAccountMvpView mvpView) {
-        super.attachView(mvpView);
+    @Override public void attachIView(@NonNull IMyAccountView iview) {
+        super.attachIView(iview);
         subscription = mModel.loadLatestAccount()
                 .subscribe(new Observer<Account>() {
                     @Override public void onCompleted() {
@@ -43,37 +46,37 @@ public class MyAccountMvpPresenter extends MvpPresenter<MyAccountMvpView> {
                 });
     }
 
-    @Override public void detachView() {
+    @Override public void detachIView() {
         if(subscription != null && !subscription.isUnsubscribed())
             subscription.unsubscribe();
         subscription = null;
-        super.detachView();
+        super.detachIView();
     }
 
     public void onLoginButtonClick() {
         //noinspection ConstantConditions
-        login(getMvpView().getLogin(), getMvpView().getPassword(), getMvpView().getOtp());
+        login(getIView().getLogin(), getIView().getPassword(), getIView().getOtp());
     }
 
     private void login(@Nullable final String user, @Nullable String password, @Nullable String otp) {
         //noinspection ConstantConditions
-        getMvpView().setProgress(ProgressMvpView.INDETERMINATE);
+        getIView().setProgress(IProgressView.INDETERMINATE);
         if(subscription != null && !subscription.isUnsubscribed())
             subscription.unsubscribe();
         subscription = getAccount(user, password, otp)
                 .subscribe(new Observer<Account>() {
                     @Override public void onCompleted() {
-                        MyAccountMvpView view = getMvpView();
-                        if(view != null) view.setProgress(ProgressMvpView.HIDDEN);
+                        IMyAccountView view = getIView();
+                        if(view != null) view.setProgress(IProgressView.HIDDEN);
                         log.v("loading completed.");
                     }
 
                     @Override public void onError(Throwable e) {
                         log.d(e);
-                        MyAccountMvpView view = getMvpView();
+                        IMyAccountView view = getIView();
                         if(view == null)
                             return;
-                        view.setProgress(ProgressMvpView.HIDDEN);
+                        view.setProgress(IProgressView.HIDDEN);
                         String msg = e.getLocalizedMessage();
                         if(msg == null || msg.isEmpty()) msg = "load error.";
                         view.setStatus(msg);
@@ -95,7 +98,7 @@ public class MyAccountMvpPresenter extends MvpPresenter<MyAccountMvpView> {
     }
 
     private void showAccount(@Nullable Account account) {
-        MyAccountMvpView view = getMvpView();
+        IMyAccountView view = getIView();
         if(view != null) {
             view.setStatus(account != null ? String.format("loaded: %tF %tT.", account.getTime(), account.getTime()) : "not loaded.");
             view.setLogin(account != null ? account.getLogin() : "");

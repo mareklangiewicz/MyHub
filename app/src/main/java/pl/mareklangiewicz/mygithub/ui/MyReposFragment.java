@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,25 +18,27 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.mareklangiewicz.myfragments.MyFragment;
 import pl.mareklangiewicz.mygithub.MGApplication;
-import pl.mareklangiewicz.mygithub.MyReposMvpView;
-import pl.mareklangiewicz.mygithub.MyReposMvpPresenter;
+import pl.mareklangiewicz.mygithub.mvp.IMyReposView;
+import pl.mareklangiewicz.mygithub.MyReposPresenter;
 import pl.mareklangiewicz.mygithub.R;
 import pl.mareklangiewicz.mygithub.data.Repo;
 
-public class MyReposFragment extends MyFragment implements MyReposMvpView {
+public class MyReposFragment extends MyFragment implements IMyReposView {
 
     private int mProgress = HIDDEN;
+    private @Nullable String mStatus;
 
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
+    @Bind(R.id.status) TextView mStatusTextView;
     @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;
 
     @Inject ReposAdapter mAdapter;
-    @Inject MyReposMvpPresenter mMvpPresenter;
+    @Inject MyReposPresenter mMvpPresenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication)getActivity().getApplication()).getComponent().inject(this);
-        mMvpPresenter.attachView(this);
+        mMvpPresenter.attachIView(this);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
     }
 
     @Override public void onDestroy() {
-        mMvpPresenter.detachView();
+        mMvpPresenter.detachIView();
         super.onDestroy();
     }
 
@@ -104,6 +107,16 @@ public class MyReposFragment extends MyFragment implements MyReposMvpView {
             }
         }
         mProgress = progress;
+    }
+
+    @Nullable @Override public String getStatus() {
+        return mStatus;
+    }
+
+    @Override public void setStatus(@Nullable String status) {
+        mStatus = status;
+        if(mStatusTextView != null)
+            mStatusTextView.setText(status);
     }
 
     @Override public void setRepos(@Nullable List<Repo> repos) {

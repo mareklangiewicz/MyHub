@@ -25,12 +25,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.mareklangiewicz.myfragments.MyFragment;
 import pl.mareklangiewicz.mygithub.MGApplication;
-import pl.mareklangiewicz.mygithub.MyAccountMvpPresenter;
-import pl.mareklangiewicz.mygithub.MyAccountMvpView;
+import pl.mareklangiewicz.mygithub.MyAccountPresenter;
+import pl.mareklangiewicz.mygithub.mvp.IMyAccountView;
 import pl.mareklangiewicz.mygithub.R;
 import pl.mareklangiewicz.mygithub.data.Note;
 
-public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
+public class MyAccountFragment extends MyFragment implements IMyAccountView {
 
     private @Nullable String mStatus;
     private @Nullable String mLogin;
@@ -54,13 +54,13 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
     @Nullable RecyclerView mRecyclerView;
 
     @Inject NotesAdapter mAdapter;
-    @Inject MyAccountMvpPresenter mMvpPresenter;
+    @Inject MyAccountPresenter mMvpPresenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication) getActivity().getApplication()).getComponent().inject(this);
         mAdapter.setNotes(Collections.singletonList(new Note("No info", "Log in to get info")));
-        mMvpPresenter.attachView(this);
+        mMvpPresenter.attachIView(this);
     }
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,7 +127,7 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
     }
 
     @Override public void onDestroy() {
-        mMvpPresenter.detachView();
+        mMvpPresenter.detachIView();
         super.onDestroy();
     }
 

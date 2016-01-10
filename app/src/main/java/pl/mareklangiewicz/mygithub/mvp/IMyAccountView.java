@@ -1,8 +1,8 @@
-package pl.mareklangiewicz.mygithub;
+package pl.mareklangiewicz.mygithub.mvp;
 
 import android.support.annotation.Nullable;
 
-public interface MyAccountMvpView extends NotesMvpView, ProgressMvpView {
+public interface IMyAccountView extends INotesView, IProgressView {
 
     @Nullable String getStatus();
     @Nullable String getLogin();

@@ -18,6 +18,7 @@ import pl.mareklangiewicz.mygithub.data.Account;
 import pl.mareklangiewicz.mygithub.data.Note;
 import pl.mareklangiewicz.mygithub.data.Repo;
 import pl.mareklangiewicz.mygithub.io.GitHub;
+import pl.mareklangiewicz.mygithub.mvp.IModel;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func0;
@@ -28,11 +29,11 @@ import static pl.mareklangiewicz.myutils.MyTextUtils.str;
 
 @Singleton
 @MainThread
-public class MGMvpModel implements MvpModel {
+public class MGModel implements IModel {
 
     private @NonNull GitHub.Service mGitHubService;
 
-    @Inject MGMvpModel(@NonNull GitHub.Service github) {
+    @Inject MGModel(@NonNull GitHub.Service github) {
         mGitHubService = github;
         // TODO NOW
     }

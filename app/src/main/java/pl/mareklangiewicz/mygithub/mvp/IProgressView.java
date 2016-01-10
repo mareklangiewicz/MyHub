@@ -1,6 +1,6 @@
-package pl.mareklangiewicz.mygithub;
+package pl.mareklangiewicz.mygithub.mvp;
 
-public interface ProgressMvpView extends MvpView {
+public interface IProgressView extends IView {
     int HIDDEN = -1;
     int INDETERMINATE = -2; // some moving state indicating that something is happening
     int MIN = 0;

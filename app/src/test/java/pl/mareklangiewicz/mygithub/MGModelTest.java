@@ -9,7 +9,7 @@ import org.junit.Test;
  * Created by Marek Langiewicz on 05.01.16.
  *
  */
-public class MGMvpModelTest {
+public class MGModelTest {
 
     @Before
     public void setUp() throws Exception {
