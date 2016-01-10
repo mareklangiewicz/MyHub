@@ -35,7 +35,7 @@ public class MyReposPresenter extends Presenter<IMyReposView> {
                     }
 
                     @Override public void onError(Throwable e) {
-                        log.e(e);
+                        log.e(e, "[SNACK]Error %s", e.getLocalizedMessage());
                     }
 
                     @Override public void onNext(Account account) {
@@ -51,6 +51,9 @@ public class MyReposPresenter extends Presenter<IMyReposView> {
         super.detachIView();
     }
 
+    /**
+     * Displays given account on attached IView. Clears IView if account is null.
+     */
     private void showAccount(@Nullable Account account) {
         IMyReposView view = getIView();
         if(view != null) {

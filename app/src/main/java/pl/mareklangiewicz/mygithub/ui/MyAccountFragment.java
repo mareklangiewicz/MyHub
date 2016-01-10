@@ -32,6 +32,8 @@ import pl.mareklangiewicz.mygithub.data.Note;
 
 public class MyAccountFragment extends MyFragment implements IMyAccountView {
 
+    // TODO LATER: implement AutoCompleteTextView instead of EditText for login field (propose users already saved in local db)
+
     private @Nullable String mStatus;
     private @Nullable String mLogin;
     private @Nullable String mPassword;
@@ -54,13 +56,13 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
     @Nullable RecyclerView mRecyclerView;
 
     @Inject NotesAdapter mAdapter;
-    @Inject MyAccountPresenter mMvpPresenter;
+    @Inject MyAccountPresenter mPresenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication) getActivity().getApplication()).getComponent().inject(this);
         mAdapter.setNotes(Collections.singletonList(new Note("No info", "Log in to get info")));
-        mMvpPresenter.attachIView(this);
+        mPresenter.attachIView(this);
     }
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                mMvpPresenter.onLoginButtonClick();
+                mPresenter.onLoginButtonClick();
             }
         });
 
@@ -101,7 +103,7 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
         //noinspection ConstantConditions
         mRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
         //noinspection ConstantConditions
-        mRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
         mRecyclerView.setAdapter(mAdapter);
 
         if(savedInstanceState != null) {
@@ -127,7 +129,7 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
     }
 
     @Override public void onDestroy() {
-        mMvpPresenter.detachIView();
+        mPresenter.detachIView();
         super.onDestroy();
     }
 

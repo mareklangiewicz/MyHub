@@ -2,6 +2,8 @@ package pl.mareklangiewicz.mygithub;
 
 import android.app.Application;
 
+import com.noveogroup.android.log.MyLogger;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import pl.mareklangiewicz.mygithub.di.ApplicationComponent;
@@ -9,6 +11,10 @@ import pl.mareklangiewicz.mygithub.di.ApplicationModule;
 import pl.mareklangiewicz.mygithub.di.DaggerApplicationComponent;
 
 public class MGApplication extends Application {
+
+    // TODO SOMEDAY: add Leak Canary? (just copy from MyIntent)
+
+    private MyLogger log = MyLogger.UIL;
 
     ApplicationComponent mComponent;
 
@@ -25,10 +31,7 @@ public class MGApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-        if(BuildConfig.DEBUG)
-            Realm.deleteRealm(config); // TODO someday comment this
         Realm.setDefaultConfiguration(config);
-
     }
 
 }

@@ -25,6 +25,9 @@ import pl.mareklangiewicz.mygithub.data.Repo;
 
 public class MyReposFragment extends MyFragment implements IMyReposView {
 
+    // TODO LATER: local search on ToolBar
+    // TODO SOMEDAY: local menu with sorting options?
+
     private int mProgress = HIDDEN;
     private @Nullable String mStatus;
 
@@ -33,12 +36,12 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
     @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;
 
     @Inject ReposAdapter mAdapter;
-    @Inject MyReposPresenter mMvpPresenter;
+    @Inject MyReposPresenter mPresenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication)getActivity().getApplication()).getComponent().inject(this);
-        mMvpPresenter.attachIView(this);
+        mPresenter.attachIView(this);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
     }
 
     @Override public void onDestroy() {
-        mMvpPresenter.detachIView();
+        mPresenter.detachIView();
         super.onDestroy();
     }
 
@@ -76,6 +79,7 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
         return mProgress;
     }
 
+    // TODO LATER: move "progress" stuff to some base fragment class? or to custom view?
     @Override public void setProgress(int progress) {
         if(progress == INDETERMINATE) {
             if(mProgressBar != null) {

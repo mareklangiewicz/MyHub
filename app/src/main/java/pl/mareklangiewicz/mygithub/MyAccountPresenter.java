@@ -37,7 +37,7 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
                     }
 
                     @Override public void onError(Throwable e) {
-                        log.e(e);
+                        log.e(e, "[SNACK] Error %s", e.getLocalizedMessage());
                     }
 
                     @Override public void onNext(Account account) {
@@ -54,13 +54,21 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
     }
 
     public void onLoginButtonClick() {
-        //noinspection ConstantConditions
-        login(getIView().getLogin(), getIView().getPassword(), getIView().getOtp());
+        IMyAccountView view = getIView();
+        if(view == null) {
+            log.e("Can not login. View is detached.");
+            return;
+        }
+        login(view.getLogin(), view.getPassword(), view.getOtp());
     }
 
     private void login(@Nullable final String user, @Nullable String password, @Nullable String otp) {
-        //noinspection ConstantConditions
-        getIView().setProgress(IProgressView.INDETERMINATE);
+        IMyAccountView view = getIView();
+        if(view == null) {
+            log.e("Can not login. View is detached.");
+            return;
+        }
+        view.setProgress(IProgressView.INDETERMINATE);
         if(subscription != null && !subscription.isUnsubscribed())
             subscription.unsubscribe();
         subscription = getAccount(user, password, otp)
@@ -72,14 +80,11 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
                     }
 
                     @Override public void onError(Throwable e) {
-                        log.d(e);
+                        log.e(e, "[SNACK]Error %s", e.getLocalizedMessage());
                         IMyAccountView view = getIView();
                         if(view == null)
                             return;
                         view.setProgress(IProgressView.HIDDEN);
-                        String msg = e.getLocalizedMessage();
-                        if(msg == null || msg.isEmpty()) msg = "load error.";
-                        view.setStatus(msg);
                         view.setLogin(user);
                     }
 
@@ -89,6 +94,11 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
                 });
     }
 
+    /**
+     * Tries to load account for given user from local db (realm) and from internet (github) too.
+     * Data from local db will come first (can be null), and data from internet will come later (if any).
+     * So we should override displayed account data when new data comes.
+     */
     private Observable<Account> getAccount(@Nullable String user, @Nullable String password, @Nullable String otp) {
         if(user == null) user = "";
         if(password == null) password = "";
@@ -97,6 +107,9 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
                 .concatWith(mModel.fetchAccount(user, password, otp));
     }
 
+    /**
+     * Displays given account on attached IView. Clears IView if account is null.
+     */
     private void showAccount(@Nullable Account account) {
         IMyAccountView view = getIView();
         if(view != null) {

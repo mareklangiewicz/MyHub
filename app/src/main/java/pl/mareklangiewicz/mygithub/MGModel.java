@@ -35,15 +35,21 @@ public class MGModel implements IModel {
 
     @Inject MGModel(@NonNull GitHub.Service github) {
         mGitHubService = github;
-        // TODO NOW
     }
 
 
     /**
-     * Important: it already does:
+     * Fetches account data (repos too) from github.
+     *
+     * Important1:
+     * Returned Account is a deep copy that can be moved between threads
+     * and should not be modified (rxjava style - not realm style)
+     * Important2:
+     * Use it on UI thread - it already does:
      * .subscribeOn(Schedulers.io())
      * .observeOn(AndroidSchedulers.mainThread());
-     * Important2: it saves fetched data to realm db.
+     * Important3:
+     * it saves fetched data to realm db.
      *
      * @param user     user identifier
      * @param password special case: if password is empty - it just returns public data about given user
@@ -63,6 +69,7 @@ public class MGModel implements IModel {
                                 :
                                 mGitHubService.getUserTFAObservable(encodeBasicAuthHeader(user, password), otp);
 
+        // TODO LATER: github pagination..
         Observable<List<GitHub.Repository>> reposObservable =
                 password.isEmpty()
                         ?
@@ -85,6 +92,9 @@ public class MGModel implements IModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * Saves or updates given account data in realm db.
+     */
     public void saveAccount(final Account account) {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
@@ -98,7 +108,11 @@ public class MGModel implements IModel {
     /**
      * Loads account data from realm db
      * Returns null if no data found for given login.
-     * Important: it already does:
+     * Important1:
+     * Returned Account is a deep copy that can be moved between threads
+     * and should not be modified (rxjava style - not realm style)
+     * Important2:
+     * Use it on UI thread - it already does:
      * .subscribeOn(Schedulers.io())
      * .observeOn(AndroidSchedulers.mainThread());
      */
@@ -120,7 +134,11 @@ public class MGModel implements IModel {
     /**
      * Loads latest account data from realm db
      * Returns null if no data found.
-     * Important: it already does:
+     * Important1:
+     * Returned Account is a deep copy that can be moved between threads
+     * and should not be modified (rxjava style - not realm style)
+     * Important2:
+     * Use it on UI thread - it already does:
      * .subscribeOn(Schedulers.io())
      * .observeOn(AndroidSchedulers.mainThread());
      */
@@ -141,6 +159,7 @@ public class MGModel implements IModel {
     }
 
     /**
+     * Converts GitHub.User to Account
      * Important: it will set the "time" property to current time
      */
     private static Account user2account(@NonNull GitHub.User user, @Nullable List<GitHub.Repository> repositories) {

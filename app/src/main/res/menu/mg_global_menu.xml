@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    TODO LATER: different icons for different menu items
+    -->
     <group
         android:id="@+id/grp_sections"
         android:checkableBehavior="single"
@@ -27,11 +30,6 @@
                 android:id="@+id/reset_all"
                 android:icon="@drawable/mr_ic_whatshot_black_24dp"
                 android:title="@string/mg_reset_all"
-                />
-            <item
-                android:id="@+id/logout"
-                android:icon="@drawable/mr_ic_whatshot_black_24dp"
-                android:title="@string/mg_logout"
                 />
         </menu>
     </item>

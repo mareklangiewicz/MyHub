@@ -5,7 +5,6 @@
     <string name="mg_reset_all">Factory reset</string>
     <string name="mg_debug_stuff">Debug stuff</string>
     <string name="mg_start_my_test_activity">Start MyTestActivity</string>
-    <string name="mg_logout">Logout</string>
     <string name="mg_my_repositories">My repositories</string>
     <string name="mg_my_test_activity">MyTestActivity</string>
     <string name="mg_octocat">Octocat</string>
@@ -17,4 +16,7 @@
     <string name="mg_otp_optional">OTP code (optional)</string>
     <string name="mg_login_refresh">Log in / Refresh</string>
     <string name="mg_avatar">Avatar</string>
+    <string name="mg_are_you_sure_reset">Are you sure? All saved data will be deleted.</string>
+    <string name="mg_reset">Reset</string>
+    <string name="mg_cancel">Cancel</string>
 </resources>

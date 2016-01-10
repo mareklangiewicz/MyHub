@@ -4,18 +4,30 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import io.realm.Realm;
 import pl.mareklangiewicz.myactivities.MyActivity;
 import pl.mareklangiewicz.mydrawables.MyLivingDrawable;
 import pl.mareklangiewicz.mydrawables.MyMagicLinesDrawable;
 import pl.mareklangiewicz.mygithub.BuildConfig;
 import pl.mareklangiewicz.mygithub.R;
+import pl.mareklangiewicz.mygithub.data.Account;
+import pl.mareklangiewicz.myviews.IMyNavigation;
 
 public class MainActivity extends MyActivity {
+
+    // TODO LATER: fix automatic change of V and VV boolean flags in MyBlocks to stop unnecessary logging (or at least just set it all by hand to false)
+    // TODO LATER: new MyFragment for online github search
+    // TODO SOMEDAY: do we want to change title on ToolBar depending of context? (I guess material guidelines say so..)
 
     private @Nullable MyLivingDrawable mMyMagicLinesDrawable;
     private @Nullable ObjectAnimator mLogoTextViewAnimator;
@@ -103,4 +115,33 @@ public class MainActivity extends MyActivity {
             mMyMagicLinesDrawable.setLevel(0);
     }
 
+    @Override public boolean onItemSelected(IMyNavigation nav, MenuItem item) {
+        boolean done = super.onItemSelected(nav, item);
+        if(done)
+            return true;
+        if(item.getItemId() == R.id.reset_all) {
+            resetAll();
+            return true;
+        }
+        return false;
+    }
+
+    private void resetAll() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.mg_reset_all)
+                .content(R.string.mg_are_you_sure_reset)
+                .positiveText(R.string.mg_reset)
+                .negativeText(R.string.mg_cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        realm.clear(Account.class);
+                        realm.commitTransaction();
+                        realm.close();
+                        onCommand("fragment .ui.MyAccountFragment");
+                    }
+                })
+                .show();
+    }
 }
