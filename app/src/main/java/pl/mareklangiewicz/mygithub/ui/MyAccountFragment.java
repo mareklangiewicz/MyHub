@@ -1,6 +1,5 @@
 package pl.mareklangiewicz.mygithub.ui;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -33,16 +32,18 @@ import pl.mareklangiewicz.mygithub.data.Note;
 
 public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
 
+    private @Nullable String mStatus;
     private @Nullable String mLogin;
     private @Nullable String mPassword;
     private @Nullable String mOtp;
-    private @Nullable Uri mAvatar;
+    private @Nullable String mAvatar;
     private @Nullable String mName;
     private @Nullable String mDescription;
 
-    private int mProgress = MIN;
+    private int mProgress = HIDDEN;
 
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
+    @Bind(R.id.status) TextView mStatusTextView;
     @Bind(R.id.edit_text_login) EditText mLoginEditText;
     @Bind(R.id.edit_text_password) EditText mPasswordEditText;
     @Bind(R.id.edit_text_otp) EditText mOtpEditText;
@@ -104,6 +105,7 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
         mRecyclerView.setAdapter(mAdapter);
 
         if(savedInstanceState != null) {
+            setStatus(mStatus);
             setLogin(mLogin);
             setPassword(mPassword);
             setOtp(mOtp);
@@ -175,6 +177,10 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
     }
 
 
+    @Nullable @Override public String getStatus() {
+        return mStatus;
+    }
+
     @Nullable @Override public String getLogin() {
         return mLogin;
     }
@@ -187,7 +193,7 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
         return mOtp;
     }
 
-    @Nullable @Override public Uri getAvatar() {
+    @Nullable @Override public String getAvatar() {
         return mAvatar;
     }
 
@@ -199,6 +205,12 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
         return mDescription;
     }
 
+
+    @Override public void setStatus(@Nullable String status) {
+        mStatus = status;
+        if(mStatusTextView != null)
+            mStatusTextView.setText(status);
+    }
 
     @Override public void setLogin(@Nullable String login) {
         mLogin = login;
@@ -219,13 +231,13 @@ public class MyAccountFragment extends MyFragment implements MyAccountMvpView {
     }
 
 
-    @Override public void setAvatar(@Nullable Uri avatar) {
+    @Override public void setAvatar(@Nullable String avatar) {
         mAvatar = avatar;
         if(mAvatarImageView != null) {
-            if(mAvatar == null)
+            if(mAvatar == null || mAvatar.isEmpty())
                 mAvatarImageView.setImageResource(R.drawable.mg_avatar);
             else
-                Picasso.with(getActivity()).load(avatar).into(mAvatarImageView);
+                Picasso.with(getActivity()).load(mAvatar).into(mAvatarImageView);
             //TODO LATER: handle invalid urls
         }
 

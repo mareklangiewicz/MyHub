@@ -60,11 +60,11 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         Repo repo = mRepos.get(position);
         Context context = holder.mNameTextView.getContext();
         holder.repo = repo;
-        holder.mNameTextView.setText(repo.name);
-        holder.mDescriptionTextView.setText(repo.description);
-        holder.mWatchersTextView.setText(context.getResources().getString(R.string.mg_watchers, repo.watchers));
-        holder.mStarsTextView.setText(context.getResources().getString(R.string.mg_stars, repo.stars));
-        holder.mForksTextView.setText(context.getResources().getString(R.string.mg_forks, repo.forks));
+        holder.mNameTextView.setText(repo.getName());
+        holder.mDescriptionTextView.setText(repo.getDescription());
+        holder.mWatchersTextView.setText(context.getResources().getString(R.string.mg_watchers, repo.getWatchers()));
+        holder.mStarsTextView.setText(context.getResources().getString(R.string.mg_stars, repo.getStars()));
+        holder.mForksTextView.setText(context.getResources().getString(R.string.mg_forks, repo.getForks()));
     }
 
     @Override

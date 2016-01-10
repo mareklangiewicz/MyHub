@@ -24,7 +24,7 @@ import pl.mareklangiewicz.mygithub.data.Repo;
 
 public class MyReposFragment extends MyFragment implements MyReposMvpView {
 
-    private int mProgress = MIN;
+    private int mProgress = HIDDEN;
 
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;

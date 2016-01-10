@@ -43,8 +43,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         //noinspection ConstantConditions
         Note note = mNotes.get(position);
-        holder.mLabelTextView.setText(note.label);
-        holder.mTextTextView.setText(note.text);
+        holder.mLabelTextView.setText(note.getLabel());
+        holder.mTextTextView.setText(note.getText());
     }
 
     @Override

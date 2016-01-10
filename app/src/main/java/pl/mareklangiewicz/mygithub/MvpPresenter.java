@@ -23,10 +23,9 @@ public class MvpPresenter<T extends MvpView> {
         mMvpView = null;
     }
 
-    public final boolean isViewAttached() {
-        return mMvpView != null;
-    }
-
+    /**
+     * @return attached view. null if no view is attached
+     */
     public final @Nullable T getMvpView() {
         return mMvpView;
     }

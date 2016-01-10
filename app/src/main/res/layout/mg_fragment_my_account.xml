@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="vertical"
     >
 
@@ -19,6 +20,15 @@
             android:max="10000"
             style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:typeface="monospace"
+            android:textSize="12sp"
+            tools:text="loaded: 11.11.11 22:22:22"
+            />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -30,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/mg_login"
-                android:inputType="text"
+                android:inputType="textNoSuggestions"
                 android:typeface="monospace"
                 />
         </android.support.design.widget.TextInputLayout>

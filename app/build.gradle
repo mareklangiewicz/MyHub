@@ -44,6 +44,10 @@ android {
         warning 'InvalidPackage'
     }
     resourcePrefix 'mg_'
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 repositories {
@@ -65,8 +69,8 @@ dependencies {
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'io.realm:realm-android:0.87.2'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'com.google.dagger:dagger:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
-
 }
