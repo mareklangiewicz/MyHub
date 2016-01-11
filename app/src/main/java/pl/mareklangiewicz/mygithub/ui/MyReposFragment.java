@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,12 +19,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.mareklangiewicz.myfragments.MyFragment;
 import pl.mareklangiewicz.mygithub.MGApplication;
+import pl.mareklangiewicz.mygithub.data.Note;
 import pl.mareklangiewicz.mygithub.mvp.IMyReposView;
 import pl.mareklangiewicz.mygithub.MyReposPresenter;
 import pl.mareklangiewicz.mygithub.R;
 import pl.mareklangiewicz.mygithub.data.Repo;
 
-public class MyReposFragment extends MyFragment implements IMyReposView {
+public class MyReposFragment extends MyFragment implements IMyReposView, ReposAdapter.Callback {
 
     // TODO LATER: local search on ToolBar
     // TODO SOMEDAY: local menu with sorting options?
@@ -33,14 +35,20 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
 
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.status) TextView mStatusTextView;
-    @Bind(R.id.repos_recycler_view) RecyclerView mRecyclerView;
+    @Bind(R.id.repos_recycler_view) RecyclerView mReposRecyclerView;
 
-    @Inject ReposAdapter mAdapter;
+    @Nullable RecyclerView mNotesRecyclerView;
+
+    @Inject ReposAdapter mReposAdapter;
+    @Inject NotesAdapter mNotesAdapter;
+
     @Inject MyReposPresenter mPresenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication)getActivity().getApplication()).getComponent().inject(this);
+        mReposAdapter.setCallback(this);
+        mNotesAdapter.setNotes(Collections.singletonList(new Note("No details", "Select repository to get details")));
         mPresenter.attachIView(this);
     }
 
@@ -57,15 +65,22 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         //noinspection ConstantConditions
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(mAdapter);
+        mReposRecyclerView.setLayoutManager(manager);
+        mReposRecyclerView.setAdapter(mReposAdapter);
+
+        inflateHeader(R.layout.mg_notes);
+        //noinspection ConstantConditions
+        mNotesRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
+        //noinspection ConstantConditions
+        mNotesRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
+        mNotesRecyclerView.setAdapter(mNotesAdapter);
 
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
-        mRecyclerView.setAdapter(null);
+        mReposRecyclerView.setAdapter(null);
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
@@ -124,10 +139,20 @@ public class MyReposFragment extends MyFragment implements IMyReposView {
     }
 
     @Override public void setRepos(@Nullable List<Repo> repos) {
-        mAdapter.setRepos(repos);
+        mReposAdapter.setRepos(repos);
     }
 
     @Override public @Nullable List<Repo> getRepos() {
-        return mAdapter.getRepos();
+        return mReposAdapter.getRepos();
+    }
+
+    @Override public void onItemClick(Repo repo) {
+        if(repo == null) {
+            log.d("Clicked repo is null.");
+            return;
+        }
+        mNotesAdapter.setNotes(repo.getNotes());
+        ((MainActivity)getActivity()).showLocalNavigation();
+
     }
 }

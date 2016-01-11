@@ -99,7 +99,7 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
             }
         });
 
-        inflateHeader(R.layout.mg_myaccount_local_header);
+        inflateHeader(R.layout.mg_notes);
         //noinspection ConstantConditions
         mRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
         //noinspection ConstantConditions

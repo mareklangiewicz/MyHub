@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ public class MainActivity extends MyActivity {
     // TODO LATER: fix automatic change of V and VV boolean flags in MyBlocks to stop unnecessary logging (or at least just set it all by hand to false)
     // TODO LATER: new MyFragment for online github search
     // TODO SOMEDAY: do we want to change title on ToolBar depending of context? (I guess material guidelines say so..)
+    // TODO SOMEDAY: option to star/unstar repos - then MyFragment with starred repos
 
     private @Nullable MyLivingDrawable mMyMagicLinesDrawable;
     private @Nullable ObjectAnimator mLogoTextViewAnimator;
@@ -144,4 +146,10 @@ public class MainActivity extends MyActivity {
                 })
                 .show();
     }
+
+    public void showLocalNavigation() {
+        if(mLocalDrawerLayout != null)
+            mLocalDrawerLayout.openDrawer(GravityCompat.END);
+    }
 }
+

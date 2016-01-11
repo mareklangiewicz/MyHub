@@ -201,8 +201,33 @@ public class MGModel implements IModel {
         if(repositories != null) {
             RealmList<Repo> repos = account.getRepos();
             for(GitHub.Repository r : repositories) {
-                repos.add(new Repo(r.name, r.description, r.forks_count, r.watchers_count, r.stargazers_count));
-                // TODO LATER: add repo notes
+                Repo repo = new Repo(r.name, r.description, r.forks_count, r.watchers_count, r.stargazers_count);
+                RealmList<Note> rnotes = repo.getNotes();
+
+                //TODO SOMEDAY: comment out not important repo notes
+                rnotes.add(new Note("Name", r.name));
+
+                if(r.full_name != null) rnotes.add(new Note("Full Name", r.full_name));
+                if(r.description != null) rnotes.add(new Note("Description", r.description));
+                if(r.html_url != null) rnotes.add(new Note("GitHub Page", r.html_url));
+                if(r.id != null) rnotes.add(new Note("Id", str(r.id)));
+                if(r.size != null) rnotes.add(new Note("Size", str(r.size)));
+                if(r.language != null) rnotes.add(new Note("Language", r.language));
+                if(r.fork != null) rnotes.add(new Note("Fork", r.fork ? "YES" : "NO"));
+                if(r.forks_count != null) rnotes.add(new Note("Forks", str(r.forks_count)));
+                if(r.watchers_count != null) rnotes.add(new Note("Watchers", str(r.watchers_count)));
+                if(r.stargazers_count != null) rnotes.add(new Note("Stargazers", str(r.stargazers_count)));
+                if(r.open_issues_count != null) rnotes.add(new Note("Open Issues", str(r.open_issues_count)));
+                if(r.default_branch != null) rnotes.add(new Note("Default Branch", r.default_branch));
+                if(r.has_issues != null) rnotes.add(new Note("Has Issues", r.has_issues ? "YES" : "NO"));
+                if(r.has_wiki != null) rnotes.add(new Note("Has Wiki", r.has_wiki ? "YES" : "NO"));
+                if(r.has_pages != null) rnotes.add(new Note("Has Pages", r.has_pages ? "YES" : "NO"));
+                if(r.has_downloads != null) rnotes.add(new Note("Has Downloads", r.has_downloads ? "YES" : "NO"));
+                if(r.pushed_at != null) rnotes.add(new Note("Pushed At", r.pushed_at));
+                if(r.created_at != null) rnotes.add(new Note("Created At", r.created_at));
+                if(r.updated_at != null) rnotes.add(new Note("Updated At", r.updated_at));
+
+                repos.add(repo);
             }
         }
 
@@ -215,3 +240,4 @@ public class MGModel implements IModel {
         return "Basic " + Base64.encodeToString(data, Base64.NO_WRAP);
     }
 }
+
