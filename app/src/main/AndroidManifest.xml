@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="pl.mareklangiewicz.mygithub"
+    package="pl.mareklangiewicz.myhub"
     >
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".MGApplication"
+        android:name="pl.mareklangiewicz.myhub.MGApplication"
         android:allowBackup="false"
         android:icon="@mipmap/mg_ic_launcher"
         android:label="@string/mg_app_name"
@@ -15,7 +15,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         >
         <activity
-            android:name=".ui.MainActivity"
+            android:name="pl.mareklangiewicz.myhub.ui.MainActivity"
             android:label="@string/mg_app_name"
             >
             <intent-filter>

@@ -1,4 +1,4 @@
-# MyGitHub
+# MyHub
 
 A simple GitHub client.
 
