@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,10 +24,11 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Named("Application") Context provideContext() {
-        return mApplication;
+    @Named("Application") Context provideApplicationContext(Application application) {
+        return application;
     }
 
+    @Singleton
     @Provides GitHub.Service provideGitHubService() {
         return GitHub.create();
     }

@@ -14,7 +14,7 @@ import pl.mareklangiewicz.myhub.ui.MyReposFragment;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    @Named("Application") Context context();
+    @Named("Application") Context applicationContext();
 
     Application application();
 
