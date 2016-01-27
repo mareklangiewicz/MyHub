@@ -26,10 +26,10 @@ class MainActivity : MyActivity() {
     // TODO SOMEDAY: do we want to change title on ToolBar depending of context? (I guess material guidelines say so..)
     // TODO SOMEDAY: option to star/unstar repos - then MyFragment with starred repos
 
-    private lateinit var mMyMagicLinesDrawable: MyLivingDrawable
-    private lateinit var mLogoTextViewAnimator: ObjectAnimator
-    private lateinit var mHomePageTextViewAnimator: ObjectAnimator
-    private lateinit var mMagicLinesDrawableAnimator: ObjectAnimator
+    private lateinit var myMagicLinesDrawable: MyLivingDrawable
+    private lateinit var logoTextViewAnimator: ObjectAnimator
+    private lateinit var homePageTextViewAnimator: ObjectAnimator
+    private lateinit var magicLinesDrawableAnimator: ObjectAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,23 +52,23 @@ class MainActivity : MyActivity() {
         }
 
 
-        mMyMagicLinesDrawable = MyMagicLinesDrawable().setColor(822083583).setStrokeWidth(dp2px(4f))
-        header.findViewById(R.id.magic_underline_view).background = mMyMagicLinesDrawable
+        myMagicLinesDrawable = MyMagicLinesDrawable().setColor(822083583).setStrokeWidth(dp2px(4f))
+        header.findViewById(R.id.magic_underline_view).background = myMagicLinesDrawable
 
-        mLogoTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
+        logoTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 header.findViewById(R.id.text_logo),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0.2f, 1f),
                 PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -130f, -30f, 0f))
-        mHomePageTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
+        homePageTextViewAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 header.findViewById(R.id.text_home_page),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 0f, 0.7f),
                 PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -50f, -50f, 0f))
 
-        mLogoTextViewAnimator.interpolator = LinearInterpolator()
-        mHomePageTextViewAnimator.interpolator = LinearInterpolator()
+        logoTextViewAnimator.interpolator = LinearInterpolator()
+        homePageTextViewAnimator.interpolator = LinearInterpolator()
 
-        mMagicLinesDrawableAnimator = ObjectAnimator.ofInt(mMyMagicLinesDrawable, "level", 0, 10000)
-        mMagicLinesDrawableAnimator.setDuration(1000).interpolator = LinearInterpolator()
+        magicLinesDrawableAnimator = ObjectAnimator.ofInt(myMagicLinesDrawable, "level", 0, 10000)
+        magicLinesDrawableAnimator.setDuration(1000).interpolator = LinearInterpolator()
 
 
         if (savedInstanceState == null) {
@@ -81,8 +81,8 @@ class MainActivity : MyActivity() {
         if (drawerView !== mGlobalNavigationView)
             return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            mLogoTextViewAnimator.setCurrentFraction(slideOffset)
-            mHomePageTextViewAnimator.setCurrentFraction(slideOffset)
+            logoTextViewAnimator.setCurrentFraction(slideOffset)
+            homePageTextViewAnimator.setCurrentFraction(slideOffset)
         }
     }
 
@@ -91,16 +91,16 @@ class MainActivity : MyActivity() {
         super.onDrawerOpened(drawerView)
         if (drawerView !== mGlobalNavigationView)
             return
-        if (!mMagicLinesDrawableAnimator.isStarted)
-            mMagicLinesDrawableAnimator.start()
+        if (!magicLinesDrawableAnimator.isStarted)
+            magicLinesDrawableAnimator.start()
     }
 
     override fun onDrawerClosed(drawerView: View) {
         super.onDrawerClosed(drawerView)
         if (drawerView !== mGlobalNavigationView)
             return
-        mMagicLinesDrawableAnimator.cancel()
-        mMyMagicLinesDrawable.setLevel(0)
+        magicLinesDrawableAnimator.cancel()
+        myMagicLinesDrawable.setLevel(0)
     }
 
     override fun onItemSelected(nav: IMyNavigation, item: MenuItem): Boolean {

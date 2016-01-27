@@ -17,21 +17,21 @@ import pl.mareklangiewicz.myhub.R;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
-    private @Nullable List<Note> mNotes;
+    private @Nullable List<Note> notes;
 
     @Inject
     public NotesAdapter() { }
 
     public NotesAdapter(@Nullable List<Note> notes) {
-        this.mNotes = notes;
+        this.notes = notes;
     }
 
     public void setNotes(@Nullable List<Note> notes) {
-        this.mNotes = notes;
+        this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public @Nullable List<Note> getNotes() { return mNotes; }
+    public @Nullable List<Note> getNotes() { return notes; }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,14 +42,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //noinspection ConstantConditions
-        Note note = mNotes.get(position);
+        Note note = notes.get(position);
         holder.mLabelTextView.setText(note.getLabel());
         holder.mTextTextView.setText(note.getText());
     }
 
     @Override
     public int getItemCount() {
-        return mNotes == null ? 0 : mNotes.size();
+        return notes == null ? 0 : notes.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

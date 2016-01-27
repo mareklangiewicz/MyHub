@@ -9,6 +9,7 @@ import com.noveogroup.android.log.MyLogger;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import pl.mareklangiewicz.myhub.data.Account;
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView;
@@ -21,18 +22,18 @@ import rx.Subscription;
 @MainThread
 public class MyAccountPresenter extends Presenter<IMyAccountView> {
 
-    private MyLogger log = MyLogger.UIL;
+    @Inject @Named("UI") MyLogger log;
 
-    private @NonNull MGModel mModel;
+    private @NonNull MGModel model;
     private @Nullable Subscription subscription;
 
     @Inject MyAccountPresenter(@NonNull MGModel model) {
-        mModel = model;
+        this.model = model;
     }
 
     @Override public void attachIView(@NonNull IMyAccountView iview) {
         super.attachIView(iview);
-        subscription = mModel.loadLatestAccount()
+        subscription = model.loadLatestAccount()
                 .subscribe(new Observer<Account>() {
                     @Override public void onCompleted() {
                         log.v("loading completed.");
@@ -105,8 +106,8 @@ public class MyAccountPresenter extends Presenter<IMyAccountView> {
         if(user == null) user = "";
         if(password == null) password = "";
         if(otp == null) otp = "";
-        return mModel.loadAccount(user)
-                .concatWith(mModel.fetchAccount(user, password, otp));
+        return model.loadAccount(user)
+                .concatWith(model.fetchAccount(user, password, otp));
     }
 
     /**

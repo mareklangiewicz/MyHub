@@ -31,10 +31,10 @@ import static pl.mareklangiewicz.myutils.MyTextUtils.str;
 @MainThread
 public class MGModel implements IModel {
 
-    private @NonNull GitHub.Service mGitHubService;
+    private @NonNull GitHub.Service gitHubService;
 
     @Inject MGModel(@NonNull GitHub.Service github) {
-        mGitHubService = github;
+        gitHubService = github;
     }
 
 
@@ -61,25 +61,25 @@ public class MGModel implements IModel {
         Observable<GitHub.User> userObservable =
                 password.isEmpty()
                         ?
-                        mGitHubService.getUserObservable(user)
+                        gitHubService.getUserObservable(user)
                         :
                         otp.isEmpty()
                                 ?
-                                mGitHubService.getUserAuthObservable(encodeBasicAuthHeader(user, password))
+                                gitHubService.getUserAuthObservable(encodeBasicAuthHeader(user, password))
                                 :
-                                mGitHubService.getUserTFAObservable(encodeBasicAuthHeader(user, password), otp);
+                                gitHubService.getUserTFAObservable(encodeBasicAuthHeader(user, password), otp);
 
         // TODO LATER: github pagination..
         Observable<List<GitHub.Repository>> reposObservable =
                 password.isEmpty()
                         ?
-                        mGitHubService.getUserReposObservable(user)
+                        gitHubService.getUserReposObservable(user)
                         :
                         otp.isEmpty()
                                 ?
-                                mGitHubService.getUserReposAuthObservable(encodeBasicAuthHeader(user, password))
+                                gitHubService.getUserReposAuthObservable(encodeBasicAuthHeader(user, password))
                                 :
-                                mGitHubService.getUserReposTFAObservable(encodeBasicAuthHeader(user, password), otp);
+                                gitHubService.getUserReposTFAObservable(encodeBasicAuthHeader(user, password), otp);
         return userObservable
                 .zipWith(reposObservable, new Func2<GitHub.User, List<GitHub.Repository>, Account>() {
                     @Override public Account call(GitHub.User user, List<GitHub.Repository> repositories) {

@@ -11,23 +11,23 @@ import android.support.annotation.Nullable;
 @MainThread
 public class Presenter<T extends IView> {
 
-    private @Nullable T mIView;
+    private @Nullable T iView;
 
     @CallSuper
     public void attachIView(@NonNull T iview) {
-        mIView = iview;
+        iView = iview;
     }
 
     @CallSuper
     public void detachIView() {
-        mIView = null;
+        iView = null;
     }
 
     /**
      * @return attached view. null if no view is attached
      */
     public final @Nullable T getIView() {
-        return mIView;
+        return iView;
     }
 
 }

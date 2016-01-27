@@ -9,6 +9,7 @@ import com.noveogroup.android.log.MyLogger;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import pl.mareklangiewicz.myhub.data.Account;
 import pl.mareklangiewicz.myhub.mvp.IMyReposView;
@@ -19,18 +20,18 @@ import rx.Subscription;
 @MainThread
 public class MyReposPresenter extends Presenter<IMyReposView> {
 
-    private MyLogger log = MyLogger.UIL;
+    @Inject @Named("UI") MyLogger log;
 
-    private @NonNull MGModel mModel;
+    private @NonNull MGModel model;
     private @Nullable Subscription subscription;
 
     @Inject MyReposPresenter(@NonNull MGModel model) {
-        mModel = model;
+        this.model = model;
     }
 
     @Override public void attachIView(@NonNull IMyReposView iview) {
         super.attachIView(iview);
-        subscription = mModel.loadLatestAccount()
+        subscription = model.loadLatestAccount()
                 .subscribe(new Observer<Account>() {
                     @Override public void onCompleted() {
                         log.v("loading completed.");

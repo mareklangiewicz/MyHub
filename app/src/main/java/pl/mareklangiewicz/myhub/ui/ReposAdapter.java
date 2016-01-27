@@ -18,25 +18,25 @@ import pl.mareklangiewicz.myhub.data.Repo;
 
 public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> {
 
-    private @Nullable List<Repo> mRepos;
-    private Callback mCallback;
+    private @Nullable List<Repo> repos;
+    private Callback callback;
 
     @Inject
     public ReposAdapter() { }
 
     public ReposAdapter(@Nullable List<Repo> repos) {
-        this.mRepos = repos;
+        this.repos = repos;
     }
 
     public void setRepos(@Nullable List<Repo> repos) {
-        this.mRepos = repos;
+        this.repos = repos;
         notifyDataSetChanged();
     }
 
-    public @Nullable List<Repo> getRepos() { return mRepos; }
+    public @Nullable List<Repo> getRepos() { return repos; }
 
     public void setCallback(Callback callback) {
-        this.mCallback = callback;
+        this.callback = callback;
     }
 
     @Override
@@ -46,8 +46,8 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         holder.mContentTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mCallback != null) {
-                    mCallback.onItemClick(holder.repo);
+                if(callback != null) {
+                    callback.onItemClick(holder.repo);
                 }
             }
         });
@@ -57,7 +57,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //noinspection ConstantConditions
-        Repo repo = mRepos.get(position);
+        Repo repo = repos.get(position);
         Context context = holder.mNameTextView.getContext();
         holder.repo = repo;
         holder.mNameTextView.setText(repo.getName());
@@ -69,7 +69,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mRepos == null ? 0 : mRepos.size();
+        return repos == null ? 0 : repos.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

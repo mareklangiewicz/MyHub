@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.noveogroup.android.log.MyLogger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import pl.mareklangiewicz.myhub.di.ApplicationComponent;
@@ -14,22 +17,23 @@ public class MGApplication extends Application {
 
     // TODO SOMEDAY: add Leak Canary? (just copy from MyIntent)
 
-    private MyLogger log = MyLogger.UIL;
+    @Inject @Named("UI") MyLogger log;
 
-    ApplicationComponent mComponent;
+    ApplicationComponent component;
 
     public ApplicationComponent getComponent() {
-        if (mComponent == null) {
-            mComponent = DaggerApplicationComponent
+        if (component == null) {
+            component = DaggerApplicationComponent
                     .builder()
                     .applicationModule(new ApplicationModule(this))
                     .build();
         }
-        return mComponent;
+        return component;
     }
 
     @Override public void onCreate() {
         super.onCreate();
+        getComponent().inject(this);
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
     }

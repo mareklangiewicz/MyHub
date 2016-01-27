@@ -30,26 +30,26 @@ public class MyReposFragment extends MyFragment implements IMyReposView, ReposAd
     // TODO LATER: local search on ToolBar
     // TODO SOMEDAY: local menu with sorting options?
 
-    private int mProgress = HIDDEN;
-    private @Nullable String mStatus;
+    private int progress = HIDDEN;
+    private @Nullable String status;
 
-    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
-    @Bind(R.id.status) TextView mStatusTextView;
-    @Bind(R.id.repos_recycler_view) RecyclerView mReposRecyclerView;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @Bind(R.id.status) TextView statusTextView;
+    @Bind(R.id.repos_recycler_view) RecyclerView reposRecyclerView;
 
-    @Nullable RecyclerView mNotesRecyclerView;
+    @Nullable RecyclerView notesRecyclerView;
 
-    @Inject ReposAdapter mReposAdapter;
-    @Inject NotesAdapter mNotesAdapter;
+    @Inject ReposAdapter reposAdapter;
+    @Inject NotesAdapter notesAdapter;
 
-    @Inject MyReposPresenter mPresenter;
+    @Inject MyReposPresenter presenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication)getActivity().getApplication()).getComponent().inject(this);
-        mReposAdapter.setCallback(this);
-        mNotesAdapter.setNotes(Collections.singletonList(new Note("No details", "Select repository to get details")));
-        mPresenter.attachIView(this);
+        reposAdapter.setCallback(this);
+        notesAdapter.setNotes(Collections.singletonList(new Note("No details", "Select repository to get details")));
+        presenter.attachIView(this);
     }
 
     @Override
@@ -61,53 +61,53 @@ public class MyReposFragment extends MyFragment implements IMyReposView, ReposAd
 
         ButterKnife.bind(this, rootView);
 
-        setProgress(mProgress);
+        setProgress(progress);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         //noinspection ConstantConditions
-        mReposRecyclerView.setLayoutManager(manager);
-        mReposRecyclerView.setAdapter(mReposAdapter);
+        reposRecyclerView.setLayoutManager(manager);
+        reposRecyclerView.setAdapter(reposAdapter);
 
         inflateHeader(R.layout.mg_notes);
         //noinspection ConstantConditions
-        mNotesRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
+        notesRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
         //noinspection ConstantConditions
-        mNotesRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
-        mNotesRecyclerView.setAdapter(mNotesAdapter);
+        notesRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
+        notesRecyclerView.setAdapter(notesAdapter);
 
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
-        mReposRecyclerView.setAdapter(null);
+        reposRecyclerView.setAdapter(null);
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override public void onDestroy() {
-        mPresenter.detachIView();
+        presenter.detachIView();
         super.onDestroy();
     }
 
     @Override public int getProgress() {
-        return mProgress;
+        return progress;
     }
 
     // TODO LATER: move "progress" stuff to some base fragment class? or to custom view?
     @Override public void setProgress(int progress) {
         if(progress == INDETERMINATE) {
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                mProgressBar.setProgress(MIN);
-                mProgressBar.setIndeterminate(true);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(MIN);
+                progressBar.setIndeterminate(true);
             }
         }
         else if(progress == HIDDEN) {
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mProgressBar.setProgress(MIN);
-                mProgressBar.setIndeterminate(false);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setProgress(MIN);
+                progressBar.setIndeterminate(false);
             }
         }
         else {
@@ -119,31 +119,31 @@ public class MyReposFragment extends MyFragment implements IMyReposView, ReposAd
                 log.w("correcting progress value from %d to %d", progress, MAX);
                 progress = MAX;
             }
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                mProgressBar.setProgress(progress);
-                mProgressBar.setIndeterminate(false);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(progress);
+                progressBar.setIndeterminate(false);
             }
         }
-        mProgress = progress;
+        this.progress = progress;
     }
 
     @Nullable @Override public String getStatus() {
-        return mStatus;
+        return status;
     }
 
     @Override public void setStatus(@Nullable String status) {
-        mStatus = status;
-        if(mStatusTextView != null)
-            mStatusTextView.setText(status);
+        this.status = status;
+        if(statusTextView != null)
+            statusTextView.setText(status);
     }
 
     @Override public void setRepos(@Nullable List<Repo> repos) {
-        mReposAdapter.setRepos(repos);
+        reposAdapter.setRepos(repos);
     }
 
     @Override public @Nullable List<Repo> getRepos() {
-        return mReposAdapter.getRepos();
+        return reposAdapter.getRepos();
     }
 
     @Override public void onItemClick(Repo repo) {
@@ -151,7 +151,7 @@ public class MyReposFragment extends MyFragment implements IMyReposView, ReposAd
             log.d("Clicked repo is null.");
             return;
         }
-        mNotesAdapter.setNotes(repo.getNotes());
+        notesAdapter.setNotes(repo.getNotes());
         ((MainActivity)getActivity()).showLocalNavigation();
 
     }

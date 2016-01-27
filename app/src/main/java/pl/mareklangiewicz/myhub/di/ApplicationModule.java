@@ -3,6 +3,8 @@ package pl.mareklangiewicz.myhub.di;
 import android.app.Application;
 import android.content.Context;
 
+import com.noveogroup.android.log.MyLogger;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -13,20 +15,24 @@ import pl.mareklangiewicz.myhub.io.GitHub;
 @Module
 public class ApplicationModule {
 
-    protected final Application mApplication;
+    protected final Application application;
 
     public ApplicationModule(Application application) {
-        mApplication = application;
+        this.application = application;
     }
 
     @Provides Application provideApplication() {
-        return mApplication;
+        return application;
     }
 
     @Provides
     @Named("Application") Context provideApplicationContext(Application application) {
         return application;
     }
+
+    @Provides
+    @Named("UI") MyLogger provideUILogger() { return MyLogger.UIL; }
+
 
     @Singleton
     @Provides GitHub.Service provideGitHubService() {

@@ -34,35 +34,35 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
 
     // TODO LATER: implement AutoCompleteTextView instead of EditText for login field (propose users already saved in local db)
 
-    private @Nullable String mStatus;
-    private @Nullable String mLogin;
-    private @Nullable String mPassword;
-    private @Nullable String mOtp;
-    private @Nullable String mAvatar;
-    private @Nullable String mName;
-    private @Nullable String mDescription;
+    private @Nullable String status;
+    private @Nullable String login;
+    private @Nullable String password;
+    private @Nullable String otp;
+    private @Nullable String avatar;
+    private @Nullable String name;
+    private @Nullable String description;
 
-    private int mProgress = HIDDEN;
+    private int progress = HIDDEN;
 
-    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
-    @Bind(R.id.status) TextView mStatusTextView;
-    @Bind(R.id.edit_text_login) EditText mLoginEditText;
-    @Bind(R.id.edit_text_password) EditText mPasswordEditText;
-    @Bind(R.id.edit_text_otp) EditText mOtpEditText;
-    @Bind(R.id.login_button) Button mLoginButton;
-    @Bind(R.id.avatar) ImageView mAvatarImageView;
-    @Bind(R.id.name) TextView mNameTextView;
-    @Bind(R.id.description) TextView mDescriptionTextView;
-    @Nullable RecyclerView mRecyclerView;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @Bind(R.id.status) TextView statusTextView;
+    @Bind(R.id.edit_text_login) EditText loginEditText;
+    @Bind(R.id.edit_text_password) EditText passwordEditText;
+    @Bind(R.id.edit_text_otp) EditText otpEditText;
+    @Bind(R.id.login_button) Button loginButton;
+    @Bind(R.id.avatar) ImageView avatarImageView;
+    @Bind(R.id.name) TextView nameTextView;
+    @Bind(R.id.description) TextView descriptionTextView;
+    @Nullable RecyclerView recyclerView;
 
-    @Inject NotesAdapter mAdapter;
-    @Inject MyAccountPresenter mPresenter;
+    @Inject NotesAdapter adapter;
+    @Inject MyAccountPresenter presenter;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MGApplication) getActivity().getApplication()).getComponent().inject(this);
-        mAdapter.setNotes(Collections.singletonList(new Note("No info", "Log in to get info")));
-        mPresenter.attachIView(this);
+        adapter.setNotes(Collections.singletonList(new Note("No info", "Log in to get info")));
+        presenter.attachIView(this);
     }
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,47 +73,47 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
 
         ButterKnife.bind(this, rootView);
 
-        setProgress(mProgress);
+        setProgress(progress);
 
-        mLoginEditText.addTextChangedListener(new TextWatcher() {
+        loginEditText.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override public void afterTextChanged(Editable s) { mLogin = s.toString(); }
+            @Override public void afterTextChanged(Editable s) { login = s.toString(); }
         });
 
-        mPasswordEditText.addTextChangedListener(new TextWatcher() {
+        passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override public void afterTextChanged(Editable s) { mPassword = s.toString(); }
+            @Override public void afterTextChanged(Editable s) { password = s.toString(); }
         });
 
-        mOtpEditText.addTextChangedListener(new TextWatcher() {
+        otpEditText.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override public void afterTextChanged(Editable s) { mOtp = s.toString(); }
+            @Override public void afterTextChanged(Editable s) { otp = s.toString(); }
         });
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                mPresenter.onLoginButtonClick();
+                presenter.onLoginButtonClick();
             }
         });
 
         inflateHeader(R.layout.mg_notes);
         //noinspection ConstantConditions
-        mRecyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
+        recyclerView = ButterKnife.findById(getHeader(), R.id.notes_recycler_view);
         //noinspection ConstantConditions
-        mRecyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new WCLinearLayoutManager(getActivity())); // LLM that understands "wrap_content"
+        recyclerView.setAdapter(adapter);
 
         if(savedInstanceState != null) {
-            setStatus(mStatus);
-            setLogin(mLogin);
-            setPassword(mPassword);
-            setOtp(mOtp);
-            setAvatar(mAvatar);
-            setName(mName);
-            setDescription(mDescription);
+            setStatus(status);
+            setLogin(login);
+            setPassword(password);
+            setOtp(otp);
+            setAvatar(avatar);
+            setName(name);
+            setDescription(description);
         }
 
         return rootView;
@@ -122,34 +122,34 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mRecyclerView != null)
-            mRecyclerView.setAdapter(null);
-        mRecyclerView = null;
+        if(recyclerView != null)
+            recyclerView.setAdapter(null);
+        recyclerView = null;
         ButterKnife.unbind(this);
     }
 
     @Override public void onDestroy() {
-        mPresenter.detachIView();
+        presenter.detachIView();
         super.onDestroy();
     }
 
     @Override public int getProgress() {
-        return mProgress;
+        return progress;
     }
 
     @Override public void setProgress(int progress) {
         if(progress == INDETERMINATE) {
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                mProgressBar.setProgress(MIN);
-                mProgressBar.setIndeterminate(true);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(MIN);
+                progressBar.setIndeterminate(true);
             }
         }
         else if(progress == HIDDEN) {
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mProgressBar.setProgress(MIN);
-                mProgressBar.setIndeterminate(false);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setProgress(MIN);
+                progressBar.setIndeterminate(false);
             }
         }
         else {
@@ -161,101 +161,101 @@ public class MyAccountFragment extends MyFragment implements IMyAccountView {
                 log.w("correcting progress value from %d to %d", progress, MAX);
                 progress = MAX;
             }
-            if(mProgressBar != null) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                mProgressBar.setProgress(progress);
-                mProgressBar.setIndeterminate(false);
+            if(progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(progress);
+                progressBar.setIndeterminate(false);
             }
         }
-        mProgress = progress;
+        this.progress = progress;
     }
 
     @Nullable @Override public List<Note> getNotes() {
-        return mAdapter.getNotes();
+        return adapter.getNotes();
     }
 
     @Override public void setNotes(@Nullable List<Note> notes) {
-        mAdapter.setNotes(notes);
+        adapter.setNotes(notes);
     }
 
 
     @Nullable @Override public String getStatus() {
-        return mStatus;
+        return status;
     }
 
     @Nullable @Override public String getLogin() {
-        return mLogin;
+        return login;
     }
 
     @Nullable @Override public String getPassword() {
-        return mPassword;
+        return password;
     }
 
     @Nullable @Override public String getOtp() {
-        return mOtp;
+        return otp;
     }
 
     @Nullable @Override public String getAvatar() {
-        return mAvatar;
+        return avatar;
     }
 
     @Nullable @Override public String getName() {
-        return mName;
+        return name;
     }
 
     @Nullable @Override public String getDescription() {
-        return mDescription;
+        return description;
     }
 
 
     @Override public void setStatus(@Nullable String status) {
-        mStatus = status;
-        if(mStatusTextView != null)
-            mStatusTextView.setText(status);
+        this.status = status;
+        if(statusTextView != null)
+            statusTextView.setText(status);
     }
 
     @Override public void setLogin(@Nullable String login) {
-        mLogin = login;
-        if(mLoginEditText != null)
-            mLoginEditText.setText(login);
+        this.login = login;
+        if(loginEditText != null)
+            loginEditText.setText(login);
     }
 
     @Override public void setPassword(@Nullable String password) {
-        mPassword = password;
-        if(mPasswordEditText != null)
-            mPasswordEditText.setText(password);
+        this.password = password;
+        if(passwordEditText != null)
+            passwordEditText.setText(password);
     }
 
     @Override public void setOtp(@Nullable String otp) {
-        mOtp = otp;
-        if(mOtpEditText != null)
-            mOtpEditText.setText(otp);
+        this.otp = otp;
+        if(otpEditText != null)
+            otpEditText.setText(otp);
     }
 
 
     @Override public void setAvatar(@Nullable String avatar) {
-        mAvatar = avatar;
-        if(mAvatarImageView != null) {
-            if(mAvatar == null || mAvatar.isEmpty())
-                mAvatarImageView.setImageResource(R.drawable.mg_avatar);
+        this.avatar = avatar;
+        if(avatarImageView != null) {
+            if(this.avatar == null || this.avatar.isEmpty())
+                avatarImageView.setImageResource(R.drawable.mg_avatar);
             else
-                Picasso.with(getActivity()).load(mAvatar).into(mAvatarImageView);
+                Picasso.with(getActivity()).load(this.avatar).into(avatarImageView);
             //TODO LATER: handle invalid urls
         }
 
     }
 
     @Override public void setName(@Nullable String name) {
-        mName = name;
-        if(mNameTextView != null)
-            mNameTextView.setText(mName == null ? "" : mName);
+        this.name = name;
+        if(nameTextView != null)
+            nameTextView.setText(this.name == null ? "" : this.name);
     }
 
 
     @Override public void setDescription(@Nullable String description) {
-        mDescription = description;
-        if(mDescriptionTextView != null)
-            mDescriptionTextView.setText(mDescription == null ? "" : mDescription);
+        this.description = description;
+        if(descriptionTextView != null)
+            descriptionTextView.setText(this.description == null ? "" : this.description);
     }
 
 }
