@@ -21,7 +21,7 @@
             style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             />
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/text_view_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -76,7 +76,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mg_login_refresh"

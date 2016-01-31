@@ -114,14 +114,20 @@ class MainActivity : MyActivity() {
     }
 
     private fun resetAll() {
-        MaterialDialog.Builder(this).title(R.string.mg_reset_all).content(R.string.mg_are_you_sure_reset).positiveText(R.string.mg_reset).negativeText(R.string.mg_cancel).onPositive { dialog, which ->
-            val realm = Realm.getDefaultInstance()
-            realm.beginTransaction()
-            realm.clear(Account::class.java)
-            realm.commitTransaction()
-            realm.close()
-            onCommand("fragment .ui.MyAccountFragment")
-        }.show()
+        MaterialDialog.Builder(this)
+                .title(R.string.mg_reset_all)
+                .content(R.string.mg_are_you_sure_reset)
+                .positiveText(R.string.mg_reset)
+                .negativeText(R.string.mg_cancel)
+                .onPositive { dialog, which ->
+                    val realm = Realm.getDefaultInstance()
+                    realm.beginTransaction()
+                    realm.clear(Account::class.java)
+                    realm.commitTransaction()
+                    realm.close()
+                    onCommand("fragment .ui.MyAccountFragment")
+                }
+                .show()
     }
 
     fun showLocalNavigation() {
