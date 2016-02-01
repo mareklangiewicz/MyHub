@@ -11,6 +11,7 @@ import io.realm.annotations.Required;
 
 /**
  * Created by Marek Langiewicz on 03.01.16.
+ * TODO SOMEDAY: try to use concise kotlin data classes as RealmObjects - I tried once and had some problems - try again someday
  *
  */
 public class Account extends RealmObject {
