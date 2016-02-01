@@ -2,15 +2,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="mg_AppTheme"
+    <style name="mh_AppTheme"
         parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mg_primary</item>
-        <item name="colorPrimaryDark">@color/mg_primary_dark</item>
-        <item name="colorAccent">@color/mg_accent</item>
-        <item name="android:windowTranslucentStatus">@bool/mg_window_transluctent_status</item>
+        <item name="colorPrimary">@color/mh_primary</item>
+        <item name="colorPrimaryDark">@color/mh_primary_dark</item>
+        <item name="colorAccent">@color/mh_accent</item>
+        <item name="android:windowTranslucentStatus">@bool/mh_window_transluctent_status</item>
     </style>
 
-    <bool name="mg_window_transluctent_status">true</bool>
+    <bool name="mh_window_transluctent_status">true</bool>
 
 </resources>

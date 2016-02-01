@@ -37,12 +37,11 @@ interface INotesView : IView {
 }
 
 interface IReposView : IView {
-    var status: String
     var repos: List<Repo>
     // TODO SOMEDAY: change to mutable list.. but we don't need that now (we just change it to whole new list when we have new data)
-}
 
-interface IMyReposView : IReposView, IProgressView
+    var onClick: (repo: Repo) -> Unit
+}
 
 interface IMyAccountView : INotesView, IProgressView {
     var status: String
@@ -53,3 +52,8 @@ interface IMyAccountView : INotesView, IProgressView {
     var name: String
     var description: String
 }
+
+interface IMyReposView : IReposView, INotesView, IProgressView {
+    var status: String
+}
+

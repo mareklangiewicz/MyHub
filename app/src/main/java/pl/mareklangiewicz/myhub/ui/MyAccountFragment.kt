@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.mg_basic_user_info.*
-import kotlinx.android.synthetic.main.mg_fragment_my_account.*
+import kotlinx.android.synthetic.main.mh_basic_user_info.*
+import kotlinx.android.synthetic.main.mh_fragment_my_account.*
 import pl.mareklangiewicz.myfragments.MyFragment
 import pl.mareklangiewicz.myhub.*
 import pl.mareklangiewicz.myhub.data.Note
@@ -20,28 +20,28 @@ class MyAccountFragment : MyFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.application as MGApplication).component.inject(this)
+        (activity.application as MHApplication).component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.mg_fragment_my_account, container, false)
-        inflateHeader(R.layout.mg_notes)
+        val rootView = inflater.inflate(R.layout.mh_fragment_my_account, container, false)
+        inflateHeader(R.layout.mh_notes)
         return rootView
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        button_login.setOnClickListener { presenter.login() }
+        mh_fma_b_login.setOnClickListener { presenter.login() }
         val v = AMyAccountView(
-                text_view_status,
-                edit_text_login,
-                edit_text_password,
-                edit_text_otp,
-                image_view_avatar,
-                text_view_name,
-                text_view_description,
-                ANotesView(header.findViewById(R.id.notes_recycler_view) as RecyclerView),
-                AProgressView(progress_bar, log)
+                mh_fma_tv_status,
+                mh_fma_ed_login,
+                mh_fma_ed_password,
+                mh_fma_ed_otp,
+                mh_bui_iv_avatar,
+                mh_bui_tv_name,
+                mh_bui_tv_description,
+                ANotesView(header.findViewById(R.id.mh_n_rv_notes) as RecyclerView),
+                AProgressView(mh_fma_pb_progress, log)
         )
         v.notes = listOf(Note("No info", "Log in to get info"))
         presenter.view = v

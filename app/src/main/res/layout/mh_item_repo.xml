@@ -2,14 +2,14 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    android:id="@+id/mh_ir_cv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     >
 
     <LinearLayout
-        android:id="@+id/content"
+        android:id="@+id/mh_ir_ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
@@ -17,7 +17,7 @@
         >
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/mh_ir_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -30,7 +30,7 @@
             />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/mh_ir_tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
@@ -38,14 +38,14 @@
             android:paddingRight="12dp"
             android:paddingTop="10dp"
             android:textSize="14sp"
-            android:textColor="@color/mg_secondary_text"
+            android:textColor="@color/mh_secondary_text"
             tools:text="This is where the repository description will go"
             />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/mg_divider"
+            android:background="@color/mh_divider"
             />
 
         <LinearLayout
@@ -55,32 +55,32 @@
             >
 
             <TextView
-                android:id="@+id/watchers"
+                android:id="@+id/mh_ir_tv_watchers"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/mg_secondary_text"
+                android:textColor="@color/mh_secondary_text"
                 tools:text="10 \nWatchers"
                 />
 
             <TextView
-                android:id="@+id/stars"
+                android:id="@+id/mh_ir_tv_stars"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/mg_secondary_text"
+                android:textColor="@color/mh_secondary_text"
                 tools:text="230 \nStars"
                 />
 
             <TextView
-                android:id="@+id/forks"
+                android:id="@+id/mh_ir_tv_forks"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/mg_secondary_text"
+                android:textColor="@color/mh_secondary_text"
                 tools:text="0 \nForks"
                 />
 

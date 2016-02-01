@@ -7,60 +7,49 @@ import android.view.ViewGroup
 import android.widget.TextView
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Repo
-import javax.inject.Inject
+import pl.mareklangiewicz.myhub.mvp.IReposView
 
 
-internal class ReposAdapter : RecyclerView.Adapter<ReposAdapter.ViewHolder> {
+internal class ReposAdapter : RecyclerView.Adapter<ReposAdapter.ViewHolder>, IReposView {
 
-    var repos: List<Repo> = emptyList()
+    constructor() { }
+
+    override var repos: List<Repo> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var callback: Callback? = null
-
-    @Inject
-    constructor() {
-    }
+    override var onClick: (repo: Repo) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.mg_item_repo, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mh_item_repo, parent, false)
         val holder = ViewHolder(view)
-        holder.contentTextView.setOnClickListener {
-            if (callback != null) {
-                callback!!.onItemClick(holder.repo)
-            }
-        }
+        holder.content.setOnClickListener { onClick(holder.repo) }
         return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //noinspection ConstantConditions
         val repo = repos[position]
-        val context = holder.nameTextView.context
+        val context = holder.name.context
         holder.repo = repo
-        holder.nameTextView.text = repo.name
-        holder.descriptionTextView.text = repo.description
-        holder.watchersTextView.text = context.resources.getString(R.string.mg_watchers, repo.watchers)
-        holder.starsTextView.text = context.resources.getString(R.string.mg_stars, repo.stars)
-        holder.forksTextView.text = context.resources.getString(R.string.mg_forks, repo.forks)
+        holder.name.text = repo.name
+        holder.description.text = repo.description
+        holder.watchers.text = context.resources.getString(R.string.mh_watchers, repo.watchers)
+        holder.stars.text = context.resources.getString(R.string.mh_stars, repo.stars)
+        holder.forks.text = context.resources.getString(R.string.mh_forks, repo.forks)
     }
 
     override fun getItemCount(): Int = repos.size
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val contentTextView: View = itemView.findViewById(R.id.content)
-        val nameTextView: TextView = itemView.findViewById(R.id.name) as TextView
-        val descriptionTextView: TextView = itemView.findViewById(R.id.description) as TextView
-        val watchersTextView: TextView = itemView.findViewById(R.id.watchers) as TextView
-        val starsTextView: TextView = itemView.findViewById(R.id.stars) as TextView
-        val forksTextView: TextView = itemView.findViewById(R.id.forks) as TextView
-        var repo: Repo? = null
-
+        val content: View = itemView.findViewById(R.id.mh_ir_ll_content)
+        val name: TextView = itemView.findViewById(R.id.mh_ir_tv_name) as TextView
+        val description: TextView = itemView.findViewById(R.id.mh_ir_tv_description) as TextView
+        val watchers: TextView = itemView.findViewById(R.id.mh_ir_tv_watchers) as TextView
+        val stars: TextView = itemView.findViewById(R.id.mh_ir_tv_stars) as TextView
+        val forks: TextView = itemView.findViewById(R.id.mh_ir_tv_forks) as TextView
+        lateinit var repo: Repo
     }
 
-    interface Callback {
-        fun onItemClick(repo: Repo?)
-    }
 }

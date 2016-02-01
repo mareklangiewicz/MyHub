@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @MainThread
-class MyAccountPresenter @Inject constructor(val model: MGModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
+class MyAccountPresenter @Inject constructor(val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
 
     private var subscription: Subscription? = null
 
@@ -90,7 +90,7 @@ class MyAccountPresenter @Inject constructor(val model: MGModel, @Named("UI") pr
      * Tries to load account for given user from local db (realm) and from internet (github) too.
      * Data from local db will come first (can be null), and data from internet will come later (if any).
      * So we should override displayed account data when new data comes.
-     * Password and/or otp can be empty. See MGModel.fetchAccount for details
+     * Password and/or otp can be empty. See MHModel.fetchAccount for details
      */
     private fun getAccount(user: String, password: String, otp: String): Observable<Account?> {
         return model.loadAccount(user).concatWith(model.fetchAccount(user, password, otp))

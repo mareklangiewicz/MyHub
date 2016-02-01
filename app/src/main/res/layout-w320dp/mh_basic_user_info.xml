@@ -9,12 +9,12 @@
     >
 
     <ImageView
-        android:id="@+id/image_view_avatar"
+        android:id="@+id/mh_bui_iv_avatar"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_weight="1"
-        android:contentDescription="@string/mg_avatar"
-        android:src="@drawable/mg_avatar"
+        android:contentDescription="@string/mh_avatar"
+        android:src="@drawable/mh_avatar"
         />
     <LinearLayout
         android:layout_width="0dp"
@@ -24,7 +24,7 @@
         >
 
         <TextView
-            android:id="@+id/text_view_name"
+            android:id="@+id/mh_bui_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -33,7 +33,7 @@
             />
 
         <TextView
-            android:id="@+id/text_view_description"
+            android:id="@+id/mh_bui_tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

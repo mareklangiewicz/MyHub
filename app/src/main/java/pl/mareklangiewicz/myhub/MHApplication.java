@@ -12,7 +12,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import pl.mareklangiewicz.myhub.di.*;
 
-public class MGApplication extends Application {
+public class MHApplication extends Application {
 
     @Inject @Named("UI") MyLogger log;
 

@@ -7,7 +7,7 @@
     >
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/mh_fmr_pb_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="10000"
@@ -15,7 +15,7 @@
         />
 
     <TextView
-        android:id="@+id/status"
+        android:id="@+id/mh_fmr_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
@@ -25,7 +25,7 @@
         />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/repos_recycler_view"
+        android:id="@+id/mh_fmr_rv_repos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

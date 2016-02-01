@@ -9,7 +9,7 @@ import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.INotesView
 
-class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>, INotesView {
+internal class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>, INotesView {
 
     constructor() { }
 
@@ -21,7 +21,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>, INotesView {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.mg_note, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.mh_item_note, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,7 +33,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>, INotesView {
     override fun getItemCount() = notes.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var label = itemView.findViewById(R.id.label) as TextView
-        var text = itemView.findViewById(R.id.text) as TextView
+        var label = itemView.findViewById(R.id.mh_in_tv_label) as TextView
+        var text = itemView.findViewById(R.id.mh_in_tv_text) as TextView
     }
 }

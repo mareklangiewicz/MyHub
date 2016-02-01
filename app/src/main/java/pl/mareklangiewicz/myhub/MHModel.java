@@ -29,11 +29,11 @@ import static pl.mareklangiewicz.myutils.MyTextUtils.str;
 
 @Singleton
 @MainThread
-public class MGModel implements IModel {
+public class MHModel implements IModel {
 
     private @NonNull GitHub.Service gitHubService;
 
-    @Inject MGModel(@NonNull GitHub.Service github) {
+    @Inject MHModel(@NonNull GitHub.Service github) {
         gitHubService = github;
     }
 

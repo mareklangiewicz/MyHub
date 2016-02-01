@@ -14,14 +14,14 @@
         >
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/mh_fma_pb_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="10000"
             style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             />
         <TextView
-            android:id="@+id/text_view_status"
+            android:id="@+id/mh_fma_tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -36,10 +36,10 @@
             >
 
             <EditText
-                android:id="@+id/edit_text_login"
+                android:id="@+id/mh_fma_ed_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mg_login"
+                android:hint="@string/mh_login"
                 android:inputType="textNoSuggestions"
                 android:typeface="monospace"
                 />
@@ -51,10 +51,10 @@
             >
 
             <EditText
-                android:id="@+id/edit_text_password"
+                android:id="@+id/mh_fma_ed_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mg_password_optional"
+                android:hint="@string/mh_password_optional"
                 android:inputType="textPassword"
                 android:typeface="monospace"
                 />
@@ -66,24 +66,24 @@
             >
 
             <EditText
-                android:id="@+id/edit_text_otp"
+                android:id="@+id/mh_fma_ed_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mg_otp_optional"
+                android:hint="@string/mh_otp_optional"
                 android:inputType="numberPassword"
                 android:typeface="monospace"
                 />
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/button_login"
+            android:id="@+id/mh_fma_b_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mg_login_refresh"
+            android:text="@string/mh_login_refresh"
             android:layout_margin="16dp"
             />
 
-        <include layout="@layout/mg_basic_user_info" />
+        <include layout="@layout/mh_basic_user_info" />
 
     </LinearLayout>
 

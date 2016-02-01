@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/notes_recycler_view"
+        android:id="@+id/mh_n_rv_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

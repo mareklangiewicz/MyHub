@@ -9,13 +9,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/label"
+        android:id="@+id/mh_in_tv_label"
         tools:text="some label"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text"
+        android:id="@+id/mh_in_tv_text"
         style="@style/TextAppearance.AppCompat.Subhead"
         tools:text="some text value"
         />

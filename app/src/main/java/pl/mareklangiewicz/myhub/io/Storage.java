@@ -5,6 +5,6 @@ package pl.mareklangiewicz.myhub.io;
  *
  */
 public class Storage {
-    // TODO LATER: encapsulate db related implementation here and just inject it to MGModel.
+    // TODO LATER: encapsulate db related implementation here and just inject it to MHModel.
     // TODO LATER: create IStorage interface to decouple implementation details.
 }

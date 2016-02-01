@@ -1,4 +1,4 @@
-package pl.mareklangiewicz.myhub
+package pl.mareklangiewicz.myhub.ui
 
 import android.view.View
 import android.widget.ProgressBar

@@ -16,7 +16,7 @@ import rx.Observer
 import rx.Subscription
 
 @MainThread
-class MyReposPresenter @Inject constructor(private val model: MGModel, @Named("UI") private val log: MyLogger) : Presenter<IMyReposView>() {
+class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyReposView>() {
 
     private var subscription: Subscription? = null
 

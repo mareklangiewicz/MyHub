@@ -44,7 +44,7 @@ android {
     lintOptions {
         warning 'InvalidPackage'
     }
-    resourcePrefix 'mg_'
+    resourcePrefix 'mh_'
 
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'

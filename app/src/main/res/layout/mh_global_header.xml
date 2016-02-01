@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/mg_global_header_background"
+    android:background="@drawable/mh_global_header_background"
     android:layout_height="160dp"
     >
 
     <View
-        android:id="@+id/magic_underline_view"
+        android:id="@+id/mh_gh_v_magic_underline"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         />
 
     <ImageView
-        android:id="@+id/image_logo"
+        android:id="@+id/mh_gh_iv_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_above="@id/magic_underline_view"
+        android:layout_above="@id/mh_gh_v_magic_underline"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_margin="8dp"
         android:scaleType="centerInside"
-        android:src="@drawable/mg_octocat"
-        android:contentDescription="@string/mg_octocat"
+        android:src="@drawable/mh_octocat"
+        android:contentDescription="@string/mh_octocat"
         />
 
     <TextView
-        android:id="@+id/text_home_page"
+        android:id="@+id/mh_gh_tv_home_page"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/magic_underline_view"
+        android:layout_above="@id/mh_gh_v_magic_underline"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:paddingEnd="16dp"
@@ -39,11 +39,11 @@
         />
 
     <TextView
-        android:id="@+id/text_logo"
+        android:id="@+id/mh_gh_tv_logo"
         style="@style/TextAppearance.AppCompat.Display2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/text_home_page"
+        android:layout_above="@id/mh_gh_tv_home_page"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:paddingStart="4dp"
@@ -53,7 +53,7 @@
         android:paddingBottom="4dp"
         android:shadowColor="@android:color/white"
         android:shadowRadius="6"
-        android:text="@string/mg_app_name"
+        android:text="@string/mh_app_name"
         android:textColor="@android:color/black"
         />
 

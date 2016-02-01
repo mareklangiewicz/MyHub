@@ -1,4 +1,4 @@
-package pl.mareklangiewicz.myhub
+package pl.mareklangiewicz.myhub.ui
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -7,6 +7,7 @@ import pl.mareklangiewicz.myhub.mvp.IMyAccountView
 import pl.mareklangiewicz.myhub.mvp.INotesView
 import pl.mareklangiewicz.myhub.mvp.IProgressView
 import getValue
+import pl.mareklangiewicz.myhub.R
 import setValue
 
 /**
@@ -31,11 +32,11 @@ class AMyAccountView(
     override var otp by otpTextView
 
     //TODO LATER: handle invalid urls
-    override var avatar: String = "" // TODO NOW: czy to odpala settera????
+    override var avatar: String = "" // "" is written directly to backing field.
         set(value) {
             field = value
             if (value.isEmpty())
-                avatarImageView.setImageResource(R.drawable.mg_avatar)
+                avatarImageView.setImageResource(R.drawable.mh_avatar)
             else
                 Picasso.with(avatarImageView.context).load(value).into(avatarImageView)
         }

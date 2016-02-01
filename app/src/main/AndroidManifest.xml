@@ -6,17 +6,17 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="pl.mareklangiewicz.myhub.MGApplication"
+        android:name=".MHApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/mg_ic_launcher"
-        android:label="@string/mg_app_name"
+        android:icon="@mipmap/mh_ic_launcher"
+        android:label="@string/mh_app_name"
         android:supportsRtl="true"
-        android:theme="@style/mg_AppTheme"
+        android:theme="@style/mh_AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         >
         <activity
-            android:name="pl.mareklangiewicz.myhub.ui.MainActivity"
-            android:label="@string/mg_app_name"
+            android:name="pl.mareklangiewicz.myhub.ui.MHActivity"
+            android:label="@string/mh_app_name"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,8 +27,8 @@
         <!--This activity is only for debugging -->
         <activity
             android:name="pl.mareklangiewicz.myactivities.MyTestActivity"
-            android:label="@string/mg_my_test_activity"
-            android:enabled="@bool/mg_debug_mode"
+            android:label="@string/mh_my_test_activity"
+            android:enabled="@bool/mh_debug_mode"
             />
 
     </application>
