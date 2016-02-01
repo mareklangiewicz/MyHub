@@ -2,10 +2,9 @@ package pl.mareklangiewicz.myhub.di;
 
 import android.app.Application;
 
-import pl.mareklangiewicz.myhub.MHApplication;
-
 /**
  * Created by Marek Langiewicz on 01.02.16.
+ * Separated cause Dagger needs it to be in Java (not Kotlin)
  */
 public class ComponentBuilders {
     public static ApplicationComponent buildApplicationComponent(Application application) {
