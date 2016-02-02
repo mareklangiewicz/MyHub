@@ -2,6 +2,11 @@
 
 A simple GitHub client.
 
+An exercise of using some modern libraries together.
+
+#### News
+This project is now rewritten in Kotlin language - except some thin layers around:
+Dagger 2, Retrofit 2, Realm - these libraries do not like Kotlin much (yet).
 
 #### Features
 
@@ -20,8 +25,8 @@ A simple GitHub client.
 * Dagger 2
 * RxJava
 * Realm
-* Butter Knife
 * Picasso
+* Paperwork
 * Material Dialogs
 * My Blocks
 
