@@ -30,6 +30,7 @@ public class ApplicationModule {
         return application;
     }
 
+    @Singleton
     @Provides
     @Named("UI") MyLogger provideUILogger() { return MyLogger.UIL; }
 

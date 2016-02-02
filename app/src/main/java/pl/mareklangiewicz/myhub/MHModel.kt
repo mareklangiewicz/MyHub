@@ -16,6 +16,8 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
+//TODO SOMEDAY: Use RXJava Single instead of Observable if we return exactly one item?
+
 @Singleton
 @MainThread
 class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : IModel {
@@ -56,7 +58,9 @@ class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : I
             val account = user2account(user, repositories)
             saveAccount(account)
             account
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     /**
@@ -64,12 +68,13 @@ class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : I
      */
     fun saveAccount(account: Account) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(account) }
+        realm.executeTransaction { it.copyToRealmOrUpdate(account) }
         realm.close()
     }
 
     /**
      * Loads account data from realm db
+     * Emits exactly one item (unless some error happens)
      * Emits null if no data found for given login.
      * Important1:
      * Emitted Account is a deep copy that can be moved between threads
@@ -94,6 +99,7 @@ class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : I
 
     /**
      * Loads latest account data from realm db
+     * Emits exactly one item (unless some error happens)
      * Emits null if no data found.
      * Important1:
      * Emitted Account is a deep copy that can be moved between threads

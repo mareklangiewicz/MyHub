@@ -5,78 +5,69 @@
     -->
     <group
         android:id="@+id/mh_gm_g_sections"
-        android:checkableBehavior="single"
-        >
+        android:checkableBehavior="single">
         <item
             android:id="@+id/mh_gm_i_f_my_account"
             android:icon="@drawable/mr_ic_whatshot_black_24dp"
             android:title="@string/mh_my_account"
-            android:titleCondensed="cmd:fragment .ui.MyAccountFragment"
-            />
+            android:titleCondensed="cmd:fragment .ui.MyAccountFragment" />
         <item
             android:id="@+id/mh_gm_i_f_my_repositories"
             android:icon="@drawable/mr_ic_whatshot_black_24dp"
             android:title="@string/mh_my_repositories"
-            android:titleCondensed="cmd:fragment .ui.MyReposFragment"
-            />
+            android:titleCondensed="cmd:fragment .ui.MyReposFragment" />
+        <item
+            android:id="@+id/mh_gm_i_f_logger"
+            android:icon="@drawable/mr_ic_whatshot_black_24dp"
+            android:title="@string/mh_logger"
+            android:titleCondensed="cmd:fragment pl.mareklangiewicz.myfragments.MyLogFragment"
+            android:visible="@bool/mh_debug_mode" />
     </group>
 
     <item
         android:id="@+id/mh_gm_i_global_actions"
-        android:title="@string/mh_actions"
-        >
+        android:title="@string/mh_actions">
         <menu>
             <item
                 android:id="@+id/mh_gm_i_clear_data"
                 android:icon="@drawable/mr_ic_whatshot_black_24dp"
-                android:title="@string/mh_clear_data"
-                />
+                android:title="@string/mh_clear_data" />
         </menu>
     </item>
     <item
         android:id="@+id/mh_gm_i_debug_stuff"
         android:title="@string/mh_debug_stuff"
-        android:visible="@bool/mh_debug_mode"
-        >
+        android:visible="@bool/mh_debug_mode">
         <menu>
             <item
                 android:id="@+id/mh_gm_i_start_my_test_activity"
                 android:icon="@drawable/mr_ic_whatshot_black_24dp"
                 android:title="@string/mh_start_my_test_activity"
-                android:titleCondensed="cmd:activity pl.mareklangiewicz.myactivities.MyTestActivity"
-                />
+                android:titleCondensed="cmd:activity pl.mareklangiewicz.myactivities.MyTestActivity" />
             <item
                 android:id="@+id/mh_gm_i_ds_mode"
-                android:title=""
-                />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_flavor"
-                android:title=""
-                />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_version_code"
-                android:title=""
-                />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_version_name"
-                android:title=""
-                />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_build_time"
-                android:title=""
-                />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_git_sha"
-                android:title=""
-            />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_git_tag"
-                android:title=""
-            />
+                android:title="" />
             <item
                 android:id="@+id/mh_gm_i_ds_git_info"
-                android:title=""
-            />
+                android:title="" />
         </menu>
     </item>
 

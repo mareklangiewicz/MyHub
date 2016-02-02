@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @MainThread
-class MyAccountPresenter @Inject constructor(val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
+class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
 
     private var subscription: Subscription? = null
 

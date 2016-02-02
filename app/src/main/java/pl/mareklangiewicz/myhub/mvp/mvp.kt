@@ -43,8 +43,11 @@ interface IReposView : IView {
     var onClick: (repo: Repo) -> Unit
 }
 
-interface IMyAccountView : INotesView, IProgressView {
+interface IStatusView : IView {
     var status: String
+}
+
+interface IMyAccountView : INotesView, IProgressView, IStatusView {
     var login: String
     var password: String
     var otp: String
@@ -53,7 +56,5 @@ interface IMyAccountView : INotesView, IProgressView {
     var description: String
 }
 
-interface IMyReposView : IReposView, INotesView, IProgressView {
-    var status: String
-}
+interface IMyReposView : IReposView, INotesView, IProgressView, IStatusView
 

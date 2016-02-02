@@ -24,9 +24,8 @@ class MyAccountFragment : MyFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.mh_fragment_my_account, container, false)
         inflateHeader(R.layout.mh_notes)
-        return rootView
+        return inflater.inflate(R.layout.mh_fragment_my_account, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

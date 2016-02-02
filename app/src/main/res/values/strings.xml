@@ -1,5 +1,4 @@
 <resources>
-    <string name="mh_app_name">MyHub</string>
     <string name="mh_my_account">My account</string>
     <string name="mh_actions">Actions</string>
     <string name="mh_clear_data">Clear cached data</string>
@@ -19,4 +18,5 @@
     <string name="mh_are_you_sure_clear">Are you sure? All saved data will be deleted.</string>
     <string name="mh_clear">Clear</string>
     <string name="mh_cancel">Cancel</string>
+    <string name="mh_logger">Logger</string>
 </resources>
