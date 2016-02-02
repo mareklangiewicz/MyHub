@@ -5,6 +5,7 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
+import hu.supercluster.paperwork.Paperwork
 import io.realm.Realm
 import pl.mareklangiewicz.myactivities.MyActivity
 import pl.mareklangiewicz.myhub.BuildConfig
@@ -34,12 +35,16 @@ class MHActivity : MyActivity() {
         val header = nav.header
 
         if (BuildConfig.DEBUG) {
+            val paperwork = Paperwork(this)
             val menu = nav.menu
-            menu.findItem(R.id.mh_gm_i_ds_mode).setTitle("build type: " + BuildConfig.BUILD_TYPE)
-            menu.findItem(R.id.mh_gm_i_ds_flavor).setTitle("build flavor: " + BuildConfig.FLAVOR)
-            menu.findItem(R.id.mh_gm_i_ds_version_code).setTitle("version code: " + BuildConfig.VERSION_CODE)
-            menu.findItem(R.id.mh_gm_i_ds_version_name).setTitle("version name: " + BuildConfig.VERSION_NAME)
-            menu.findItem(R.id.mh_gm_i_ds_time_stamp).setTitle("build time: %tF %tT".format(Locale.US, BuildConfig.TIME_STAMP, BuildConfig.TIME_STAMP))
+            menu.findItem(R.id.mh_gm_i_ds_mode).setTitle("build type: ${BuildConfig.BUILD_TYPE}")
+            menu.findItem(R.id.mh_gm_i_ds_flavor).setTitle("build flavor: ${BuildConfig.FLAVOR}")
+            menu.findItem(R.id.mh_gm_i_ds_version_code).setTitle("version code: ${BuildConfig.VERSION_CODE}")
+            menu.findItem(R.id.mh_gm_i_ds_version_name).setTitle("version name: ${BuildConfig.VERSION_NAME}")
+            menu.findItem(R.id.mh_gm_i_ds_build_time).setTitle("build time: ${paperwork.get("buildTime")}")
+            menu.findItem(R.id.mh_gm_i_ds_git_sha).setTitle("git sha: ${paperwork.get("gitSha")}")
+            menu.findItem(R.id.mh_gm_i_ds_git_tag).setTitle("git tag: ${paperwork.get("gitTag")}")
+            menu.findItem(R.id.mh_gm_i_ds_git_info).setTitle("git info: ${paperwork.get("gitInfo")}")
         }
 
 

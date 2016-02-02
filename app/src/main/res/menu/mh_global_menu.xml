@@ -62,9 +62,21 @@
                 android:title=""
                 />
             <item
-                android:id="@+id/mh_gm_i_ds_time_stamp"
+                android:id="@+id/mh_gm_i_ds_build_time"
                 android:title=""
                 />
+            <item
+                android:id="@+id/mh_gm_i_ds_git_sha"
+                android:title=""
+            />
+            <item
+                android:id="@+id/mh_gm_i_ds_git_tag"
+                android:title=""
+            />
+            <item
+                android:id="@+id/mh_gm_i_ds_git_info"
+                android:title=""
+            />
         </menu>
     </item>
 

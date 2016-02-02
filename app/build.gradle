@@ -12,7 +12,6 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        buildConfigField "long", "TIME_STAMP", System.currentTimeMillis() + "L"
     }
 
     signingConfigs {
@@ -91,6 +90,7 @@ dependencies {
         transitive = true
     }
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'hu.supercluster:paperwork:1.2.2'
 }
 buildscript {
     ext.kotlin_version = '1.0.0-beta-4589'
@@ -100,5 +100,15 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        classpath 'hu.supercluster:paperwork-plugin:1.2.2'
     }
+}
+apply plugin: 'hu.supercluster.paperwork'
+paperwork {
+    set = [
+        buildTime: buildTime("yyyy-MM-dd HH:mm:ss"),
+        gitSha: gitSha(),
+        gitTag: gitTag(),
+        gitInfo: gitInfo()
+    ]
 }
