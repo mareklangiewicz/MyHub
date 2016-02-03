@@ -7,12 +7,12 @@ import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import hu.supercluster.paperwork.Paperwork
 import io.realm.Realm
+import kotlinx.android.synthetic.main.mh_global_header.view.*
 import pl.mareklangiewicz.myactivities.MyActivity
 import pl.mareklangiewicz.myhub.BuildConfig
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myviews.IMyNavigation
-import java.util.*
 
 class MHActivity : MyActivity() {
 
@@ -49,9 +49,9 @@ class MHActivity : MyActivity() {
 
 
         animations = MHAnimations(
-                header.findViewById(R.id.mh_gh_tv_logo),
-                header.findViewById(R.id.mh_gh_tv_home_page),
-                header.findViewById(R.id.mh_gh_v_magic_underline),
+                header.mh_gh_tv_logo,
+                header.mh_gh_tv_home_page,
+                header.mh_gh_v_magic_underline,
                 lcolor = 822083583,
                 lwidth = dp2px(4f)
         )

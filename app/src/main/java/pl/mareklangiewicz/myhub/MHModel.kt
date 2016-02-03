@@ -22,6 +22,7 @@ import javax.inject.Singleton
 @MainThread
 class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : IModel {
 
+
     /**
      * Fetches account data (repos too) from github.
 

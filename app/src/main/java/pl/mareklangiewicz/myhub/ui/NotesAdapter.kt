@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import kotlinx.android.synthetic.main.mh_item_note.view.*
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.INotesView
@@ -33,7 +33,7 @@ internal class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>, INo
     override fun getItemCount() = notes.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var label = itemView.findViewById(R.id.mh_in_tv_label) as TextView
-        var text = itemView.findViewById(R.id.mh_in_tv_text) as TextView
+        var label = itemView.mh_in_tv_label
+        var text = itemView.mh_in_tv_text
     }
 }

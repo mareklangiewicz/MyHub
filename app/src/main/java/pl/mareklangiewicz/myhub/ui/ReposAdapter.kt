@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.mh_item_repo.view.*
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Repo
 import pl.mareklangiewicz.myhub.mvp.IReposView
@@ -43,12 +44,12 @@ internal class ReposAdapter : RecyclerView.Adapter<ReposAdapter.ViewHolder>, IRe
     override fun getItemCount(): Int = repos.size
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val content: View = itemView.findViewById(R.id.mh_ir_ll_content)
-        val name: TextView = itemView.findViewById(R.id.mh_ir_tv_name) as TextView
-        val description: TextView = itemView.findViewById(R.id.mh_ir_tv_description) as TextView
-        val watchers: TextView = itemView.findViewById(R.id.mh_ir_tv_watchers) as TextView
-        val stars: TextView = itemView.findViewById(R.id.mh_ir_tv_stars) as TextView
-        val forks: TextView = itemView.findViewById(R.id.mh_ir_tv_forks) as TextView
+        val content: View = itemView.mh_ir_ll_content
+        val name: TextView = itemView.mh_ir_tv_name
+        val description: TextView = itemView.mh_ir_tv_description
+        val watchers: TextView = itemView.mh_ir_tv_watchers
+        val stars: TextView = itemView.mh_ir_tv_stars
+        val forks: TextView = itemView.mh_ir_tv_forks
         lateinit var repo: Repo
     }
 

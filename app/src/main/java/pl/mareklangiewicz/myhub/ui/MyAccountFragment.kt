@@ -1,14 +1,16 @@
 package pl.mareklangiewicz.myhub.ui
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.mh_basic_user_info.*
 import kotlinx.android.synthetic.main.mh_fragment_my_account.*
+import kotlinx.android.synthetic.main.mh_notes.view.*
 import pl.mareklangiewicz.myfragments.MyFragment
-import pl.mareklangiewicz.myhub.*
+import pl.mareklangiewicz.myhub.MHApplication
+import pl.mareklangiewicz.myhub.MyAccountPresenter
+import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.data.Note
 import javax.inject.Inject
 
@@ -39,7 +41,7 @@ class MyAccountFragment : MyFragment() {
                 mh_bui_iv_avatar,
                 mh_bui_tv_name,
                 mh_bui_tv_description,
-                ANotesView(header.findViewById(R.id.mh_n_rv_notes) as RecyclerView),
+                ANotesView(header.mh_n_rv_notes),
                 AProgressView(mh_fma_pb_progress, log)
         )
         v.notes = listOf(Note("No info", "Log in to get info"))

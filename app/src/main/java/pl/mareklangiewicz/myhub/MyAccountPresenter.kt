@@ -17,29 +17,34 @@ import javax.inject.Named
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
 
     private var subscription: Subscription? = null
+        set(value) {
+            val old = field
+            if (old != null && !old.isUnsubscribed)
+                old.unsubscribe()
+            field = value
+        }
 
     override var view: IMyAccountView?
         get() = super.view
         set(value) {
-
-            if (subscription != null && !subscription!!.isUnsubscribed)
-                subscription!!.unsubscribe()
-
             super.view = value
+            subscription = // setter will unsubscribe any old subscription
+                    if (value == null)
+                        null
+                    else
+                        model.loadLatestAccount().subscribe(object : Observer<Account?> {
+                            override fun onCompleted() {
+                                log.v("loading completed.")
+                            }
 
-            subscription = model.loadLatestAccount().subscribe(object : Observer<Account?> {
-                override fun onCompleted() {
-                    log.v("loading completed.")
-                }
+                            override fun onError(e: Throwable?) {
+                                log.e(e, "[SNACK] Error %s", e?.message ?: "")
+                            }
 
-                override fun onError(e: Throwable?) {
-                    log.e(e, "[SNACK] Error %s", e?.message ?: "")
-                }
-
-                override fun onNext(account: Account?) {
-                    showAccount(account)
-                }
-            })
+                            override fun onNext(account: Account?) {
+                                showAccount(account)
+                            }
+                        })
         }
 
     fun login() {
@@ -48,25 +53,10 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
             log.e("Can not login. View is detached.")
             return
         }
-        login(v.login, v.password, v.otp)
-    }
-
-    private fun login(user: String, password: String, otp: String) {
-
-        val v = view
-
-        if (v == null) {
-            log.e("Can not login. View is detached.")
-            return
-        }
 
         v.progress = IProgressView.INDETERMINATE
 
-        val s = subscription
-        if (s != null && !s.isUnsubscribed)
-            s.unsubscribe()
-
-        subscription = getAccount(user, password, otp).subscribe(object : Observer<Account?> {
+        subscription = getAccount(v.login, v.password, v.otp).subscribe(object : Observer<Account?> {
             override fun onCompleted() {
                 val av = view
                 if (av != null) av.progress = IProgressView.HIDDEN
@@ -77,7 +67,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
                 log.e(e, "[SNACK]Error %s", e?.message ?: "")
                 val av = view ?: return
                 av.progress = IProgressView.HIDDEN
-                av.login = user
+                av.login = v.login
             }
 
             override fun onNext(account: Account?) {
