@@ -1,13 +1,16 @@
 package pl.mareklangiewicz.myhub.ui
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.jakewharton.rxbinding.view.clicks
 import com.squareup.picasso.Picasso
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView
 import pl.mareklangiewicz.myhub.mvp.INotesView
 import pl.mareklangiewicz.myhub.mvp.IProgressView
 import getValue
 import pl.mareklangiewicz.myhub.R
+import rx.Observable
 import setValue
 
 /**
@@ -22,10 +25,10 @@ class AMyAccountView(
         private val avatarImageView: ImageView,
         private val nameTextView: TextView,
         private val descriptionTextView: TextView,
+        private val loginButton: View,
         private val nv: INotesView,
         private val pv: IProgressView
 ) : IMyAccountView, INotesView by nv, IProgressView by pv {
-
     override var status by statusTextView
     override var login by loginTextView
     override var password by passwordTextView
@@ -43,5 +46,9 @@ class AMyAccountView(
 
     override var name by nameTextView
     override var description by descriptionTextView
+
+    override val loginButtonClicks: Observable<Unit>
+        get() = loginButton.clicks()
+
 }
 

@@ -5,8 +5,8 @@ import com.noveogroup.android.log.MyLogger
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.mvp.IMyReposView
 import pl.mareklangiewicz.myhub.mvp.Presenter
+import plusAssign
 import rx.Observer
-import rx.Subscription
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -14,35 +14,26 @@ import javax.inject.Named
 @MainThread
 class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyReposView>() {
 
-    private var subscription: Subscription? = null
-        set(value) {
-            val old = field
-            if (old != null && !old.isUnsubscribed)
-                old.unsubscribe()
-            field = value
-        }
-
     override var view: IMyReposView?
         get() = super.view
         set(value) {
+            subscriptions.clear()
             super.view = value
-            subscription = // setter will unsubscribe any old subscription
-                    if (value == null)
-                        null
-                    else
-                        model.loadLatestAccount().subscribe(object : Observer<Account?> {
-                            override fun onCompleted() {
-                                log.v("loading completed.")
-                            }
+            if (value == null) return
+            subscriptions +=
+                    model.loadLatestAccount().subscribe(object : Observer<Account?> {
+                        override fun onCompleted() {
+                            log.v("loading completed.")
+                        }
 
-                            override fun onError(e: Throwable?) {
-                                log.e(e, "[SNACK]Error %s", e?.message ?: "")
-                            }
+                        override fun onError(e: Throwable?) {
+                            log.e(e, "[SNACK]Error %s", e?.message ?: "")
+                        }
 
-                            override fun onNext(account: Account?) {
-                                showAccount(account)
-                            }
-                        })
+                        override fun onNext(account: Account?) {
+                            showAccount(account)
+                        }
+                    })
         }
 
     /** Displays given account on attached IView. Clears IView if account is null. */

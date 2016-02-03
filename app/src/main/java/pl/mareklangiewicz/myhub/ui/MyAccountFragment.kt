@@ -32,7 +32,6 @@ class MyAccountFragment : MyFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mh_fma_b_login.setOnClickListener { presenter.login() }
         val v = AMyAccountView(
                 mh_fma_tv_status,
                 mh_fma_ed_login,
@@ -41,6 +40,7 @@ class MyAccountFragment : MyFragment() {
                 mh_bui_iv_avatar,
                 mh_bui_tv_name,
                 mh_bui_tv_description,
+                mh_fma_b_login,
                 ANotesView(header.mh_n_rv_notes),
                 AProgressView(mh_fma_pb_progress, log)
         )

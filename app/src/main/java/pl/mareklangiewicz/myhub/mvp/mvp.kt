@@ -4,6 +4,8 @@ package pl.mareklangiewicz.myhub.mvp
 
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.data.Repo
+import rx.Observable
+import rx.subscriptions.CompositeSubscription
 
 interface IModel
 interface IView
@@ -18,6 +20,12 @@ open class Presenter<T : IView> {
      * So presenter survives device orientation changes etc...
      */
     open var view: T? = null
+
+    /**
+     * usually the presenter will add subscriptions as needed using subscriptions += ...
+     * and clear it all using subscriptions.clear() when view has changed (at the beginning of view setter)
+     */
+    protected val subscriptions = CompositeSubscription()
 }
 
 interface IProgressView : IView {
@@ -54,6 +62,7 @@ interface IMyAccountView : INotesView, IProgressView, IStatusView {
     var avatar: String
     var name: String
     var description: String
+    val loginButtonClicks: Observable<Unit>
 }
 
 interface IMyReposView : IReposView, INotesView, IProgressView, IStatusView

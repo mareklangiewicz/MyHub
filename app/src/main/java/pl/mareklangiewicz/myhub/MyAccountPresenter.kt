@@ -6,9 +6,9 @@ import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView
 import pl.mareklangiewicz.myhub.mvp.IProgressView
 import pl.mareklangiewicz.myhub.mvp.Presenter
+import plusAssign
 import rx.Observable
 import rx.Observer
-import rx.Subscription
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -16,35 +16,33 @@ import javax.inject.Named
 @MainThread
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
 
-    private var subscription: Subscription? = null
-        set(value) {
-            val old = field
-            if (old != null && !old.isUnsubscribed)
-                old.unsubscribe()
-            field = value
-        }
-
     override var view: IMyAccountView?
         get() = super.view
         set(value) {
+            subscriptions.clear()
             super.view = value
-            subscription = // setter will unsubscribe any old subscription
-                    if (value == null)
-                        null
-                    else
-                        model.loadLatestAccount().subscribe(object : Observer<Account?> {
-                            override fun onCompleted() {
-                                log.v("loading completed.")
-                            }
+            if (value == null) return
+            subscriptions +=
+                    model.loadLatestAccount().subscribe(object : Observer<Account?> {
+                        override fun onCompleted() {
+                            log.v("loading completed.")
+                        }
 
-                            override fun onError(e: Throwable?) {
-                                log.e(e, "[SNACK] Error %s", e?.message ?: "")
-                            }
+                        override fun onError(e: Throwable?) {
+                            log.e(e, "[SNACK] Error %s", e?.message ?: "")
+                        }
 
-                            override fun onNext(account: Account?) {
-                                showAccount(account)
-                            }
-                        })
+                        override fun onNext(account: Account?) {
+                            showAccount(account)
+                        }
+                    })
+            subscriptions +=
+                    value.loginButtonClicks
+                            .subscribe(object : Observer<Unit> {
+                                override fun onNext(t: Unit) { login() }
+                                override fun onCompleted() { }
+                                override fun onError(e: Throwable?) { throw IllegalStateException(e) }
+                            })
         }
 
     fun login() {
@@ -54,9 +52,14 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
             return
         }
 
+        if(v.progress != IProgressView.HIDDEN) {
+            log.w("[SNACK]I'm trying...")
+            return
+        }
+
         v.progress = IProgressView.INDETERMINATE
 
-        subscription = getAccount(v.login, v.password, v.otp).subscribe(object : Observer<Account?> {
+        subscriptions += getAccount(v.login, v.password, v.otp).subscribe(object : Observer<Account?> {
             override fun onCompleted() {
                 val av = view
                 if (av != null) av.progress = IProgressView.HIDDEN
