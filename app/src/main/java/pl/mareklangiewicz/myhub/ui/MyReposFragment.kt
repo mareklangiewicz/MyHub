@@ -10,7 +10,6 @@ import pl.mareklangiewicz.myfragments.MyFragment
 import pl.mareklangiewicz.myhub.MHApplication
 import pl.mareklangiewicz.myhub.MyReposPresenter
 import pl.mareklangiewicz.myhub.R
-import pl.mareklangiewicz.myhub.data.Note
 import javax.inject.Inject
 
 class MyReposFragment : MyFragment() {
@@ -20,12 +19,12 @@ class MyReposFragment : MyFragment() {
 
     @Inject lateinit var presenter: MyReposPresenter
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity.application as MHApplication).component.inject(this)
     }
 
-    public override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inflateHeader(R.layout.mh_notes)
         return inflater.inflate(R.layout.mh_fragment_my_repos, container, false)
     }
@@ -33,16 +32,12 @@ class MyReposFragment : MyFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyReposView(
+                activity as MHActivity,
+                mh_fmr_pb_progress,
                 mh_fmr_tv_status,
-                AReposView(mh_fmr_rv_repos),
-                ANotesView(header.mh_n_rv_notes),
-                AProgressView(mh_fmr_pb_progress, log)
+                mh_fmr_rv_repos,
+                header!!.mh_n_rv_notes
         )
-        v.notes = listOf(Note("No details", "Select repository to get details"))
-        v.onClick = {
-            v.notes = it.notes
-            (activity as MHActivity).showLocalNavigation()
-        }
         presenter.view = v
     }
 

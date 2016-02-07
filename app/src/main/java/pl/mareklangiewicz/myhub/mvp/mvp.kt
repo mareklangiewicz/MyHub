@@ -5,10 +5,24 @@ package pl.mareklangiewicz.myhub.mvp
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.data.Repo
 import rx.Observable
-import rx.subscriptions.CompositeSubscription
 
 interface IModel
-interface IView
+
+interface IView {
+
+    var visible: Boolean
+        get() = true
+        set(value) = throw UnsupportedOperationException()
+
+    var enabled: Boolean
+        get() = true
+        set(value) = throw UnsupportedOperationException()
+
+    val clicks: Observable<out IView>
+        get() = Observable.never()
+
+}
+
 
 open class Presenter<T : IView> {
 
@@ -20,50 +34,69 @@ open class Presenter<T : IView> {
      * So presenter survives device orientation changes etc...
      */
     open var view: T? = null
-
-    /**
-     * usually the presenter will add subscriptions as needed using subscriptions += ...
-     * and clear it all using subscriptions.clear() when view has changed (at the beginning of view setter)
-     */
-    protected val subscriptions = CompositeSubscription()
 }
+
 
 interface IProgressView : IView {
-    var progress: Int
 
-    companion object {
-        const val HIDDEN = -1
-        const val INDETERMINATE = -2 // some moving state indicating that something is happening
-        const val MIN = 0
-        const val MAX = 10000
-    }
+    var indeterminate: Boolean // true means it should display something indicating that it is working and we don't know how far are we
+        get() = false
+        set(value) = throw UnsupportedOperationException()
+
+    var min: Double
+        get() = 0.0
+        set(value) = throw UnsupportedOperationException()
+
+    var max: Double
+        get() = 100.0
+        set(value) = throw UnsupportedOperationException()
+
+    var pos: Double // presents the current progress. should be always between min and max
 }
 
-interface INotesView : IView {
-    var notes: List<Note>
-    // TODO SOMEDAY: change to mutable list.. but we don't need that now (we just change it to whole new list when we have new data)
+interface ITextView : IView {
+    var text: String
+    val textChanges: Observable<String>
+        get() = Observable.never()
 }
 
-interface IReposView : IView {
-    var repos: List<Repo>
-    // TODO SOMEDAY: change to mutable list.. but we don't need that now (we just change it to whole new list when we have new data)
+interface IButtonView : ITextView {}
 
-    var onClick: (repo: Repo) -> Unit
+interface IStatusView : ITextView {
+    var highlight: Boolean
 }
 
-interface IStatusView : IView {
-    var status: String
+interface IImageView : IView {
+    var url: String // displays image available at specified url
 }
 
-interface IMyAccountView : INotesView, IProgressView, IStatusView {
-    var login: String
-    var password: String
-    var otp: String
-    var avatar: String
-    var name: String
-    var description: String
-    val loginButtonClicks: Observable<Unit>
+interface IItemListView<Item> : IView {
+    var items: List<Item>
+    val itemClicks: Observable<Item>
+        get() = Observable.never()
 }
 
-interface IMyReposView : IReposView, INotesView, IProgressView, IStatusView
+interface INoteListView : IItemListView<Note>
+interface IRepoListView : IItemListView<Repo>
+
+interface IMyAccountView : IView {
+    val progress: IProgressView
+    val status: IStatusView
+    val login: ITextView
+    val password: ITextView
+    val otp: ITextView
+    val loginButton: IButtonView
+    val avatar: IImageView
+    val name: ITextView
+    val description: ITextView
+    val notes: INoteListView
+}
+
+interface IMyReposView : IView {
+    val progress: IProgressView
+    val status: IStatusView
+    val repos: IRepoListView
+    val notes: INoteListView
+    fun showNotes()
+}
 

@@ -80,7 +80,7 @@ internal class MHAnimations(private val mlogo: MagicLogo,private val mhomepage: 
 
         init {
             setColor(color)
-            setStrokeWidth(width)
+            strokeWidth = width
         }
 
         fun start() {
@@ -90,7 +90,7 @@ internal class MHAnimations(private val mlogo: MagicLogo,private val mhomepage: 
 
         fun stop() {
             animator.cancel()
-            setLevel(0)
+            level = 0
         }
     }
 

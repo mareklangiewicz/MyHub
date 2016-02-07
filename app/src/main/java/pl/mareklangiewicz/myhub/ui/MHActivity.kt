@@ -32,21 +32,20 @@ class MHActivity : MyActivity() {
         nav.inflateHeader(R.layout.mh_global_header)
         nav.inflateMenu(R.menu.mh_global_menu)
 
-        val header = nav.header
+        val header = nav.header!!
 
         if (BuildConfig.DEBUG) {
             val paperwork = Paperwork(this)
-            val menu = nav.menu
-            menu.findItem(R.id.mh_gm_i_ds_mode).setTitle("build type: ${BuildConfig.BUILD_TYPE}")
-            menu.findItem(R.id.mh_gm_i_ds_flavor).setTitle("build flavor: ${BuildConfig.FLAVOR}")
-            menu.findItem(R.id.mh_gm_i_ds_version_code).setTitle("version code: ${BuildConfig.VERSION_CODE}")
-            menu.findItem(R.id.mh_gm_i_ds_version_name).setTitle("version name: ${BuildConfig.VERSION_NAME}")
-            menu.findItem(R.id.mh_gm_i_ds_build_time).setTitle("build time: ${paperwork.get("buildTime")}")
-            menu.findItem(R.id.mh_gm_i_ds_git_sha).setTitle("git sha: ${paperwork.get("gitSha")}")
-            menu.findItem(R.id.mh_gm_i_ds_git_tag).setTitle("git tag: ${paperwork.get("gitTag")}")
-            menu.findItem(R.id.mh_gm_i_ds_git_info).setTitle("git info: ${paperwork.get("gitInfo")}")
+            val menu = nav.menu!!
+            menu.findItem(R.id.mh_gm_i_ds_mode).title = "build type: ${BuildConfig.BUILD_TYPE}"
+            menu.findItem(R.id.mh_gm_i_ds_flavor).title = "build flavor: ${BuildConfig.FLAVOR}"
+            menu.findItem(R.id.mh_gm_i_ds_version_code).title = "version code: ${BuildConfig.VERSION_CODE}"
+            menu.findItem(R.id.mh_gm_i_ds_version_name).title = "version name: ${BuildConfig.VERSION_NAME}"
+            menu.findItem(R.id.mh_gm_i_ds_build_time).title = "build time: ${paperwork.get("buildTime")}"
+            menu.findItem(R.id.mh_gm_i_ds_git_sha).title = "git sha: ${paperwork.get("gitSha")}"
+            menu.findItem(R.id.mh_gm_i_ds_git_tag).title = "git tag: ${paperwork.get("gitTag")}"
+            menu.findItem(R.id.mh_gm_i_ds_git_info).title = "git info: ${paperwork.get("gitInfo")}"
         }
-
 
         animations = MHAnimations(
                 header.mh_gh_tv_logo,
@@ -111,8 +110,8 @@ class MHActivity : MyActivity() {
     }
 
     fun showLocalNavigation() {
-        if (mLocalDrawerLayout != null)
-            mLocalDrawerLayout.openDrawer(GravityCompat.END)
+        val ldl = mLocalDrawerLayout ?: return
+        ldl.openDrawer(GravityCompat.END)
     }
 }
 

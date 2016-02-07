@@ -11,7 +11,6 @@ import pl.mareklangiewicz.myfragments.MyFragment
 import pl.mareklangiewicz.myhub.MHApplication
 import pl.mareklangiewicz.myhub.MyAccountPresenter
 import pl.mareklangiewicz.myhub.R
-import pl.mareklangiewicz.myhub.data.Note
 import javax.inject.Inject
 
 class MyAccountFragment : MyFragment() {
@@ -33,18 +32,17 @@ class MyAccountFragment : MyFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyAccountView(
+                mh_fma_pb_progress,
                 mh_fma_tv_status,
                 mh_fma_ed_login,
                 mh_fma_ed_password,
                 mh_fma_ed_otp,
+                mh_fma_b_login,
                 mh_bui_iv_avatar,
                 mh_bui_tv_name,
                 mh_bui_tv_description,
-                mh_fma_b_login,
-                ANotesView(header.mh_n_rv_notes),
-                AProgressView(mh_fma_pb_progress, log)
+                header!!.mh_n_rv_notes
         )
-        v.notes = listOf(Note("No info", "Log in to get info"))
         presenter.view = v
     }
 

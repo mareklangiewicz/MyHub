@@ -2,47 +2,62 @@ package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
 import com.noveogroup.android.log.MyLogger
+import lsubscribe
 import pl.mareklangiewicz.myhub.data.Account
+import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView
-import pl.mareklangiewicz.myhub.mvp.IProgressView
 import pl.mareklangiewicz.myhub.mvp.Presenter
-import plusAssign
 import rx.Observable
 import rx.Observer
+import rx.Subscription
+import rx.subscriptions.Subscriptions
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
+
 @MainThread
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
 
+    private var loginClicksSubscription: Subscription = Subscriptions.unsubscribed()
+    private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
+    private var getAccountSubscription: Subscription = Subscriptions.unsubscribed()
+
     override var view: IMyAccountView?
+
         get() = super.view
+
         set(value) {
-            subscriptions.clear()
+            if (!loginClicksSubscription.isUnsubscribed) loginClicksSubscription.unsubscribe()
+            if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
+
             super.view = value
             if (value == null) return
-            subscriptions +=
-                    model.loadLatestAccount().subscribe(object : Observer<Account?> {
-                        override fun onCompleted() {
-                            log.v("loading completed.")
-                        }
 
-                        override fun onError(e: Throwable?) {
-                            log.e(e, "[SNACK] Error %s", e?.message ?: "")
-                        }
+            logging = logging // sync ui..
 
-                        override fun onNext(account: Account?) {
-                            showAccount(account)
-                        }
-                    })
-            subscriptions +=
-                    value.loginButtonClicks
-                            .subscribe(object : Observer<Unit> {
-                                override fun onNext(t: Unit) { login() }
-                                override fun onCompleted() { }
-                                override fun onError(e: Throwable?) { throw IllegalStateException(e) }
-                            })
+            loginClicksSubscription = value.loginButton.clicks.lsubscribe(log) { login() }
+
+            if (logging)
+                return
+
+            loadLatestAccountSubscription = model.loadLatestAccount().lsubscribe(log, logOnCompleted = "load latest account completed") {
+                if (it === null)
+                    clearAccount()
+                else
+                    showAccount(it)
+            }
+
+        }
+
+    private var logging: Boolean = false // true if we are running long operation (fetching account from internet)
+            // it updates ui accordingly (just displays some moving progress bar)
+        set(value) {
+            field = value
+            val v = view ?: return
+            v.progress.indeterminate = value
+            v.progress.visible = value
+            v.loginButton.enabled = !value
         }
 
     fun login() {
@@ -51,30 +66,36 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
             log.e("Can not login. View is detached.")
             return
         }
+        login(v.login.text, v.password.text, v.otp.text)
+    }
 
-        if(v.progress != IProgressView.HIDDEN) {
+    private fun login(name: String, password: String, otp: String) {
+
+        if (logging) {
             log.w("[SNACK]I'm trying...")
             return
         }
 
-        v.progress = IProgressView.INDETERMINATE
+        if (!getAccountSubscription.isUnsubscribed) getAccountSubscription.unsubscribe()
 
-        subscriptions += getAccount(v.login, v.password, v.otp).subscribe(object : Observer<Account?> {
+        logging = true
+
+        getAccountSubscription = getAccount(name, password, otp).subscribe(object : Observer<Account?> {
+
             override fun onCompleted() {
-                val av = view
-                if (av != null) av.progress = IProgressView.HIDDEN
-                log.v("loading completed.")
+                logging = false
+                log.v("Account loading completed.")
             }
 
             override fun onError(e: Throwable?) {
+                logging = false
                 log.e(e, "[SNACK]Error %s", e?.message ?: "")
-                val av = view ?: return
-                av.progress = IProgressView.HIDDEN
-                av.login = v.login
+                clearAccount(clearLoginInfo = false)
             }
 
             override fun onNext(account: Account?) {
-                showAccount(account)
+                if (account != null)
+                    showAccount(account)
             }
         })
     }
@@ -90,17 +111,31 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
     }
 
     /**
-     * Displays given account on attached IView. Clears IView if account is null.
+     * Displays given account on attached IView.
      */
-    private fun showAccount(account: Account?) {
+    private fun showAccount(account: Account) {
         val v = view ?: return
-        v.status = if (account != null) "loaded: %tF %tT.".format(Locale.US, account.time, account.time) else "not loaded."
-        v.login = account?.login ?: ""
-        v.avatar = account?.avatar ?: ""
-        v.name = account?.name ?: ""
-        v.description = account?.description ?: ""
-        v.notes = account?.notes ?: emptyList()
-
+        v.status.highlight = false
+        v.status.text = "loaded: %tF %tT.".format(Locale.US, account.time, account.time)
+        v.login.text = account.login ?: ""
+        v.avatar.url = account.avatar ?: ""
+        v.name.text = account.name ?: ""
+        v.description.text = account.description ?: ""
+        v.notes.items = account.notes ?: listOf(Note("No info", "Log in to get info"))
     }
 
+    private fun clearAccount(clearLoginInfo: Boolean = true) {
+        val v = view ?: return
+        v.status.highlight = true
+        v.status.text = "not loaded."
+        if (clearLoginInfo) {
+            v.login.text = ""
+            v.password.text = ""
+            v.otp.text = ""
+        }
+        v.avatar.url = ""
+        v.name.text = ""
+        v.description.text = ""
+        v.notes.items = listOf(Note("No info", "Log in to get info"))
+    }
 }

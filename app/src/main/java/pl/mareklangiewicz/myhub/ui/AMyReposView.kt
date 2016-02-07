@@ -1,23 +1,39 @@
 package pl.mareklangiewicz.myhub.ui
 
+import android.support.v7.widget.RecyclerView
+import android.widget.ProgressBar
 import android.widget.TextView
-import getValue
-import pl.mareklangiewicz.myhub.mvp.IMyReposView
-import pl.mareklangiewicz.myhub.mvp.INotesView
-import pl.mareklangiewicz.myhub.mvp.IProgressView
-import pl.mareklangiewicz.myhub.mvp.IReposView
-import setValue
+import pl.mareklangiewicz.myhub.mvp.*
 
 /**
  * Created by Marek Langiewicz on 31.01.16.
  * Android implementation of IMyReposView
  */
 class AMyReposView(
-        private val statusTextView: TextView,
-        private val rv: IReposView,
-        private val nv: INotesView,
-        private val pv: IProgressView
-) : IMyReposView, IReposView by rv, INotesView by nv, IProgressView by pv {
-    override var status by statusTextView
+        val activity: MHActivity, // we need that just to show a drawer with repo notes...
+        override val progress: IProgressView,
+        override val status: IStatusView,
+        override val repos: IRepoListView,
+        override val notes: INoteListView
+) : IMyReposView {
+    constructor(
+            activity: MHActivity,
+            progress: ProgressBar,
+            status: TextView,
+            repos: RecyclerView,
+            notes: RecyclerView
+    )
+    : this(
+            activity,
+            AProgressView(progress),
+            AStatusView(status),
+            ARepoListView(repos),
+            ANoteListView(notes)
+    )
+
+    override fun showNotes() {
+        activity.showLocalNavigation()
+    }
+
 }
 

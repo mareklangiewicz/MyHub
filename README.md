@@ -24,6 +24,8 @@ Dagger 2, Retrofit 2, Realm - these libraries do not like Kotlin much (yet).
 * Retrofit 2
 * Dagger 2
 * RxJava
+* RxBinding
+* RxRelay
 * Realm
 * Picasso
 * Paperwork

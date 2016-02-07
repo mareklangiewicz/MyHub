@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
@@ -76,7 +77,9 @@ dependencies {
     compile 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
-    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.3.0'
+//    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.3.0' TODO LATER: use this when RxBinding is updated to new Kotlin
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'io.realm:realm-android:0.87.4'
@@ -93,7 +96,7 @@ dependencies {
     compile 'hu.supercluster:paperwork:1.2.2'
 }
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-4589'
+    ext.kotlin_version = '1.0.0-rc-1036'
     repositories {
         mavenCentral()
     }
