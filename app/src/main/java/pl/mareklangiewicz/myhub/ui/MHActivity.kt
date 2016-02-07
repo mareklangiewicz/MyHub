@@ -1,9 +1,12 @@
 package pl.mareklangiewicz.myhub.ui
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.afollestad.materialdialogs.MaterialDialog
 import hu.supercluster.paperwork.Paperwork
 import io.realm.Realm
@@ -69,6 +72,8 @@ class MHActivity : MyActivity() {
 
 
     override fun onDrawerOpened(drawerView: View) {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
         super.onDrawerOpened(drawerView)
         if (drawerView !== mGlobalNavigationView)
             return
@@ -112,6 +117,16 @@ class MHActivity : MyActivity() {
     fun showLocalNavigation() {
         val ldl = mLocalDrawerLayout ?: return
         ldl.openDrawer(GravityCompat.END)
+    }
+
+    override fun onCommand(command: String?): Boolean {
+        when (command) {
+            "orientation portrait" -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            "orientation landscape" -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            "orientation unspecified" -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            else -> return super.onCommand(command)
+        }
+        return true
     }
 }
 

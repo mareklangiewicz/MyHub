@@ -19,4 +19,7 @@
     <string name="mh_clear">Clear</string>
     <string name="mh_cancel">Cancel</string>
     <string name="mh_logger">Logger</string>
+    <string name="mh_set_orientation_to_portrait">Set orientation to: PORTRAIT</string>
+    <string name="mh_set_orientation_to_landscape">Set orientation to: LANDSCAPE</string>
+    <string name="mh_set_orientation_to_unspecified">Set orientation to: UNSPECIFIED</string>
 </resources>

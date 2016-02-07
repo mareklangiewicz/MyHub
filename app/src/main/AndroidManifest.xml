@@ -17,6 +17,7 @@
         <activity
             android:name="pl.mareklangiewicz.myhub.ui.MHActivity"
             android:label="@string/mh_app_name"
+            android:windowSoftInputMode="stateAlwaysHidden"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
