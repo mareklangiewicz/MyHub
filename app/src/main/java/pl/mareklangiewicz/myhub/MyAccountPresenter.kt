@@ -121,7 +121,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
         v.avatar.url = account.avatar ?: ""
         v.name.text = account.name ?: ""
         v.description.text = account.description ?: ""
-        v.notes.items = account.notes ?: listOf(Note("No info", "Log in to get info"))
+        v.notes.items = account.notes
     }
 
     private fun clearAccount(clearLoginInfo: Boolean = true) {

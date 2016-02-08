@@ -1,12 +1,12 @@
 # MyHub
 
-A simple GitHub client.
+Simple GitHub client.
 
 An exercise of using some modern libraries together.
 
 #### News
-This project is now rewritten in Kotlin language - except some thin layers around:
-Dagger 2, Retrofit 2, Realm - these libraries do not like Kotlin much (yet).
+
+This project is now rewritten in Kotlin language.
 
 #### Features
 

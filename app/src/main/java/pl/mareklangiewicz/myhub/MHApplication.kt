@@ -5,11 +5,14 @@ import android.app.Application
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import pl.mareklangiewicz.myhub.di.ApplicationComponent
-import pl.mareklangiewicz.myhub.di.ComponentBuilders
+import pl.mareklangiewicz.myhub.di.ApplicationModule
+import pl.mareklangiewicz.myhub.di.DaggerApplicationComponent
 
 class MHApplication : Application() {
 
-    val component: ApplicationComponent by lazy { ComponentBuilders.buildApplicationComponent(this) }
+    val component: ApplicationComponent by lazy {
+        DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
+    }
 
     override fun onCreate() {
         super.onCreate()
