@@ -1,7 +1,7 @@
 package pl.mareklangiewicz.myhub.ui
 
 import android.view.View
-import com.jakewharton.rxbinding.view.RxView
+import com.jakewharton.rxbinding.view.clicks
 import pl.mareklangiewicz.myhub.mvp.IView
 import rx.Observable
 
@@ -23,7 +23,6 @@ open class AView(val view: View) : IView {
         }
 
     override val clicks: Observable<out AView>
-        get() = RxView.clicks(view).map { this }
-    //  get() = view.clicks().map { this }  TODO LATER: use this version when RxBinding is updated to new Kotlin
+        get() = view.clicks().map { this }
 
 }
