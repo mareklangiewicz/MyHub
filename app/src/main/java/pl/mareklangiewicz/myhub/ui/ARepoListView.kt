@@ -1,5 +1,6 @@
 package pl.mareklangiewicz.myhub.ui
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import pl.mareklangiewicz.myhub.data.Repo
 import pl.mareklangiewicz.myhub.mvp.IRepoListView
@@ -9,5 +10,5 @@ import pl.mareklangiewicz.myhub.mvp.IRepoListView
  * Android implementation of IRepoListView
  */
 internal class ARepoListView(private val recyclerView: RecyclerView)
-: AItemListView<Repo>(recyclerView, WCLinearLayoutManager(recyclerView.context), ARepoListAdapter()), IRepoListView
+: AItemListView<Repo>(recyclerView, LinearLayoutManager(recyclerView.context), ARepoListAdapter()), IRepoListView
 

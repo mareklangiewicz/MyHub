@@ -1,7 +1,7 @@
 package pl.mareklangiewicz.myhub.ui
 
 import android.widget.ImageView
-import com.squareup.picasso.Picasso
+import loadUrl
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.mvp.IImageView
 
@@ -18,6 +18,6 @@ class AAvatarView(private val imageView: ImageView) : AView(imageView), IImageVi
             if (value.isEmpty())
                 imageView.setImageResource(R.drawable.mh_avatar)
             else
-                Picasso.with(imageView.context).load(value).into(imageView)
+                imageView.loadUrl(value)
         }
 }

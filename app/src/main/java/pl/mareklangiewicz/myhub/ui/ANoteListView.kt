@@ -1,5 +1,6 @@
 package pl.mareklangiewicz.myhub.ui
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.INoteListView
@@ -9,4 +10,4 @@ import pl.mareklangiewicz.myhub.mvp.INoteListView
  * Android implementation of INoteListView
  */
 internal open class ANoteListView(val recyclerView: RecyclerView)
-: AItemListView<Note>(recyclerView, WCLinearLayoutManager(recyclerView.context), ANoteListAdapter()), INoteListView
+: AItemListView<Note>(recyclerView, LinearLayoutManager(recyclerView.context), ANoteListAdapter()), INoteListView
