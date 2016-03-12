@@ -24,7 +24,7 @@ class MHActivity : MyActivity() {
     // TODO SOMEDAY: do we want to change title on ToolBar depending of context? (I guess material guidelines say so..)
     // TODO SOMEDAY: option to star/unstar repos - then MyFragment with starred repos
 
-    private lateinit var animations: MHAnimations
+    private lateinit var animations: MHActivityAnimations
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -50,7 +50,7 @@ class MHActivity : MyActivity() {
             menu.findItem(R.id.mh_gm_i_ds_git_info).title = "git info: ${paperwork.get("gitInfo")}"
         }
 
-        animations = MHAnimations(
+        animations = MHActivityAnimations(
                 header.mh_gh_tv_logo,
                 header.mh_gh_tv_home_page,
                 header.mh_gh_v_magic_underline,

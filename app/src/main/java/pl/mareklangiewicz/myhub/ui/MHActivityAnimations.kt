@@ -11,7 +11,7 @@ import pl.mareklangiewicz.mydrawables.MyMagicLinesDrawable
  * Created by Marek Langiewicz on 01.02.16.
  * Some animations used in MHActivity
  */
-internal class MHAnimations(private val mlogo: MagicLogo,private val mhomepage: MagicHomePage,private val mlines: MagicLines) {
+internal class MHActivityAnimations(private val mlogo: MagicLogo, private val mhomepage: MagicHomePage, private val mlines: MagicLines) {
 
     constructor(logo: View, homepage: View, lines: View, lcolor: Int, lwidth: Float)
     : this(MagicLogo(logo), MagicHomePage(homepage), MagicLines(lcolor, lwidth)) {
