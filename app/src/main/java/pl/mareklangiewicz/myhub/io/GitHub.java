@@ -1,23 +1,20 @@
 package pl.mareklangiewicz.myhub.io;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.MoshiConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.Headers;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import rx.Observable;
 
 public final class GitHub {
 
-    private static final boolean VERY_VERBOSE = false;
+//    private static final boolean VERY_VERBOSE = false;
 
     private GitHub() {
         throw new AssertionError("GitHub class is noninstantiable.");
@@ -234,21 +231,25 @@ public final class GitHub {
             .build();
 
     public static Service create() {
-        if(VERY_VERBOSE) {
-            OkHttpClient client = new OkHttpClient();
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            client.interceptors().add(interceptor);
 
-            Retrofit loggingretrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .client(client)
-                    .addConverterFactory(MoshiConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
 
-            return loggingretrofit.create(Service.class);
-        }
+//        if(VERY_VERBOSE) {
+//            OkHttpClient client = new OkHttpClient();
+//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            client.interceptors().add(interceptor);
+//
+//            Retrofit loggingretrofit = new Retrofit.Builder()
+//                    .baseUrl(URL)
+//                    .client(client)
+//                    .addConverterFactory(MoshiConverterFactory.create())
+//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                    .build();
+//
+//            return loggingretrofit.create(Service.class);
+//        }
+
+
         return retrofit.create(Service.class);
     }
 

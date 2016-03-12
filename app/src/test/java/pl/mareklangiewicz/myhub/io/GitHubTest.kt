@@ -8,8 +8,8 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import pl.mareklangiewicz.myutils.MyTextUtils.str
-import retrofit.Call
-import retrofit.Response
+import retrofit2.Call
+import retrofit2.Response
 import rx.Observable
 
 class GitHubTest {
