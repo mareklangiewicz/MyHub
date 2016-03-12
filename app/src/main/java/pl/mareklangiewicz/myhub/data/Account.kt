@@ -9,7 +9,8 @@ import io.realm.annotations.Required
 /**
  * Created by Marek Langiewicz on 03.01.16.
  * TODO SOMEDAY: try to use concise kotlin data classes as RealmObjects - I tried once and had some problems - try again someday
-
+ * UPDATE: new realm relaxes requirements for RealmObjects, BUT: new realm is not just library, but some gradle plugin..
+ * TODO SOMEDAY: try new version (and kotlin data classes)
  */
 open class Account : RealmObject {
 

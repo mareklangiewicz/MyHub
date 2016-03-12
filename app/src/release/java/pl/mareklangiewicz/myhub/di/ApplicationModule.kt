@@ -11,7 +11,9 @@ import javax.inject.Singleton
 
 import dagger.Module
 import dagger.Provides
-import pl.mareklangiewicz.myhub.io.GitHub
+
+import pl.mareklangiewicz.myhub.io.GithubService
+import pl.mareklangiewicz.myhub.io.createGithubService
 
 @Module
 class ApplicationModule(protected val application: Application) {
@@ -36,8 +38,8 @@ class ApplicationModule(protected val application: Application) {
 
     @Singleton
     @Provides
-    internal fun provideGitHubService(): GitHub.Service {
-        return GitHub.create()
+    internal fun provideGitHubService(): GithubService {
+        return createGithubService()
     }
 
 }

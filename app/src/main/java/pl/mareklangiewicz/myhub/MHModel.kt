@@ -7,7 +7,9 @@ import io.realm.Sort
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.data.Repo
-import pl.mareklangiewicz.myhub.io.GitHub
+import pl.mareklangiewicz.myhub.io.Repository
+import pl.mareklangiewicz.myhub.io.GithubService
+import pl.mareklangiewicz.myhub.io.User
 import pl.mareklangiewicz.myhub.mvp.IModel
 import pl.mareklangiewicz.myutils.MyTextUtils.str
 import rx.Observable
@@ -20,7 +22,7 @@ import javax.inject.Singleton
 
 @Singleton
 @MainThread
-class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : IModel {
+class MHModel @Inject constructor(private val gitHubService: GithubService) : IModel {
 
 
     /**
@@ -124,11 +126,12 @@ class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : I
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
+    private val Boolean.yesno: String get() = if(this) "YES" else "NO"
     /**
-     * Converts GitHub.User to Account
+     * Converts User to Account
      * Important: it will set the "time" property to current time
      */
-    private fun user2account(user: GitHub.User, repositories: List<GitHub.Repository>?): Account {
+    private fun user2account(user: User, repositories: List<Repository>?): Account {
         val login = user.login ?: ""
         val name = user.name ?: ""
         val location = user.location ?: ""
@@ -154,44 +157,44 @@ class MHModel @Inject constructor(private val gitHubService: GitHub.Service) : I
         notes.add(Note("Created At", user.created_at))
         notes.add(Note("Updated At", user.updated_at))
 
-        if (user.site_admin != null) notes.add(Note("Site Admin", if (user.site_admin) "YES" else "NO"))
-        if (user.hireable != null) notes.add(Note("Hireable", if (user.hireable) "YES" else "NO"))
-        if (user.bio != null) notes.add(Note("Bio", user.bio))
-        if (user.total_private_repos != null) notes.add(Note("Total Private Repos", str(user.total_private_repos)))
-        if (user.owned_private_repos != null) notes.add(Note("Owned Private Repos", str(user.owned_private_repos)))
-        if (user.private_gists != null) notes.add(Note("Private Gists", str(user.private_gists)))
-        if (user.disk_usage != null) notes.add(Note("Disk Usage", str(user.disk_usage)))
-        if (user.collaborators != null) notes.add(Note("Collaborators", str(user.collaborators)))
-        //        if(user.plan != null) account.notes.add(new Note("Plan", str(user.plan))); // TODO SOMEDAY: better plan representation
+        user.site_admin?.let { notes.add(Note("Site Admin", it.yesno)) }
+        user.hireable?.let { notes.add(Note("Hireable", it.yesno)) }
+        user.bio?.let { notes.add(Note("Bio", it)) }
+        user.total_private_repos?.let { notes.add(Note("Total Private Repos", str(it))) }
+        user.owned_private_repos?.let { notes.add(Note("Owned Private Repos", str(it))) }
+        user.private_gists?.let { notes.add(Note("Private Gists", str(it))) }
+        user.disk_usage?.let { notes.add(Note("Disk Usage", str(it))) }
+        user.collaborators?.let { notes.add(Note("Collaborators", str(it))) }
+//        user.plan?.let { account.notes.add(Note("Plan", str(it))); }// TODO SOMEDAY: better plan representation
 
         if (repositories != null) {
             val repos = account.repos
             for (r in repositories) {
-                val repo = Repo(r.name, r.description, r.forks_count ?: 0, r.watchers_count ?: 0, r.stargazers_count ?: 0)
+                val repo = Repo(r.name!!, r.description, r.forks_count ?: 0, r.watchers_count ?: 0, r.stargazers_count ?: 0)
                 val rnotes = repo.notes
 
                 //TODO SOMEDAY: comment out not important repo notes
                 rnotes.add(Note("Name", r.name))
 
-                if (r.full_name != null) rnotes.add(Note("Full Name", r.full_name))
-                if (r.description != null) rnotes.add(Note("Description", r.description))
-                if (r.html_url != null) rnotes.add(Note("GitHub Page", r.html_url))
-                if (r.id != null) rnotes.add(Note("Id", str(r.id)))
-                if (r.size != null) rnotes.add(Note("Size", str(r.size)))
-                if (r.language != null) rnotes.add(Note("Language", r.language))
-                if (r.fork != null) rnotes.add(Note("Fork", if (r.fork) "YES" else "NO"))
-                if (r.forks_count != null) rnotes.add(Note("Forks", str(r.forks_count)))
-                if (r.watchers_count != null) rnotes.add(Note("Watchers", str(r.watchers_count)))
-                if (r.stargazers_count != null) rnotes.add(Note("Stargazers", str(r.stargazers_count)))
-                if (r.open_issues_count != null) rnotes.add(Note("Open Issues", str(r.open_issues_count)))
-                if (r.default_branch != null) rnotes.add(Note("Default Branch", r.default_branch))
-                if (r.has_issues != null) rnotes.add(Note("Has Issues", if (r.has_issues) "YES" else "NO"))
-                if (r.has_wiki != null) rnotes.add(Note("Has Wiki", if (r.has_wiki) "YES" else "NO"))
-                if (r.has_pages != null) rnotes.add(Note("Has Pages", if (r.has_pages) "YES" else "NO"))
-                if (r.has_downloads != null) rnotes.add(Note("Has Downloads", if (r.has_downloads) "YES" else "NO"))
-                if (r.pushed_at != null) rnotes.add(Note("Pushed At", r.pushed_at))
-                if (r.created_at != null) rnotes.add(Note("Created At", r.created_at))
-                if (r.updated_at != null) rnotes.add(Note("Updated At", r.updated_at))
+                r.full_name?.let { rnotes.add(Note("Full Name", it)) }
+                r.description?.let { rnotes.add(Note("Description", it)) }
+                r.html_url?.let { rnotes.add(Note("GitHub Page", it)) }
+                r.id?.let { rnotes.add(Note("Id", str(it))) }
+                r.size?.let { rnotes.add(Note("Size", str(it))) }
+                r.language?.let { rnotes.add(Note("Language", it)) }
+                r.fork?.let { rnotes.add(Note("Fork", it.yesno)) }
+                r.forks_count?.let { rnotes.add(Note("Forks", str(it))) }
+                r.watchers_count?.let { rnotes.add(Note("Watchers", str(it))) }
+                r.stargazers_count?.let { rnotes.add(Note("Stargazers", str(it))) }
+                r.open_issues_count?.let { rnotes.add(Note("Open Issues", str(it))) }
+                r.default_branch?.let { rnotes.add(Note("Default Branch", it)) }
+                r.has_issues?.let { rnotes.add(Note("Has Issues", it.yesno)) }
+                r.has_wiki?.let { rnotes.add(Note("Has Wiki", it.yesno)) }
+                r.has_pages?.let { rnotes.add(Note("Has Pages", it.yesno)) }
+                r.has_downloads?.let { rnotes.add(Note("Has Downloads", it.yesno)) }
+                r.pushed_at?.let { rnotes.add(Note("Pushed At", it)) }
+                r.created_at?.let { rnotes.add(Note("Created At", it)) }
+                r.updated_at?.let { rnotes.add(Note("Updated At", it)) }
 
                 repos.add(repo)
             }

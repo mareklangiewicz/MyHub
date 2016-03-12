@@ -36,10 +36,10 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserCall() {
-        val service = GitHub.create()
-        var call: Call<GitHub.User> = service.getUserCall("langara")
-        var response: Response<GitHub.User> = call.execute()
-        var body: GitHub.User = response.body()
+        val service = createGithubService()
+        var call: Call<User> = service.getUserCall("langara")
+        var response: Response<User> = call.execute()
+        var body: User = response.body()
         log.w(str(body)) // set breakpoint here to see properties
         call = service.getUserCall("JakeWharton")
         response = call.execute()
@@ -56,7 +56,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserAuthCall() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val call = service.getUserAuthCall("Basic some_bad_base64_pass")
         val response = call.execute()
         val body = response.body()
@@ -68,7 +68,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserTFACall() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val call = service.getUserTFACall("Basic some_bad_base64_pass", "421164")
         val response = call.execute()
         val body = response.body()
@@ -79,10 +79,10 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposCall() {
-        val service = GitHub.create()
-        var call: Call<List<GitHub.Repository>> = service.getUserReposCall("langara")
-        var response: Response<List<GitHub.Repository>> = call.execute()
-        var body: List<GitHub.Repository> = response.body()
+        val service = createGithubService()
+        var call: Call<List<Repository>> = service.getUserReposCall("langara")
+        var response: Response<List<Repository>> = call.execute()
+        var body: List<Repository> = response.body()
         log.w(str(body)) // set breakpoint here to see properties
         call = service.getUserReposCall("JakeWharton")
         response = call.execute()
@@ -99,7 +99,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposAuthCall() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val call = service.getUserReposAuthCall("Basic some_bad_base64")
         val response = call.execute()
         val body = response.body()
@@ -112,7 +112,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposTFACall() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val call = service.getUserReposTFACall("Basic some_bad_base64", "197187")
         val response = call.execute()
         val body = response.body()
@@ -140,8 +140,8 @@ class GitHubTest {
     @Throws(Exception::class)
     fun testGitHubGetUserObservable() {
 
-        val service = GitHub.create()
-        var observable: Observable<GitHub.User> = service.getUserObservable("langara")
+        val service = createGithubService()
+        var observable: Observable<User> = service.getUserObservable("langara")
         subscribeAndLogAll(observable)
 
         observable = service.getUserObservable("JakeWharton")
@@ -156,7 +156,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserAuthObservable() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val observable = service.getUserAuthObservable("Basic some_bad_base64_pass")
         subscribeAndLogAll(observable)
     }
@@ -166,7 +166,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserTFAObservable() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val observable = service.getUserTFAObservable("Basic some_bad_base64_pass", "421164")
         subscribeAndLogAll(observable)
     }
@@ -175,8 +175,8 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposObservable() {
-        val service = GitHub.create()
-        var observable: Observable<List<GitHub.Repository>> = service.getUserReposObservable("langara")
+        val service = createGithubService()
+        var observable: Observable<List<Repository>> = service.getUserReposObservable("langara")
         subscribeAndLogAll(observable)
         observable = service.getUserReposObservable("JakeWharton")
         subscribeAndLogAll(observable)
@@ -191,7 +191,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposAuthObservable() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val observable = service.getUserReposAuthObservable("Basic some_bad_base64")
         subscribeAndLogAll(observable)
     }
@@ -202,7 +202,7 @@ class GitHubTest {
     @Test
     @Throws(Exception::class)
     fun testGitHubGetUserReposTFAObservable() {
-        val service = GitHub.create()
+        val service = createGithubService()
         val observable = service.getUserReposTFAObservable("Basic some_bad_base64", "197187")
         subscribeAndLogAll(observable)
     }
