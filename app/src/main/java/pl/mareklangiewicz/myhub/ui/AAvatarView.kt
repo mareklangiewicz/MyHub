@@ -1,9 +1,9 @@
 package pl.mareklangiewicz.myhub.ui
 
 import android.widget.ImageView
-import loadUrl
 import pl.mareklangiewicz.myhub.R
 import pl.mareklangiewicz.myhub.mvp.IImageView
+import pl.mareklangiewicz.myutils.loadUrl
 
 /**
  * Created by Marek Langiewicz on 04.02.16.

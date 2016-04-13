@@ -8,6 +8,8 @@ import pl.mareklangiewicz.myhub.di.ApplicationComponent
 import pl.mareklangiewicz.myhub.di.ApplicationModule
 import pl.mareklangiewicz.myhub.di.DaggerApplicationComponent
 
+val APP_START_TIME = System.currentTimeMillis()
+
 class MHApplication : Application() {
 
     val component: ApplicationComponent by lazy {

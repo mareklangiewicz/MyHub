@@ -1,12 +1,12 @@
 package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
-import com.noveogroup.android.log.MyLogger
-import lsubscribe
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView
 import pl.mareklangiewicz.myhub.mvp.Presenter
+import pl.mareklangiewicz.myloggers.MyAndroLogger
+import pl.mareklangiewicz.myutils.*
 import rx.Observable
 import rx.Observer
 import rx.Subscription
@@ -17,7 +17,8 @@ import javax.inject.Named
 
 
 @MainThread
-class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyAccountView>() {
+class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
+: Presenter<IMyAccountView>() {
 
     private var loginClicksSubscription: Subscription = Subscriptions.unsubscribed()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
@@ -89,7 +90,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
 
             override fun onError(e: Throwable?) {
                 logging = false
-                log.e(e, "[SNACK]Error %s", e?.message ?: "")
+                log.e("[SNACK]Error ${e?.message ?: ""}", throwable = e)
                 clearAccount(clearLoginInfo = false)
             }
 

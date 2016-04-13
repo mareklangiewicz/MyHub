@@ -1,12 +1,12 @@
 package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
-import com.noveogroup.android.log.MyLogger
-import lsubscribe
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.mvp.IMyReposView
 import pl.mareklangiewicz.myhub.mvp.Presenter
+import pl.mareklangiewicz.myloggers.MyAndroLogger
+import pl.mareklangiewicz.myutils.*
 import rx.Subscription
 import rx.subscriptions.Subscriptions
 import java.util.*
@@ -14,7 +14,8 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @MainThread
-class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyLogger) : Presenter<IMyReposView>() {
+class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
+: Presenter<IMyReposView>() {
 
     private var itemClicksSubscription: Subscription = Subscriptions.unsubscribed()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()

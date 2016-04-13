@@ -1,9 +1,9 @@
 package pl.mareklangiewicz.myhub.ui
 
 import android.widget.TextView
-import getValue
 import pl.mareklangiewicz.myhub.mvp.ITextView
-import setValue
+import pl.mareklangiewicz.myutils.getValue
+import pl.mareklangiewicz.myutils.setValue
 
 /**
  * Created by Marek Langiewicz on 04.02.16.

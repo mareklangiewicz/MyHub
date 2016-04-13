@@ -32,7 +32,7 @@ class AMyReposView(
     )
 
     override fun showNotes() {
-        activity.showLocalNavigation()
+        activity.showLNav()
     }
 
 }

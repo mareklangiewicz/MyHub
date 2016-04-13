@@ -25,11 +25,11 @@ class MyAccountFragment : MyFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflateHeader(R.layout.mh_notes)
+        manager!!.lnav!!.headerId = R.layout.mh_notes
         return inflater.inflate(R.layout.mh_fragment_my_account, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyAccountView(
                 mh_fma_pb_progress,
@@ -41,7 +41,7 @@ class MyAccountFragment : MyFragment() {
                 mh_bui_iv_avatar,
                 mh_bui_tv_name,
                 mh_bui_tv_description,
-                header!!.mh_n_rv_notes
+                manager!!.lnav!!.headerObj!!.mh_n_rv_notes
         )
         presenter.view = v
     }

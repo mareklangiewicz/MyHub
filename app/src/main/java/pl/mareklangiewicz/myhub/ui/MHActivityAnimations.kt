@@ -71,7 +71,7 @@ internal class MHActivityAnimations(private val mlogo: MagicLogo, private val mh
     /**
      * Little animated drawable to make header view more interesting
      */
-    internal class MagicLines(color: Int, width: Float, duration: Long = 1000) : MyMagicLinesDrawable() {
+    internal class MagicLines(acolor: Int, width: Float, duration: Long = 1000) : MyMagicLinesDrawable() {
 
         private val animator = ObjectAnimator.ofInt(this, "level", 0, 10000).apply {
             setDuration(duration)
@@ -79,7 +79,7 @@ internal class MHActivityAnimations(private val mlogo: MagicLogo, private val mh
         }
 
         init {
-            setColor(color)
+            color = acolor
             strokeWidth = width
         }
 

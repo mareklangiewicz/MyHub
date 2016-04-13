@@ -7,11 +7,9 @@ import io.realm.Sort
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myhub.data.Repo
-import pl.mareklangiewicz.myhub.io.Repository
-import pl.mareklangiewicz.myhub.io.GithubService
-import pl.mareklangiewicz.myhub.io.User
 import pl.mareklangiewicz.myhub.mvp.IModel
-import pl.mareklangiewicz.myutils.MyTextUtils.str
+import pl.mareklangiewicz.myutils.myhttp.GitHub
+import pl.mareklangiewicz.myutils.str
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -22,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 @MainThread
-class MHModel @Inject constructor(private val gitHubService: GithubService) : IModel {
+class MHModel @Inject constructor(private val ghservice: GitHub.Service) : IModel {
 
 
     /**
@@ -45,16 +43,16 @@ class MHModel @Inject constructor(private val gitHubService: GithubService) : IM
     fun fetchAccount(user: String, password: String, otp: String): Observable<Account> {
 
         val userObservable = when {
-            password.isEmpty() -> gitHubService.getUserObservable(user)
-            otp.isEmpty() -> gitHubService.getUserAuthObservable(encodeBasicAuthHeader(user, password))
-            else -> gitHubService.getUserTFAObservable(encodeBasicAuthHeader(user, password), otp)
+            password.isEmpty() -> ghservice.getUserObservable(user)
+            otp.isEmpty() -> ghservice.getUserAuthObservable(encodeBasicAuthHeader(user, password))
+            else -> ghservice.getUserTFAObservable(encodeBasicAuthHeader(user, password), otp)
         }
 
         // TODO LATER: github pagination..
         val reposObservable = when {
-            password.isEmpty() -> gitHubService.getUserReposObservable(user)
-            otp.isEmpty() -> gitHubService.getUserReposAuthObservable(encodeBasicAuthHeader(user, password))
-            else -> gitHubService.getUserReposTFAObservable(encodeBasicAuthHeader(user, password), otp)
+            password.isEmpty() -> ghservice.getUserReposObservable(user)
+            otp.isEmpty() -> ghservice.getUserReposAuthObservable(encodeBasicAuthHeader(user, password))
+            else -> ghservice.getUserReposTFAObservable(encodeBasicAuthHeader(user, password), otp)
         }
 
         return userObservable.zipWith(reposObservable) { user, repositories ->
@@ -131,7 +129,7 @@ class MHModel @Inject constructor(private val gitHubService: GithubService) : IM
      * Converts User to Account
      * Important: it will set the "time" property to current time
      */
-    private fun user2account(user: User, repositories: List<Repository>?): Account {
+    private fun user2account(user: GitHub.User, repositories: List<GitHub.Repository>?): Account {
         val login = user.login ?: ""
         val name = user.name ?: ""
         val location = user.location ?: ""
@@ -150,22 +148,22 @@ class MHModel @Inject constructor(private val gitHubService: GithubService) : IM
         notes.add(Note("GitHub Page", user.html_url))
         notes.add(Note("Company", user.company))
         notes.add(Note("Blog", user.blog))
-        notes.add(Note("Public Repos", str(user.public_repos)))
-        notes.add(Note("Public Gists", str(user.public_gists)))
-        notes.add(Note("Followers", str(user.followers)))
-        notes.add(Note("Following", str(user.following)))
+        notes.add(Note("Public Repos", user.public_repos.str))
+        notes.add(Note("Public Gists", user.public_gists.str))
+        notes.add(Note("Followers", user.followers.str))
+        notes.add(Note("Following", user.following.str))
         notes.add(Note("Created At", user.created_at))
         notes.add(Note("Updated At", user.updated_at))
 
         user.site_admin?.let { notes.add(Note("Site Admin", it.yesno)) }
         user.hireable?.let { notes.add(Note("Hireable", it.yesno)) }
         user.bio?.let { notes.add(Note("Bio", it)) }
-        user.total_private_repos?.let { notes.add(Note("Total Private Repos", str(it))) }
-        user.owned_private_repos?.let { notes.add(Note("Owned Private Repos", str(it))) }
-        user.private_gists?.let { notes.add(Note("Private Gists", str(it))) }
-        user.disk_usage?.let { notes.add(Note("Disk Usage", str(it))) }
-        user.collaborators?.let { notes.add(Note("Collaborators", str(it))) }
-//        user.plan?.let { account.notes.add(Note("Plan", str(it))); }// TODO SOMEDAY: better plan representation
+        user.total_private_repos?.let { notes.add(Note("Total Private Repos", it.str)) }
+        user.owned_private_repos?.let { notes.add(Note("Owned Private Repos", it.str)) }
+        user.private_gists?.let { notes.add(Note("Private Gists", it.str)) }
+        user.disk_usage?.let { notes.add(Note("Disk Usage", it.str)) }
+        user.collaborators?.let { notes.add(Note("Collaborators", it.str)) }
+//        user.plan?.let { account.notes.add(Note("Plan", it.str)); }// TODO SOMEDAY: better plan representation
 
         if (repositories != null) {
             val repos = account.repos
@@ -179,14 +177,14 @@ class MHModel @Inject constructor(private val gitHubService: GithubService) : IM
                 r.full_name?.let { rnotes.add(Note("Full Name", it)) }
                 r.description?.let { rnotes.add(Note("Description", it)) }
                 r.html_url?.let { rnotes.add(Note("GitHub Page", it)) }
-                r.id?.let { rnotes.add(Note("Id", str(it))) }
-                r.size?.let { rnotes.add(Note("Size", str(it))) }
+                r.id?.let { rnotes.add(Note("Id", it.str)) }
+                r.size?.let { rnotes.add(Note("Size", it.str)) }
                 r.language?.let { rnotes.add(Note("Language", it)) }
                 r.fork?.let { rnotes.add(Note("Fork", it.yesno)) }
-                r.forks_count?.let { rnotes.add(Note("Forks", str(it))) }
-                r.watchers_count?.let { rnotes.add(Note("Watchers", str(it))) }
-                r.stargazers_count?.let { rnotes.add(Note("Stargazers", str(it))) }
-                r.open_issues_count?.let { rnotes.add(Note("Open Issues", str(it))) }
+                r.forks_count?.let { rnotes.add(Note("Forks", it.str)) }
+                r.watchers_count?.let { rnotes.add(Note("Watchers", it.str)) }
+                r.stargazers_count?.let { rnotes.add(Note("Stargazers", it.str)) }
+                r.open_issues_count?.let { rnotes.add(Note("Open Issues", it.str)) }
                 r.default_branch?.let { rnotes.add(Note("Default Branch", it)) }
                 r.has_issues?.let { rnotes.add(Note("Has Issues", it.yesno)) }
                 r.has_wiki?.let { rnotes.add(Note("Has Wiki", it.yesno)) }

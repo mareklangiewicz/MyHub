@@ -25,18 +25,18 @@ class MyReposFragment : MyFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflateHeader(R.layout.mh_notes)
+        manager!!.lnav!!.headerId = R.layout.mh_notes
         return inflater.inflate(R.layout.mh_fragment_my_repos, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyReposView(
                 activity as MHActivity,
                 mh_fmr_pb_progress,
                 mh_fmr_tv_status,
                 mh_fmr_rv_repos,
-                header!!.mh_n_rv_notes
+                manager!!.lnav!!.headerObj!!.mh_n_rv_notes
         )
         presenter.view = v
     }
