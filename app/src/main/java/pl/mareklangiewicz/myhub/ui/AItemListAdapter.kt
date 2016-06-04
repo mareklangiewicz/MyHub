@@ -12,7 +12,7 @@ open class AItemListAdapter<Item>(
         private val bind: View.(Item) -> Unit
 ) : RecyclerView.Adapter<AItemListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     var items: List<Item> = emptyList()
         set(value) {
@@ -33,7 +33,7 @@ open class AItemListAdapter<Item>(
         onBindView(view, item)
     }
 
-    open protected fun onCreateView(parent: ViewGroup, position: Int): View {
+    open protected fun onCreateView(parent: ViewGroup, viewType: Int): View {
         return LayoutInflater.from(parent.context).inflate(rLayoutItemView, parent, false)
     }
 
@@ -42,7 +42,5 @@ open class AItemListAdapter<Item>(
     }
 
     val itemClicks: PublishRelay<Item> = PublishRelay.create()
-        get() = field
-
 
 }

@@ -13,18 +13,15 @@ import rx.Observable
  */
 open class AItemListView<Item>(
         private val recyclerView: RecyclerView,
-        private val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(recyclerView.context),
         private val adapter: AItemListAdapter<Item>
 ) : AView(recyclerView), IItemListView<Item> {
 
     constructor(
             recyclerView: RecyclerView,
-            layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(recyclerView.context),
             @LayoutRes rLayoutItemView: Int,
             bind: View.(Item) -> Unit
     ) : this(
             recyclerView,
-            layoutManager,
             AItemListAdapter(rLayoutItemView, bind)
     )
 
@@ -38,7 +35,6 @@ open class AItemListView<Item>(
         get() = adapter.itemClicks
 
     init {
-        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
     }
 }

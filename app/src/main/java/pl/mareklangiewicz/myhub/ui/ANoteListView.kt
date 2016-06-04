@@ -10,4 +10,4 @@ import pl.mareklangiewicz.myhub.mvp.INoteListView
  * Android implementation of INoteListView
  */
 internal open class ANoteListView(val recyclerView: RecyclerView)
-: AItemListView<Note>(recyclerView, LinearLayoutManager(recyclerView.context), ANoteListAdapter()), INoteListView
+: AItemListView<Note>(recyclerView, ANoteListAdapter()), INoteListView

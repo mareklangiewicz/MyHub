@@ -19,7 +19,7 @@ interface IView {
         set(value) = throw UnsupportedOperationException()
 
     val clicks: Observable<out IView>
-        get() = Observable.never()
+        get() = throw UnsupportedOperationException()
 
 }
 
@@ -57,10 +57,10 @@ interface IProgressView : IView {
 interface ITextView : IView {
     var text: String
     val textChanges: Observable<String>
-        get() = Observable.never()
+        get() = throw UnsupportedOperationException()
 }
 
-interface IButtonView : ITextView {}
+interface IButtonView : ITextView
 
 interface IStatusView : ITextView {
     var highlight: Boolean
@@ -73,7 +73,7 @@ interface IImageView : IView {
 interface IItemListView<Item> : IView {
     var items: List<Item>
     val itemClicks: Observable<Item>
-        get() = Observable.never()
+        get() = throw UnsupportedOperationException()
 }
 
 interface INoteListView : IItemListView<Note>

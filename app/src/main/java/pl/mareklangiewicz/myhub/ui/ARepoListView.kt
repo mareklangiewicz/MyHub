@@ -10,5 +10,5 @@ import pl.mareklangiewicz.myhub.mvp.IRepoListView
  * Android implementation of IRepoListView
  */
 internal class ARepoListView(private val recyclerView: RecyclerView)
-: AItemListView<Repo>(recyclerView, LinearLayoutManager(recyclerView.context), ARepoListAdapter()), IRepoListView
+: AItemListView<Repo>(recyclerView, ARepoListAdapter()), IRepoListView
 
