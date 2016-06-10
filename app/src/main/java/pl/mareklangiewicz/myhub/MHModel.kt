@@ -10,6 +10,7 @@ import pl.mareklangiewicz.myhub.data.Repo
 import pl.mareklangiewicz.myhub.mvp.IModel
 import pl.mareklangiewicz.myutils.myhttp.GitHub
 import pl.mareklangiewicz.myutils.str
+import pl.mareklangiewicz.myutils.yesno
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -124,7 +125,6 @@ class MHModel @Inject constructor(private val ghservice: GitHub.Service) : IMode
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private val Boolean.yesno: String get() = if(this) "YES" else "NO"
     /**
      * Converts User to Account
      * Important: it will set the "time" property to current time

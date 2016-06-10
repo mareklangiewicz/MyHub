@@ -3,8 +3,7 @@ package pl.mareklangiewicz.myhub
 import android.support.annotation.MainThread
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
-import pl.mareklangiewicz.myhub.mvp.IMyReposView
-import pl.mareklangiewicz.myhub.mvp.Presenter
+import pl.mareklangiewicz.myhub.mvp.*
 import pl.mareklangiewicz.myloggers.MyAndroLogger
 import pl.mareklangiewicz.myutils.*
 import rx.Subscription
@@ -17,7 +16,7 @@ import javax.inject.Named
 class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
 : Presenter<IMyReposView>() {
 
-    private var itemClicksSubscription: Subscription = Subscriptions.unsubscribed()
+    private val clicksSubscription = ToDo()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
     override var view: IMyReposView?
@@ -26,7 +25,7 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
 
         set(value) {
 
-            if (!itemClicksSubscription.isUnsubscribed) itemClicksSubscription.unsubscribe()
+            clicksSubscription.doItAll()
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
             super.view = value
@@ -41,24 +40,18 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
 
     /** Displays given account on attached IView. Clears IView if account is null. */
     private fun showAccount(account: Account?) {
+
         val v = view ?: return
-        if(account == null) {
-            v.status.highlight = true
-            v.status.text = "no repos loaded."
-            v.notes.items = listOf(Note("No details", "Log in first to get some repository list"))
-        }
-        else {
-            v.status.highlight = false
-            v.status.text = "%s: %d repos (%tF %tT):".format(Locale.US, account.login, account.repos.size, account.time, account.time)
-            v.notes.items = listOf(Note("No details", "Select repository to get details"))
-        }
-        v.repos.items = account?.repos ?: emptyList()
 
-        if (!itemClicksSubscription.isUnsubscribed) itemClicksSubscription.unsubscribe()
+        v.data = account
 
-        itemClicksSubscription = v.repos.itemClicks.lsubscribe(log) { repo ->
-            v.notes.items = repo.notes
+        clicksSubscription.doItAll()
+
+        val ctl = v.repos.clicksFromRepos {
+            v.notes.data = it.data?.notes?.asLst() ?: Lst()
             v.showNotes()
         }
+
+        clicksSubscription.push { ctl(Cancel) }
     }
 }

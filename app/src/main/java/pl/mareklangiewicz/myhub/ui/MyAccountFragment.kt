@@ -32,6 +32,7 @@ class MyAccountFragment : MyFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyAccountView(
+                view as ViewGroup,
                 mh_fma_pb_progress,
                 mh_fma_tv_status,
                 mh_fma_ed_login,

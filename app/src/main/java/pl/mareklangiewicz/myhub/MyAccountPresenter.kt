@@ -1,8 +1,7 @@
 package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
-import pl.mareklangiewicz.myhub.data.Account
-import pl.mareklangiewicz.myhub.data.Note
+import pl.mareklangiewicz.myhub.data.*
 import pl.mareklangiewicz.myhub.mvp.IMyAccountView
 import pl.mareklangiewicz.myhub.mvp.Presenter
 import pl.mareklangiewicz.myloggers.MyAndroLogger
@@ -11,7 +10,6 @@ import rx.Observable
 import rx.Observer
 import rx.Subscription
 import rx.subscriptions.Subscriptions
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -20,7 +18,7 @@ import javax.inject.Named
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
 : Presenter<IMyAccountView>() {
 
-    private var loginClicksSubscription: Subscription = Subscriptions.unsubscribed()
+    private var loginClicksUnsub: IToDo = ToDo()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
     private var getAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
@@ -29,7 +27,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
         get() = super.view
 
         set(value) {
-            if (!loginClicksSubscription.isUnsubscribed) loginClicksSubscription.unsubscribe()
+            loginClicksUnsub.doItAll()
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
             super.view = value
@@ -37,7 +35,8 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
 
             logging = logging // sync ui..
 
-            loginClicksSubscription = value.loginButton.clicks.lsubscribe(log) { login() }
+            val ctl = value.loginButton.clicks { login() }
+            loginClicksUnsub.push { ctl(Cancel) }
 
             if (logging)
                 return
@@ -67,7 +66,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
             log.e("Can not login. View is detached.")
             return
         }
-        login(v.login.text, v.password.text, v.otp.text)
+        login(v.login.data, v.password.data, v.otp.data)
     }
 
     private fun login(name: String, password: String, otp: String) {
@@ -116,27 +115,22 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
      */
     private fun showAccount(account: Account) {
         val v = view ?: return
-        v.status.highlight = false
-        v.status.text = "loaded: %tF %tT.".format(Locale.US, account.time, account.time)
-        v.login.text = account.login ?: ""
-        v.avatar.url = account.avatar ?: ""
-        v.name.text = account.name ?: ""
-        v.description.text = account.description ?: ""
-        v.notes.items = account.notes
+        v.data = account
     }
 
     private fun clearAccount(clearLoginInfo: Boolean = true) {
         val v = view ?: return
-        v.status.highlight = true
-        v.status.text = "not loaded."
-        if (clearLoginInfo) {
-            v.login.text = ""
-            v.password.text = ""
-            v.otp.text = ""
+        if(clearLoginInfo) {
+            v.data = null
+            v.password.data = ""
+            v.otp.data = ""
+            return
         }
+        v.status.highlight = true
+        v.status.data = "not loaded."
         v.avatar.url = ""
-        v.name.text = ""
-        v.description.text = ""
-        v.notes.items = listOf(Note("No info", "Log in to get info"))
+        v.name.data = ""
+        v.description.data = ""
+        v.notes.data = Lst.of(Note("No info", "Log in to get info"))
     }
 }

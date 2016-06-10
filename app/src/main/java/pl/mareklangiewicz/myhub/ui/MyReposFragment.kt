@@ -32,7 +32,7 @@ class MyReposFragment : MyFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val v = AMyReposView(
-                activity as MHActivity,
+                view as ViewGroup,
                 mh_fmr_pb_progress,
                 mh_fmr_tv_status,
                 mh_fmr_rv_repos,

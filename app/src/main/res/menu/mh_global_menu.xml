@@ -10,16 +10,16 @@
             android:id="@+id/mh_gm_i_f_my_account"
             android:icon="@drawable/mr_ic_whatshot_black_24dp"
             android:title="@string/mh_my_account"
-            android:titleCondensed="cmd:fragment .ui.MyAccountFragment" />
+            android:titleCondensed="cmd:fragment .MyAccountFragment" />
         <item
             android:id="@+id/mh_gm_i_f_my_repositories"
             android:icon="@drawable/mr_ic_whatshot_black_24dp"
             android:title="@string/mh_my_repositories"
-            android:titleCondensed="cmd:fragment .ui.MyReposFragment" />
+            android:titleCondensed="cmd:fragment .MyReposFragment" />
         <item
             android:id="@+id/mh_gm_i_f_about"
             android:title="@string/mh_about"
-            android:titleCondensed="cmd:fragment .ui.MHAboutFragment"
+            android:titleCondensed="cmd:fragment .MHAboutFragment"
             />
         <item
             android:id="@+id/mh_gm_i_f_logger"

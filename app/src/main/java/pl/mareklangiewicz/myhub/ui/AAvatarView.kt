@@ -2,22 +2,17 @@ package pl.mareklangiewicz.myhub.ui
 
 import android.widget.ImageView
 import pl.mareklangiewicz.myhub.R
-import pl.mareklangiewicz.myhub.mvp.IImageView
 import pl.mareklangiewicz.myutils.loadUrl
+import pl.mareklangiewicz.myviews.AUrlImageView
 
 /**
  * Created by Marek Langiewicz on 04.02.16.
  * Android implementation of view displaying avatar with given url
  */
-class AAvatarView(private val imageView: ImageView) : AView(imageView), IImageView {
-
-    //TODO LATER: handle invalid urls
-    override var url = ""  // "" is written directly to backing field.
-        set(value) {
+class AAvatarView(private val imageView: ImageView) : AUrlImageView(imageView) {
+    override var url = ""
+        set(value) { //TODO LATER: handle invalid urls
             field = value
-            if (value.isEmpty())
-                imageView.setImageResource(R.drawable.mh_avatar)
-            else
-                imageView.loadUrl(value)
+            if (value.isNotBlank()) imageView.loadUrl(value) else imageView.setImageResource(R.drawable.mh_avatar)
         }
 }

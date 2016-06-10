@@ -81,7 +81,7 @@ class MHActivity : MyActivity() {
                 .onPositive { dialog, which ->
                     val realm = Realm.getDefaultInstance()
                     realm.beginTransaction()
-                    realm.clear(Account::class.java)
+                    realm.deleteAll()
                     realm.commitTransaction()
                     realm.close()
                     execute("fragment .ui.MyAccountFragment")

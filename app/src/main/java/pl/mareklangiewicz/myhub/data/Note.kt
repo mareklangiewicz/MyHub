@@ -13,6 +13,5 @@ open class Note : RealmObject {
         this.text = text
     }
 
-    constructor() {
-    }
+    constructor() {}
 }
