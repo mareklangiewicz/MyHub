@@ -1,15 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.0.2'
-    ext.dagger_version = '2.2'
-    ext.paperwork_version = '1.2.7'
     repositories {
         mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
-        classpath "hu.supercluster:paperwork-plugin:$paperwork_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$VER_KOTLIN"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$VER_KOTLIN"
+        classpath "hu.supercluster:paperwork-plugin:$VER_PAPERWORK"
     }
 }
 
@@ -19,19 +16,20 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion VER_SDK_COMPILE.toInteger()
+    buildToolsVersion VER_BUILD_TOOLS
 
     lintOptions {
         abortOnError false
     }
 
     defaultConfig {
-        applicationId "pl.mareklangiewicz.myhub"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 6
-        versionName "1.0.6-alpha"
+        applicationId PKG
+        minSdkVersion VER_SDK_MIN.toInteger()
+        targetSdkVersion VER_SDK_TARGET.toInteger()
+        versionCode VER_CODE.toInteger()
+        versionName VER_NAME
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -55,6 +53,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //noinspection GroovyAssignabilityCheck
             signingConfig signingConfigs.release
+            buildConfigField "String", "NAME_PREFIX", '""'
+        }
+        debug {
+            def suff = ".debug"
+            applicationIdSuffix suff
+            buildConfigField "String", "NAME_PREFIX", '"D "'
+        }
+        canary {
+            initWith(buildTypes.debug)
+            def suff = ".canary"
+            applicationIdSuffix suff
+            buildConfigField "String", "NAME_PREFIX", '"C "'
         }
     }
     testOptions {
@@ -88,35 +98,38 @@ dependencies {
 //    compile 'com.github.langara:myactivities:unspecified'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    testCompile 'com.google.truth:truth:0.28'
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
-    compile 'com.squareup.retrofit2:converter-moshi:2.0.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
-    compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
-    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    testCompile "junit:junit:$VER_JUNIT"
+    testCompile "com.google.truth:truth:$VER_GTRUTH"
+    androidTestCompile "junit:junit:$VER_JUNIT"
+    androidTestCompile "com.google.truth:truth:$VER_GTRUTH"
+    androidTestCompile "com.android.support:support-annotations:$VER_ASUPPORT"
+    androidTestCompile "com.android.support.test:runner:$VER_ASUPPORT_TEST"
+    androidTestCompile "com.android.support.test:rules:$VER_ASUPPORT_TEST"
+    compile "com.android.support:appcompat-v7:$VER_ASUPPORT"
+    compile "com.android.support:support-annotations:$VER_ASUPPORT"
 
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    compile "com.google.dagger:dagger:$dagger_version"
+    compile "io.reactivex:rxandroid:$VER_RXANDROID"
+    compile "io.reactivex:rxjava:$VER_RXJAVA"
+
+    canaryCompile "com.squareup.leakcanary:leakcanary-android:$VER_LCANARY"
+    debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:$VER_LCANARY"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$VER_LCANARY"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$VER_LCANARY"
+
+    kapt "com.google.dagger:dagger-compiler:$VER_DAGGER"
+    compile "com.google.dagger:dagger:$VER_DAGGER"
 
     provided 'javax.annotation:jsr250-api:1.0'
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
+
+    compile("com.github.afollestad.material-dialogs:core:$VER_MDIALOGS") {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
+    compile("com.github.afollestad.material-dialogs:commons:$VER_MDIALOGS") {
         transitive = true
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "hu.supercluster:paperwork:$paperwork_version"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$VER_KOTLIN"
+    compile "hu.supercluster:paperwork:$VER_PAPERWORK"
 }
 
 apply plugin: 'hu.supercluster.paperwork'

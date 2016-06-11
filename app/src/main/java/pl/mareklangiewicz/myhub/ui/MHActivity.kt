@@ -9,8 +9,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.mh_global_header.view.*
 import pl.mareklangiewicz.myactivities.MyActivity
-import pl.mareklangiewicz.myhub.R
-import pl.mareklangiewicz.myhub.data.Account
+import pl.mareklangiewicz.myhub.*
 import pl.mareklangiewicz.myutils.MyCommand
 
 class MHActivity : MyActivity() {
@@ -106,6 +105,13 @@ class MHActivity : MyActivity() {
             }
             else -> super.onCommandCustom(command)
         }
+    }
+
+    override fun onCommandStartFragment(command: MyCommand) {
+        val f = fgmt
+        if(f !== null)
+            (application as? MHApplication)?.REF_WATCHER?.watch(f)
+        super.onCommandStartFragment(command)
     }
 }
 

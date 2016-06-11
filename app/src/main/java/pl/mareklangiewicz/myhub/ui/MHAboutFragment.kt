@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.View
 import hu.supercluster.paperwork.Paperwork
 import pl.mareklangiewicz.myfragments.MyAboutFragment
-import pl.mareklangiewicz.myhub.APP_START_TIME
-import pl.mareklangiewicz.myhub.BuildConfig
+import pl.mareklangiewicz.myhub.*
 import pl.mareklangiewicz.myutils.str
 import java.util.*
 
@@ -18,6 +17,7 @@ class MHAboutFragment : MyAboutFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        manager?.name = BuildConfig.NAME_PREFIX + getString(R.string.mh_about)
 
         val paperwork = Paperwork(activity)
 

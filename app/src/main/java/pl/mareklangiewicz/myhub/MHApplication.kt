@@ -1,7 +1,8 @@
 package pl.mareklangiewicz.myhub
 
 import android.app.Application
-//import com.squareup.leakcanary.LeakCanary
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import pl.mareklangiewicz.myhub.di.ApplicationComponent
@@ -16,11 +17,13 @@ class MHApplication : Application() {
         DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
     }
 
+    lateinit var REF_WATCHER: RefWatcher
+
     override fun onCreate() {
         super.onCreate()
         val config = RealmConfiguration.Builder(this).build()
         Realm.setDefaultConfiguration(config)
-//        LeakCanary.install(this)
+        REF_WATCHER = LeakCanary.install(this);
     }
 
 }

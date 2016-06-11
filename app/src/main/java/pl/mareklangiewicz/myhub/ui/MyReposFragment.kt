@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.mh_fragment_my_repos.*
 import kotlinx.android.synthetic.main.mh_notes.view.*
 import pl.mareklangiewicz.myfragments.MyFragment
-import pl.mareklangiewicz.myhub.MHApplication
-import pl.mareklangiewicz.myhub.MyReposPresenter
-import pl.mareklangiewicz.myhub.R
+import pl.mareklangiewicz.myhub.*
 import javax.inject.Inject
 
 class MyReposFragment : MyFragment() {
@@ -22,6 +20,7 @@ class MyReposFragment : MyFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity.application as MHApplication).component.inject(this)
+        manager?.name = BuildConfig.NAME_PREFIX + getString(R.string.mh_my_repositories)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

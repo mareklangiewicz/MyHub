@@ -8,9 +8,7 @@ import kotlinx.android.synthetic.main.mh_basic_user_info.*
 import kotlinx.android.synthetic.main.mh_fragment_my_account.*
 import kotlinx.android.synthetic.main.mh_notes.view.*
 import pl.mareklangiewicz.myfragments.MyFragment
-import pl.mareklangiewicz.myhub.MHApplication
-import pl.mareklangiewicz.myhub.MyAccountPresenter
-import pl.mareklangiewicz.myhub.R
+import pl.mareklangiewicz.myhub.*
 import javax.inject.Inject
 
 class MyAccountFragment : MyFragment() {
@@ -22,6 +20,7 @@ class MyAccountFragment : MyFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity.application as MHApplication).component.inject(this)
+        manager?.name = BuildConfig.NAME_PREFIX + getString(R.string.mh_my_account)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
