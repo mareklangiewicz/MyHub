@@ -2,8 +2,8 @@ package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
 import pl.mareklangiewicz.myhub.data.*
-import pl.mareklangiewicz.myhub.mvp.IMyAccountView
-import pl.mareklangiewicz.myhub.mvp.Presenter
+import pl.mareklangiewicz.myhub.mvp.IMyAccountDiew
+import pl.mareklangiewicz.myhub.mvp.IPresenter
 import pl.mareklangiewicz.myloggers.MyAndroLogger
 import pl.mareklangiewicz.myutils.*
 import rx.Observable
@@ -16,21 +16,21 @@ import javax.inject.Named
 
 @MainThread
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
-: Presenter<IMyAccountView>() {
+: IPresenter<IMyAccountDiew> {
 
     private var loginClicksUnsub: IToDo = ToDo()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
     private var getAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
-    override var view: IMyAccountView?
+    override var xiew: IMyAccountDiew? = null
 
-        get() = super.view
+        get() = field
 
         set(value) {
             loginClicksUnsub.doItAll()
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
-            super.view = value
+            field = value
             if (value == null) return
 
             logging = logging // sync ui..
@@ -54,14 +54,14 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
             // it updates ui accordingly (just displays some moving progress bar)
         set(value) {
             field = value
-            val v = view ?: return
+            val v = xiew ?: return
             v.progress.indeterminate = value
             v.progress.visible = value
             v.loginButton.enabled = !value
         }
 
     fun login() {
-        val v = view
+        val v = xiew
         if (v == null) {
             log.e("Can not login. View is detached.")
             return
@@ -114,12 +114,12 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
      * Displays given account on attached IView.
      */
     private fun showAccount(account: Account) {
-        val v = view ?: return
+        val v = xiew ?: return
         v.data = account
     }
 
     private fun clearAccount(clearLoginInfo: Boolean = true) {
-        val v = view ?: return
+        val v = xiew ?: return
         if(clearLoginInfo) {
             v.data = null
             v.password.data = ""

@@ -30,18 +30,19 @@ class MyReposFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val v = AMyReposView(
+        val v = AMyReposDiew(
                 view as ViewGroup,
                 mh_fmr_pb_progress,
                 mh_fmr_tv_status,
                 mh_fmr_rv_repos,
                 manager!!.lnav!!.headerObj!!.mh_n_rv_notes
         )
-        presenter.view = v
+        presenter.xiew = v
     }
 
     override fun onDestroyView() {
-        presenter.view = null
+        manager?.lnav?.headerId = -1
+        presenter.xiew = null
         super.onDestroyView()
     }
 }

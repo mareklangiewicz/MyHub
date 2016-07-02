@@ -5,26 +5,24 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import pl.mareklangiewicz.myhub.mvp.*
-import pl.mareklangiewicz.myviews.AProgressView
-import pl.mareklangiewicz.myviews.IProgressView
+import pl.mareklangiewicz.myviews.*
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.data.Note
 import pl.mareklangiewicz.myutils.Lst
 import pl.mareklangiewicz.myutils.asLst
-import pl.mareklangiewicz.myviews.AView
 import java.util.*
 
 /**
  * Created by Marek Langiewicz on 31.01.16.
- * Android implementation of IMyReposView
+ * Android implementation of IMyReposDiew
  */
-class AMyReposView(
+class AMyReposDiew(
         view: ViewGroup,
-        override val progress: IProgressView,
-        override val status: IStatusView,
-        override val repos: IRepoLstView,
-        override val notes: INoteLstView
-) : AView<ViewGroup>(view), IMyReposView {
+        override val progress: IProgressDiew,
+        override val status: IStatusTiew,
+        override val repos: IRepoLstDiew,
+        override val notes: INoteLstDiew
+) : ADiew<ViewGroup, Account?>(view), IMyReposDiew {
     constructor(
             view: ViewGroup,
             progress: ProgressBar,
@@ -34,14 +32,14 @@ class AMyReposView(
     )
     : this(
             view,
-            AProgressView(progress),
-            AStatusView(status),
-            ARepoLstView(repos),
-            ANoteLstView(notes)
+            AProgressDiew(progress),
+            AStatusTiew(status),
+            ARepoLstDiew(repos),
+            ANoteLstDiew(notes)
     )
 
     override var data: Account?
-        get() = super.data // unsupported
+        get() = throw UnsupportedOperationException()
         set(value) {
             if(value == null) {
                 status.highlight = true

@@ -2,33 +2,32 @@ package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
 import pl.mareklangiewicz.myhub.data.Account
-import pl.mareklangiewicz.myhub.data.Note
-import pl.mareklangiewicz.myhub.mvp.*
+import pl.mareklangiewicz.myhub.mvp.IMyReposDiew
+import pl.mareklangiewicz.myhub.mvp.IPresenter
 import pl.mareklangiewicz.myloggers.MyAndroLogger
 import pl.mareklangiewicz.myutils.*
 import rx.Subscription
 import rx.subscriptions.Subscriptions
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
 @MainThread
 class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
-: Presenter<IMyReposView>() {
+: IPresenter<IMyReposDiew> {
 
     private val clicksSubscription = ToDo()
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
-    override var view: IMyReposView?
+    override var xiew: IMyReposDiew? = null
 
-        get() = super.view
+        get() = field
 
         set(value) {
 
             clicksSubscription.doItAll()
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
-            super.view = value
+            field = value
             if (value == null) return
 
             loadLatestAccountSubscription = model.loadLatestAccount().lsubscribe(log, logOnCompleted = "load latest account repos completed") {
@@ -41,7 +40,7 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
     /** Displays given account on attached IView. Clears IView if account is null. */
     private fun showAccount(account: Account?) {
 
-        val v = view ?: return
+        val v = xiew ?: return
 
         v.data = account
 

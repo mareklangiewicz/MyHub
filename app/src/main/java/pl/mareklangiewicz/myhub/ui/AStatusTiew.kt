@@ -2,14 +2,14 @@ package pl.mareklangiewicz.myhub.ui
 
 import android.graphics.Color
 import android.widget.TextView
-import pl.mareklangiewicz.myhub.mvp.IStatusView
-import pl.mareklangiewicz.myviews.ATextView
+import pl.mareklangiewicz.myhub.mvp.IStatusTiew
+import pl.mareklangiewicz.myviews.ATiew
 
 /**
  * Created by Marek Langiewicz on 04.02.16.
  * Android implementation of IStatusView
  */
-class AStatusView(tview: TextView) : ATextView<TextView>(tview), IStatusView {
+class AStatusTiew(tview: TextView) : ATiew<TextView>(tview), IStatusTiew {
 
     override var highlight: Boolean
         get() = view.currentTextColor == COLOR_HIGHLIGHT

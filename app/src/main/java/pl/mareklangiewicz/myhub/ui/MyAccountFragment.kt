@@ -30,7 +30,7 @@ class MyAccountFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val v = AMyAccountView(
+        val v = AMyAccountDiew(
                 view as ViewGroup,
                 mh_fma_pb_progress,
                 mh_fma_tv_status,
@@ -43,11 +43,12 @@ class MyAccountFragment : MyFragment() {
                 mh_bui_tv_description,
                 manager!!.lnav!!.headerObj!!.mh_n_rv_notes
         )
-        presenter.view = v
+        presenter.xiew = v
     }
 
     override fun onDestroyView() {
-        presenter.view = null
+        manager?.lnav?.headerId = -1
+        presenter.xiew = null
         super.onDestroyView()
     }
 }

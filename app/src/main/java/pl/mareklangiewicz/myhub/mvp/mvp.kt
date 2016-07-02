@@ -8,49 +8,49 @@ import pl.mareklangiewicz.myutils.*
 
 interface IModel
 
-open class Presenter<V : IView> {
+interface IPresenter<X : IXiew> {
 
     /**
-     * One can attach/detach (nullify) a view of presenter many times in its lifecycle
-     * Usually concrete presenters will override setter and do some additional stuff on attach/detach.
+     * One can attach/detach (nullify) a view to a presenter many times in its lifecycle
+     * Usually concrete presenters will do some additional stuff on attach/detach.
      * On android the presenter usually lives as long as fragment (with setRetainInstance(true))
      * And view is attached on every onViewCreated, and detached on every onDestroyView.
      * So presenter survives device orientation changes etc...
      */
-    open var view: V? = null
+    var xiew: X?
 }
 
-interface IStatusView : ITextView {
+interface IStatusTiew : ITiew {
     var highlight: Boolean
 }
 
-interface INoteView : IDataView<Note?>
+interface INoteDiew : IDiew<Note?>
 
-interface IRepoView : IDataView<Repo?>
+interface IRepoDiew : IDiew<Repo?>
 
-interface INoteLstView : ILstView<Note>
-interface IRepoLstView : ILstView<Repo> {
-    val clicksFromRepos : IPusher<IRepoView, Cancel>
+interface INoteLstDiew : ILstDiew<Note>
+interface IRepoLstDiew : ILstDiew<Repo> {
+    val clicksFromRepos : IPusher<IRepoDiew, Cancel>
 }
 
-interface IMyAccountView : IDataView<Account?> {
-    val progress: IProgressView
-    val status: IStatusView
-    val login: ITextView
-    val password: ITextView
-    val otp: ITextView
-    val loginButton: IButtonView
-    val avatar: IUrlImageView
-    val name: ITextView
-    val description: ITextView
-    val notes: INoteLstView
+interface IMyAccountDiew : IDiew<Account?> {
+    val progress: IProgressDiew
+    val status: IStatusTiew
+    val login: ITiew
+    val password: ITiew
+    val otp: ITiew
+    val loginButton: IButtonTiew
+    val avatar: IUrlImageXiew
+    val name: ITiew
+    val description: ITiew
+    val notes: INoteLstDiew
 }
 
-interface IMyReposView : IDataView<Account?> {
-    val progress: IProgressView
-    val status: IStatusView
-    val repos: IRepoLstView
-    val notes: INoteLstView
+interface IMyReposDiew : IDiew<Account?> {
+    val progress: IProgressDiew
+    val status: IStatusTiew
+    val repos: IRepoLstDiew
+    val notes: INoteLstDiew
     fun showNotes()
 }
 

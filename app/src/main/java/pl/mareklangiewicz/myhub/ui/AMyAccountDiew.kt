@@ -14,19 +14,19 @@ import java.util.*
  * Created by Marek Langiewicz on 29.01.16.
  * Android implementation of IMyAccountView
  */
-class AMyAccountView(
+class AMyAccountDiew(
         view: ViewGroup,
-        override val progress: IProgressView,
-        override val status: IStatusView,
-        override val login: ITextView,
-        override val password: ITextView,
-        override val otp: ITextView,
-        override val loginButton: IButtonView,
-        override val avatar: IUrlImageView,
-        override val name: ITextView,
-        override val description: ITextView,
-        override val notes: INoteLstView
-) : AView<ViewGroup>(view),IMyAccountView {
+        override val progress: IProgressDiew,
+        override val status: IStatusTiew,
+        override val login: ITiew,
+        override val password: ITiew,
+        override val otp: ITiew,
+        override val loginButton: IButtonTiew,
+        override val avatar: IUrlImageXiew,
+        override val name: ITiew,
+        override val description: ITiew,
+        override val notes: INoteLstDiew
+) : ADiew<ViewGroup, Account?>(view), IMyAccountDiew {
     constructor(
             view: ViewGroup,
             progress: ProgressBar,
@@ -41,20 +41,20 @@ class AMyAccountView(
             notes: RecyclerView
     ) : this(
             view,
-            AProgressView(progress),
-            AStatusView(status),
-            ATextView(login),
-            ATextView(password),
-            ATextView(otp),
-            AButtonView(loginButton),
-            AAvatarView(avatar),
-            ATextView(name),
-            ATextView(description),
-            ANoteLstView(notes)
+            AProgressDiew(progress),
+            AStatusTiew(status),
+            ATiew(login),
+            ATiew(password),
+            ATiew(otp),
+            AButtonTiew(loginButton),
+            AAvatarXiew(avatar),
+            ATiew(name),
+            ATiew(description),
+            ANoteLstDiew(notes)
     )
 
     override var data: Account?
-        get() = super.data // unsupported
+        get() = throw UnsupportedOperationException()
         set(value) {
             status.highlight = value === null
             status.data = if(value === null) "not loaded." else "loaded: %tF %tT.".format(Locale.US, value.time, value.time)
