@@ -18,7 +18,7 @@ import java.util.*
  */
 class AMyReposDiew(
         view: ViewGroup,
-        override val progress: IProgressDiew,
+        override val progress: IMovDiew,
         override val status: IStatusTiew,
         override val repos: IRepoLstDiew,
         override val notes: INoteLstDiew
@@ -32,7 +32,7 @@ class AMyReposDiew(
     )
     : this(
             view,
-            AProgressDiew(progress),
+            AMovDiew(progress),
             AStatusTiew(status),
             ARepoLstDiew(repos),
             ANoteLstDiew(notes)

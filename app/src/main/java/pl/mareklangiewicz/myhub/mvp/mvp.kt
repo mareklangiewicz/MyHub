@@ -34,12 +34,12 @@ interface IRepoLstDiew : ILstDiew<Repo> {
 }
 
 interface IMyAccountDiew : IDiew<Account?> {
-    val progress: IProgressDiew
+    val progress: IMovDiew
     val status: IStatusTiew
     val login: ITiew
     val password: ITiew
     val otp: ITiew
-    val loginButton: IButtonTiew
+    val loginButton: IBtnTiew
     val avatar: IUrlImageXiew
     val name: ITiew
     val description: ITiew
@@ -47,7 +47,7 @@ interface IMyAccountDiew : IDiew<Account?> {
 }
 
 interface IMyReposDiew : IDiew<Account?> {
-    val progress: IProgressDiew
+    val progress: IMovDiew
     val status: IStatusTiew
     val repos: IRepoLstDiew
     val notes: INoteLstDiew

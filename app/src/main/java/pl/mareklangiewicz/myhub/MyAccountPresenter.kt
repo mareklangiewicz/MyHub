@@ -18,7 +18,7 @@ import javax.inject.Named
 class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
 : IPresenter<IMyAccountDiew> {
 
-    private var loginClicksUnsub: IToDo = ToDo()
+    private var loginSub: (Cancel) -> Unit = { }
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
     private var getAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
@@ -27,7 +27,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
         get() = field
 
         set(value) {
-            loginClicksUnsub.doItAll()
+            loginSub(Cancel)
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
             field = value
@@ -35,8 +35,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
 
             logging = logging // sync ui..
 
-            val ctl = value.loginButton.clicks { login() }
-            loginClicksUnsub.push { ctl(Cancel) }
+            loginSub = value.loginButton.clicks { login() }
 
             if (logging)
                 return
@@ -55,7 +54,7 @@ class MyAccountPresenter @Inject constructor(private val model: MHModel, @Named(
         set(value) {
             field = value
             val v = xiew ?: return
-            v.progress.indeterminate = value
+            v.progress.fuzzy = value
             v.progress.visible = value
             v.loginButton.enabled = !value
         }

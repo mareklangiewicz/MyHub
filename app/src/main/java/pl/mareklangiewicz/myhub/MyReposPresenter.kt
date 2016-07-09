@@ -15,7 +15,7 @@ import javax.inject.Named
 class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("UI") private val log: MyAndroLogger)
 : IPresenter<IMyReposDiew> {
 
-    private val clicksSubscription = ToDo()
+    private var clicksSub: (Cancel) -> Unit = { }
     private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
 
     override var xiew: IMyReposDiew? = null
@@ -24,7 +24,7 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
 
         set(value) {
 
-            clicksSubscription.doItAll()
+            clicksSub(Cancel)
             if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
 
             field = value
@@ -44,13 +44,11 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
 
         v.data = account
 
-        clicksSubscription.doItAll()
+        clicksSub(Cancel)
 
-        val ctl = v.repos.clicksFromRepos {
+        clicksSub = v.repos.clicksFromRepos {
             v.notes.data = it.data?.notes?.asLst() ?: Lst()
             v.showNotes()
         }
-
-        clicksSubscription.push { ctl(Cancel) }
     }
 }

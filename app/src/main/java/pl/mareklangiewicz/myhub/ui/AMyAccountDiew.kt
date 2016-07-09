@@ -16,12 +16,12 @@ import java.util.*
  */
 class AMyAccountDiew(
         view: ViewGroup,
-        override val progress: IProgressDiew,
+        override val progress: IMovDiew,
         override val status: IStatusTiew,
         override val login: ITiew,
         override val password: ITiew,
         override val otp: ITiew,
-        override val loginButton: IButtonTiew,
+        override val loginButton: IBtnTiew,
         override val avatar: IUrlImageXiew,
         override val name: ITiew,
         override val description: ITiew,
@@ -41,12 +41,12 @@ class AMyAccountDiew(
             notes: RecyclerView
     ) : this(
             view,
-            AProgressDiew(progress),
+            AMovDiew(progress),
             AStatusTiew(status),
             ATiew(login),
             ATiew(password),
             ATiew(otp),
-            AButtonTiew(loginButton),
+            ABtnTiew(loginButton),
             AAvatarXiew(avatar),
             ATiew(name),
             ATiew(description),
