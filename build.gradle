@@ -3,6 +3,9 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'http://dl.bintray.com/kotlin/kotlin-eap'
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$VER_ANDROGRADLE"
@@ -15,6 +18,9 @@ allprojects {
         jcenter()
         mavenLocal()
         maven { url "https://jitpack.io" }
+        maven {
+            url 'http://dl.bintray.com/kotlin/kotlin-eap'
+        }
     }
 }
 

@@ -2,6 +2,9 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven {
+            url 'http://dl.bintray.com/kotlin/kotlin-eap'
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$VER_KOTLIN"
@@ -85,6 +88,9 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://dl.bintray.com/kotlin/kotlin-eap'
+    }
 }
 
 kapt {
