@@ -16,6 +16,10 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
+// workaround for realm/kotlin issue: https://github.com/realm/realm-java/issues/4087
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'realm-android'
 
 android {
@@ -127,10 +131,10 @@ dependencies {
 
     provided 'javax.annotation:jsr250-api:1.0'
 
-    compile("com.github.afollestad.material-dialogs:core:$VER_MDIALOGS") {
+    compile("com.afollestad.material-dialogs:core:$VER_MDIALOGS") {
         transitive = true
     }
-    compile("com.github.afollestad.material-dialogs:commons:$VER_MDIALOGS") {
+    compile("com.afollestad.material-dialogs:commons:$VER_MDIALOGS") {
         transitive = true
     }
 
