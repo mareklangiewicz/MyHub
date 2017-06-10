@@ -118,8 +118,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$VER_ASUPPORT"
     compile "com.android.support:support-annotations:$VER_ASUPPORT"
 
-    compile "io.reactivex:rxandroid:$VER_RXANDROID"
-    compile "io.reactivex:rxjava:$VER_RXJAVA"
+    compile "io.reactivex.rxjava2:rxandroid:$VER_RXANDROID"
+    compile "io.reactivex.rxjava2:rxjava:$VER_RXJAVA"
 
     canaryCompile "com.squareup.leakcanary:leakcanary-android:$VER_LCANARY"
     debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:$VER_LCANARY"

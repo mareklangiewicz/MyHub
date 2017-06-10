@@ -2,6 +2,11 @@ package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
 import android.util.Base64
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.Sort
 import pl.mareklangiewicz.myhub.data.Account
@@ -11,9 +16,6 @@ import pl.mareklangiewicz.myhub.mvp.IModel
 import pl.mareklangiewicz.myutils.myhttp.GitHub
 import pl.mareklangiewicz.myutils.str
 import pl.mareklangiewicz.myutils.yesno
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,11 +58,11 @@ class MHModel @Inject constructor(private val ghservice: GitHub.Service) : IMode
             else -> ghservice.getUserReposTFAObservable(encodeBasicAuthHeader(user, password), otp)
         }
 
-        return userObservable.zipWith(reposObservable) { user, repositories ->
+        return userObservable.zipWith(reposObservable, BiFunction { user: GitHub.User, repositories: List<GitHub.Repository> ->
             val account = user2account(user, repositories)
             saveAccount(account)
             account
-        }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
@@ -76,8 +78,6 @@ class MHModel @Inject constructor(private val ghservice: GitHub.Service) : IMode
 
     /**
      * Loads account data from realm db
-     * Emits exactly one item (unless some error happens)
-     * Emits null if no data found for given login.
      * Important1:
      * Emitted Account is a deep copy that can be moved between threads
      * and should not be modified (rxjava style - not realm style)
@@ -86,14 +86,14 @@ class MHModel @Inject constructor(private val ghservice: GitHub.Service) : IMode
      * .subscribeOn(Schedulers.io())
      * .observeOn(AndroidSchedulers.mainThread());
      */
-    fun loadAccount(login: String): Observable<Account?> {
-        return Observable.defer {
+    fun loadAccount(login: String): Maybe<Account> {
+        return Maybe.defer {
             val realm = Realm.getDefaultInstance()
             var account: Account? = realm.where(Account::class.java).equalTo("login", login).findFirst()
             if (account != null)
                 account = realm.copyFromRealm<Account>(account) // deep copy can be moved between threads (mutation is forbidden)
             realm.close()
-            Observable.just(account)
+            account?.let { Maybe.just(it) } ?: Maybe.empty()
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

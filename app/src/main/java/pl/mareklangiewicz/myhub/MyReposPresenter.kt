@@ -1,13 +1,16 @@
 package pl.mareklangiewicz.myhub
 
 import android.support.annotation.MainThread
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import pl.mareklangiewicz.myhub.data.Account
 import pl.mareklangiewicz.myhub.mvp.IMyReposDiew
 import pl.mareklangiewicz.myhub.mvp.IPresenter
 import pl.mareklangiewicz.myloggers.MyAndroLogger
-import pl.mareklangiewicz.myutils.*
-import rx.Subscription
-import rx.subscriptions.Subscriptions
+import pl.mareklangiewicz.myutils.Cancel
+import pl.mareklangiewicz.myutils.Lst
+import pl.mareklangiewicz.myutils.asLst
+import pl.mareklangiewicz.myutils.lsubscribe
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -16,7 +19,7 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
 : IPresenter<IMyReposDiew> {
 
     private var clicksSub: (Cancel) -> Unit = { }
-    private var loadLatestAccountSubscription: Subscription = Subscriptions.unsubscribed()
+    private var loadLatestAccountSubscription: Disposable = Disposables.disposed()
 
     override var xiew: IMyReposDiew? = null
 
@@ -25,7 +28,7 @@ class MyReposPresenter @Inject constructor(private val model: MHModel, @Named("U
         set(value) {
 
             clicksSub(Cancel)
-            if (!loadLatestAccountSubscription.isUnsubscribed) loadLatestAccountSubscription.unsubscribe()
+            loadLatestAccountSubscription.dispose()
 
             field = value
             if (value == null) return

@@ -76,7 +76,7 @@ class MHActivity : MyActivity() {
                 .content(R.string.mh_are_you_sure_clear)
                 .positiveText(R.string.mh_clear)
                 .negativeText(R.string.mh_cancel)
-                .onPositive { dialog, which ->
+                .onPositive { _, _ ->
                     val realm = Realm.getDefaultInstance()
                     realm.beginTransaction()
                     realm.deleteAll()
